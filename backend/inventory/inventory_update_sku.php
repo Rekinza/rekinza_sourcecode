@@ -13,6 +13,7 @@ include 'db_config.php';
 	$sub_category=$_POST['sub_category'];
 	$brand =$_POST['brand'];
 	$color =$_POST['color'];
+	$quantity =$_POST['quantity'];
 	$special_instr =$_POST['special_instr'];
 	$qc_owner=$_POST['qc_owner'];
 	$qc_status=$_POST['qc_status'];
@@ -64,7 +65,7 @@ include 'db_config.php';
 	$color_string .= $color[$i];
 
 	
-	$query = "UPDATE inventory SET sku_name = '$sku_code_final', color = '$color_string', qc_owner = '$qc_owner' ,qc_status ='$qc_status', `condition` ='$condition', gently_used_comments = '$gently_used_comments',material = '$material', measurements = '$measurements', size ='$size', retail_value = '$retail_value', suggested_price = '$suggested_price', upload_status = '$upload_status', maybe_reason = '$maybe_reason', pickup_id = '$pickup_id', customer_email_id = '$cust_email_id', product_name = '$product_name', type = '$type', sub_type = '$sub_type', category = '$category', sub_category = '$sub_category', brand ='$brand', special = '$special_instr', rejection_reason = '$rejection_reason', rejection_status = '$rejection_status'  WHERE sku_name = '$sku_name' ";
+	$query = "UPDATE inventory SET sku_name = '$sku_code_final', color = '$color_string', quantity = '$quantity', qc_owner = '$qc_owner' ,qc_status ='$qc_status', `condition` ='$condition', gently_used_comments = '$gently_used_comments',material = '$material', measurements = '$measurements', size ='$size', retail_value = '$retail_value', suggested_price = '$suggested_price', upload_status = '$upload_status', maybe_reason = '$maybe_reason', pickup_id = '$pickup_id', customer_email_id = '$cust_email_id', product_name = '$product_name', type = '$type', sub_type = '$sub_type', category = '$category', sub_category = '$sub_category', brand ='$brand', special = '$special_instr', rejection_reason = '$rejection_reason', rejection_status = '$rejection_status'  WHERE sku_name = '$sku_name' ";
 	
 	$result = mysql_query($query);
 
