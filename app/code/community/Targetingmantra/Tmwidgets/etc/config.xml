@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Targetingmantra_Tmwidgets>
+			<version>1.1.11</version>
+		</Targetingmantra_Tmwidgets>
+	</modules>
+
+	<global>
+		<helpers>
+			<tmwidgets>
+				<class>Targetingmantra_Tmwidgets_Helper</class>
+			</tmwidgets>
+		</helpers>
+		<blocks>
+			<tmwidgets>
+				<class>Targetingmantra_Tmwidgets_Block</class>
+			</tmwidgets>
+		</blocks>
+		<models>
+			<tmwidgets>
+				<class>Targetingmantra_Tmwidgets_Model</class>
+			</tmwidgets>
+		</models>
+	</global>
+
+	<frontend>
+		<routers>
+			<tmwidgets>
+				<use>standard</use>
+				<args>
+					<module>Targetingmantra_Tmwidgets</module>
+					<frontName>tmdata</frontName>
+				</args>
+			</tmwidgets>
+		</routers>
+		<layout>
+			<updates>
+				<tmwidgets>
+					<file>targetingmantra_tmwidgets.xml</file>
+				</tmwidgets>
+			</updates>
+		</layout>
+	</frontend>
+
+	<frontend>
+		<events>
+			<controller_action_predispatch_checkout_cart_add>
+				<observers>
+					<tmwidgets_addCartTrackingAction>
+						<type>singleton</type>
+						<class>
+							tmwidgets/observer
+						</class>
+						<method>addCartTrackingAction</method>
+					</tmwidgets_addCartTrackingAction>
+				</observers>
+			</controller_action_predispatch_checkout_cart_add>
+		</events>
+	</frontend>
+	<adminhtml>
+
+	</adminhtml>
+	<default>
+		<sales>
+			<tmwidgets>
+				<tm_api_key></tm_api_key>
+				<tm_pixel_enable>0</tm_pixel_enable>
+				<tm_widgets_enable>0</tm_widgets_enable>
+				<tm_multidomain_enable>0</tm_multidomain_enable>
+				<tm_num_products>10</tm_num_products>
+				<tm_img_width>150</tm_img_width>
+				<tm_img_height>150</tm_img_height>
+				<tm_region>na</tm_region>
+			</tmwidgets>
+		</sales>
+	</default>
+</config>

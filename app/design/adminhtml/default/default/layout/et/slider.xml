@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+    <slider_adminhtml_group_index>
+        <reference name="content">
+            <block type="slider/adminhtml_group" name="group" />
+        </reference>
+    </slider_adminhtml_group_index>
+	<slider_adminhtml_group_edit>
+		<update name="editor" />        
+    </slider_adminhtml_group_edit>
+    
+    <slider_adminhtml_caption_index>
+        <reference name="content">
+            <block type="slider/adminhtml_caption" name="caption" />
+        </reference>
+    </slider_adminhtml_caption_index>
+	<slider_adminhtml_caption_edit>
+		<update name="editor" />        
+    </slider_adminhtml_caption_edit>
+    
+    <slider_adminhtml_slide_index>
+        <reference name="content">
+            <block type="slider/adminhtml_slide" name="slide" />
+        </reference>
+    </slider_adminhtml_slide_index>
+	<slider_adminhtml_slide_edit>
+		<update name="editor" />        
+    </slider_adminhtml_slide_edit>
+</layout>

@@ -1,0 +1,61 @@
+<?php
+/**
+ * @package ET_Ajax
+ * @version 1.0.4
+ * @copyright Copyright (c) 2014 EcomTheme. (http://www.ecomtheme.com)
+ * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/* @var ET_Ajax_Helper_Data */
+$helper = Mage::helper('ajax');
+?>
+<script type="text/javascript">
+if (!('ETA_Options' in window)) {
+	window.ETA_Options = {
+		is_ajax_compare_enabled:   <?php echo $helper->isAjaxCompareEnabled() ? 'true' : 'false' ?>,
+        is_ajax_checkout_enabled:  <?php echo $helper->isAjaxCheckoutEnabled() ? 'true' : 'false' ?>,
+        is_ajax_wishlist_enabled:  <?php echo $helper->isAjaxWishlistEnabled() ? 'true' : 'false' ?>,
+        is_ajax_quickview_enabled: <?php echo $helper->isQuickviewEnabled() ? 'true' : 'false' ?>,
+        
+        dim: {
+        	loading: <?php echo $helper->getLoadingSize(); ?>,
+        	confirm: <?php echo $helper->getConfirmSize(); ?>,
+        	options: <?php echo $helper->getOptionsSize(); ?>,
+        	iframe: <?php echo $helper->getQuickviewSize(); ?>
+        	
+        }
+	};
+}
+</script>
+<div id="ajax-loading" class="ajax-loading">
+    <div class="dialog">
+        <div class="content">
+            <div class="img-loader text-center">
+                <img src="<?php echo Mage::getDesign()->getSkinUrl('images/loader.gif'); ?>" alt="Loading..." />
+                <div><?php echo $this->__('Loading...'); ?></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div role="dialog" tabindex="-1" id="ajax-messagebox" class="ajax-modal">
+	<div class="dialog">
+		<div class="content">
+			<div class="body">
+				<div class="iframe"></div>
+				<div class="message"></div>
+				<div class="options"></div>
+				<div class="actions"></div>
+    		</div>
+		</div>
+		<a class="xclose popupclose" title="Close" href="javascript:hideModal();void(0);"><span class="times">&times;</span><span class="sr-only">Close</span></a>
+	</div>
+</div>
+<script type="text/javascript">
+
+    jQuery(".popupclose").unbind().click(function() {
+    console.log("shutpopup");
+    ga('send', 'event', 'add to cart popup', 'close',{'nonInteraction': 1}); 
+
+});
+        //]]>
+</script>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Catalog_Search_Refinement</name>
+    <version>1.0.8</version>
+    <stability>stable</stability>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Allow your users to refine their search when they add a search term for FREE!</summary>
+    <description>Allow your users to refine their search when they add a search term for FREE! This is a free and open source magento extension that modifies the Magento default search functionality to allow search refinement.</description>
+    <notes>Fully tested with Magento 1.9 CE. Works with Magento versions 1.5 - 1.9.</notes>
+    <authors><author><name>Activo Extensions</name><user>activo</user><email>extensions@activo.com</email></author></authors>
+    <date>2014-05-19</date>
+    <time>01:40:00</time>
+    <contents><target name="magecommunity"><dir name="Activo"><dir name="CatalogSearch"><dir><dir name="Model"><file name="Feed.php" hash="cee1c02d96d69a8c619224303bcabf8a"/><dir name="Mysql4"><file name="Fulltext.php" hash="02a4bf6cc5090de8605a242612f850ab"/></dir><dir name="Resource"><file name="Fulltext.php" hash="71d88eccccce4fabca70935b7a1763b2"/></dir></dir><dir name="etc"><file name="config.xml" hash="a28928d5866b85fef69745d3914a2333"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Activo_CatalogSearch.xml" hash="806d0b66144cbe87baf556b372f4b4e3"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>8.0.0</max></php></required></dependencies>
+</package>

@@ -1,0 +1,9 @@
+<?php
+if ($this->isPageWidgetsEnabled ()) {
+	$widgetsEnabled = $this->getWidgetTypes ();
+	$pageId = $this->getPageId ();
+	foreach ( $widgetsEnabled as $widgetIndex => $widgetType ) {
+			echo "<div id=\"tm-$widgetType\"></div>";
+	}
+}
+?>

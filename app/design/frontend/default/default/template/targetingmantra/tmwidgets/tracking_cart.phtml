@@ -1,0 +1,11 @@
+<?php
+if ($this->isAddCartAction ()) {
+	$mid = $this->getMid ();
+	$paramsData = "mid=".$mid."&".$this->getTrackingAddCartParams ();
+	$tmRegion = $this->getTmRegion();
+	?>
+<img src="//<?php echo $tmRegion; ?>.api.targetingmantra.com/RecordEvent?<?php echo $paramsData; ?>" width="1" height="1" />
+
+<?php
+}
+?>

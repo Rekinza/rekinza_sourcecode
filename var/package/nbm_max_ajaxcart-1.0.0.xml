@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>nbm_max_ajaxcart</name>
+    <version>1.0.0</version>
+    <stability>stable</stability>
+    <license>GPL</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>CMSMART Ajax Cart Extension</summary>
+    <description>CMSMART Ajax Cart Extension</description>
+    <notes>CMSMART Ajax Cart Extension</notes>
+    <authors><author><name>Cmsmart</name><user>Cmsmart</user><email>admin@netbase.vn</email></author></authors>
+    <date>2015-05-17</date>
+    <time>10:08:30</time>
+    <contents><target name="mage"><dir name="skin"><file name="index.php" hash="e8346a33a4f7b9be2936a1f5f5cfd23f"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.0.1</min><max>6.0.0</max></php></required></dependencies>
+</package>

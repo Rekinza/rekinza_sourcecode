@@ -1,0 +1,284 @@
+<?php
+/**
+ * @package ET_Ajax
+ * @version 1.0.4
+ * @copyright Copyright (c) 2014 EcomTheme. (http://www.ecomtheme.com)
+ * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php $_product = $this->getProduct(); ?>
+<script type="text/javascript">
+    optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+    <div class="product-essential row">
+        <div class="product-img-box col-lg-5 col-md-5 col-sm-6 col-xs-12">
+            <?php echo $this->getChildHtml('media') ?>
+        </div>
+		<form class="col-lg-7 col-md-7 col-sm-6 col-xs-12" action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+			<?php echo $this->getBlockHtml('formkey') ?>
+			<div class="no-display">
+				<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+				<input type="hidden" name="related_product" id="related-products-field" value="" />
+			</div>
+
+			<div class="product-shop">
+				<div class="product-name">
+					<h1><?php echo $_product->getAttributeText("brands");?></h1>
+                                        
+				</div>
+                            <span class="manufacture"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
+                <p>&nbsp;</p>
+                <div class="product-name-size">
+					<h1><?php echo $this->__('Size: ') ?><?php echo $_product->getAttributeText("size");?></h1>                                     
+				</div>
+
+                <?php echo $this->getReviewsSummaryHtml($_product, false, true); ?>
+                <?php echo $this->getChildHtml('alert_urls'); ?>
+                <?php echo $this->getChildHtml('product_type_data'); ?>
+                <?php echo $this->getTierPriceHtml(); ?>
+                <?php echo $this->getChildHtml('extrahint'); ?>
+				<?php 
+					echo $this->getChildHtml("seller_profile");		
+							?>
+                            
+				<?php /* <?php if ($_product->getShortDescription()): ?>
+					<div class="short-description">
+						<h2><?php echo $this->__('Overview'); ?></h2>
+						<div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description'); ?></div>
+					</div>
+				<?php endif; ?>*/ ?>
+
+				
+				<!--Add Authentication Msg on Premium Items Only - Stuti-->
+				<a href="http://www.rekinza.com/authentication">
+					<strong>
+					<div class="auth">
+						<?php
+						$product = $this->getProduct();
+						$category_id = $product->getCategoryIds();
+						
+							foreach($category_id as $ids){
+								
+								if ($ids == 27){
+									echo $this->__('Authentication Guaranteed');
+
+								}
+							}
+						?>
+
+					</div>	
+					</strong>
+				</a>
+				
+				<?php if (!$this->hasOptions()):?>
+					<div class="add-to-box">
+						<?php if($_product->isSaleable()): ?>
+							<?php  echo $this->getChildHtml('addtocart') ?>
+							<?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+							<?php endif; ?>
+						<?php endif; ?>
+						<?php echo $this->getChildHtml('addto') ?>
+						
+					</div>
+					<?php echo $this->getChildHtml('extra_buttons') ?>
+					<?php elseif (!$_product->isSaleable()): ?>
+					<div class="add-to-box">
+						<?php echo $this->getChildHtml('addto') ?>
+					</div>
+					
+				<?php endif; ?>
+
+				<!--1 Item Left Only on Unsold Items/Stuti-->
+				<?php if ($_product->isSaleable()) : ?>
+				<h2 class="only-1"><?php echo $this->__('Only 1 Piece Available!'); ?></h2>
+				<?php endif; ?>
+				<?php echo $this->getChildHtml('other');?>
+
+				<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+				<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+				<?php endif;?>
+				
+				
+				
+			<div class="product-collateral">
+			<div class="product-tab-detail">
+		    
+		    
+		    <?php
+		    $custom_tab = Mage::helper('oxynic')->getConfig('custom_tab');
+		    if ($custom_tab) {
+                $custom_tab_name = Mage::helper('oxynic')->getConfig('custom_tab_name');
+                $custom_tab_content = Mage::helper('oxynic')->getConfig('custom_tab_content');
+                if (!$custom_tab_name){
+                    $custom_tab = false;
+                }
+                if (!$custom_tab_content) {
+                    $custom_tab = false;
+                } else {
+                    $custom_tab_content = Mage::helper('cms')->getBlockTemplateProcessor()->filter($custom_tab_content);
+                }
+            }
+		    ?>
+		    <?php
+				//add the size-chart to the product tab
+				$attribute = $_product->getResource()->getAttribute('size_chart');
+				if(is_object($attribute)){
+				$identifier = $_product->getData("size_chart");
+				}
+				$blockcustom =  Mage::app()->getLayout()->createBlock('cms/block') ->setBlockId($_product->getAttributeText('size_chart'));
+				$blockcustommodel = Mage::getModel('cms/block')->load($identifier);
+				$customtitle = $blockcustommodel->getTitle();
+				$customtab = $blockcustom->toHtml();
+			?>
+				
+				
+			<ul id="product_tab_nav" class="product-tab-nav">
+				<?php if ($_description = $this->getChildHtml('description')):?>
+				<li class="active"><a data-toggle="tab" href="#tab_decription"><?php echo $this->__('Description') ?></a></li>
+				<?php endif; ?>
+
+				<?php if($customtab): ?>
+				<li>
+					<a data-toggle="tab" href="#tab_size"><?php echo $this->__('Size Guide') ?></a></li>
+				<?php endif; ?>
+				
+				<?php if($quality = $this->getChildHtml('quality')): ?>
+				<li>
+					<a data-toggle="tab" href="#tab_reviewform"><?php echo $this->__('Quality And Authenticity') ?></a>
+				</li>
+				<?php endif; ?>
+				<?php if ($shipping = $this->getChildHtml('shipping')):?>
+				<li>
+					<a data-toggle="tab" href="#tab_additional"><?php echo $this->__('Shipping And Returns') ?></a>
+				</li>
+				<?php endif; ?>
+				
+				
+				
+			</ul>
+			<div class="tab-content">
+				<?php if ( $_description ):?>
+				<div id="tab_decription" class="tab-pane fade in active">
+					<?php echo $_description ?>
+				</div>
+				<?php endif;?>
+
+				<?php if($customtab): ?>                        
+				<div id="tab_size" class="tab-pane fade">                         
+					<?php echo  $customtab; ?>                      
+				</div>                      
+				<?php endif; ?>
+				
+				<?php if( $quality ): ?>
+				<div id="tab_reviewform" class="tab-pane fade">
+					<?php echo $quality;?>
+				</div>
+				<?php endif;?>
+				
+				<?php if ( $shipping ) : ?>
+				<div id="tab_additional" class="tab-pane fade">
+					<?php echo $shipping; ?>
+				</div>
+				<?php endif;?>
+				
+			</div>
+			</div>
+
+			</div>
+			
+			
+			
+			<div class="clearer"></div>
+			<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+				<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+			<?php endif;?>
+			
+		</form>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			productAddToCartForm = new VarienForm('product_addtocart_form');
+			productAddToCartForm.submit = function(button, url) {
+				if (this.validator.validate()) {
+					var form = this.form;
+					var oldUrl = form.action;
+
+					if (url) {
+					   form.action = url;
+					}
+					var e = null;
+					try{
+    					if (isFrame){
+                    		// form = $('product_addtocart_form');
+                    		window.top.checkout_cart_add(form, 'form');
+                    	} else {
+                    		window.checkout_cart_add(form, 'form');
+                    	}
+					} catch(e) {
+					}
+					this.form.action = oldUrl;
+					if (e) {
+						throw e;
+					}
+				}
+			}.bind(productAddToCartForm);
+
+			productAddToCartForm.submitLight = function(button, url){
+				if(this.validator) {
+					var nv = Validation.methods;
+					delete Validation.methods['required-entry'];
+					delete Validation.methods['validate-one-required'];
+					delete Validation.methods['validate-one-required-by-name'];
+					// Remove custom datetime validators
+					for (var methodName in Validation.methods) {
+						if (methodName.match(/^validate-datetime-.*/i)) {
+							delete Validation.methods[methodName];
+						}
+					}
+
+					if (this.validator.validate()) {
+						if (url) {
+							this.form.action = url;
+						}
+						this.form.submit();
+						var e = null;
+						try{
+	    					if (isFrame){
+	                    		// form = $('product_addtocart_form');
+	                    		window.top.handleWishlist(form, 'form');
+	                    	} else {
+	                    		window.handleWishlist(form, 'form');
+	                    	}
+						} catch(e) {
+						}
+					}
+					Object.extend(Validation.methods, nv);
+				}
+			}.bind(productAddToCartForm);
+		//]]>
+		</script>
+		
+    </div>
+    <div>
+		<?php
+		$show_related_products = Mage::helper('oxynic')->getConfig('show_related_products', true);
+		$show_upsell_products = Mage::helper('oxynic')->getConfig('show_upsell_products', true);
+		if ($show_related_products){
+            echo $this->getChildHtml('related_products');
+        }
+        if ($show_upsell_products){
+            echo $this->getChildHtml('upsell_products');
+        }
+		?>
+    </div>
+</div>
