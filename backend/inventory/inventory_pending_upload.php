@@ -1,23 +1,408 @@
-`<?php
+<?php
 
 if(isset($_POST['mark_upload']))
 {
 	include 'db_config.php';
+	include '../../app/Mage.php';
+	Mage::init();
     $checkbox = $_POST['checkbox'];
 	for($i=0;$i<count($checkbox);$i++){
 		
-		$mark_upload_id = $checkbox[$i];
-		$sql = "UPDATE inventory SET upload_status = 'uploaded' WHERE sku_name ='$mark_upload_id' ";
-		$result = mysql_query($sql);
-		}
-	
-	if($result =='TRUE')
-	{
-		echo "Marked uploaded<br>";
+
+
+	$mark_upload_id = $checkbox[$i];
+	$query1 = "SELECT * FROM inventory WHERE sku_name ='$mark_upload_id' ";
+	$result1 = mysql_query($query1);
+	$numresult1 = mysql_numrows($result1);
+	$sku_name1 = mysql_result($result1,0,'sku_name');
+	echo($sku_name1);
+	$customer_email_id1 = mysql_result($result1,0,'customer_email_id');
+	$product_name1= mysql_result($result1,0,'product_name');
+	$type1= mysql_result($result1,0,'type');
+	$sub_type1= mysql_result($result1,0,'sub_type');
+	$qc_status1= mysql_result($result1,0,'qc_status');
+	$condition1= mysql_result($result1,0,'condition');
+	$gently_used_comments1= mysql_result($result1,0,'gently_used_comments');
+	//$product_name1=mysql_result($result1,0,'product_name');
+	$brand1 = mysql_result($result1,0,'brand');
+	$color1= mysql_result($result1,0,'color');
+	$material1 = mysql_result($result1,0,'material');
+	$measurements1 = mysql_result($result1,0,'measurements');
+	$size1 = mysql_result($result1,0,'size');
+	$retail_value1 = mysql_result($result1,0,'retail_value');
+	$suggested_price1 = mysql_result($result1,0,'suggested_price');
+	$special1 = mysql_result($result1,0,'special');
+	$rejection_reason1 = mysql_result($result1,0,'rejection_reason');
+	$upload_status1 = mysql_result($result1,0,'upload_status');
+	$pickup_id1 = mysql_result($result1,0,'pickup_id');
+
+	//starting
+	//see if sku is not repeated	
+	$id = Mage::getModel('catalog/product')->getIdBySku($sku_name1);
+	if ($id){
+	    echo "SKU {$sku_name1} exists";
+	    continue;
+
+	}
+	else{
+	    echo "Uploading...</br>";
 	}
 
-mysql_close();
+	//see if any of these values is empty
+	if($product_name1 == "" || $brand1 == "" || $color1==""){
+		echo "check product name, colour, or brand attribute break. Hence not uploaded. </br>";
+		continue;
+	}
 
+
+	//logic for msrp	
+	if($suggested_price1 >0 && $suggested_price1 < 750)
+	{
+		$msrp = $suggested_price1 - 200;
+	}
+	elseif ($suggested_price1 <= 5000) 
+	{
+		$msrp = 0.7*$suggested_price1;
+	}
+	elseif ($suggested_price1 <= 50000)
+	{
+		$msrp = 0.8*$suggested_price1;	
+	}
+	else
+	{
+		$msrp = 0.85*$suggested_price1;
+	}
+
+	$product_name1 = trim($product_name1);
+
+	$meta_description = "Buy ".$brand1." ".$product_name1." Online in India.";
+	$meta_description_lowercase = strtolower($meta_description);
+	$meta_keywords = str_replace(" ", ",", $meta_description_lowercase);
+	$meta_title = $brand1." ".$product_name1;
+	$url_key = str_replace(" ", "-", $meta_title);
+	$url_key_lower = strtolower($url_key);
+	$url_path = $url_key_lower;
+
+
+	$tax_class = 7;
+	if($type1 == "Clothing")
+	{
+		if($suggested_price1 < 5000){
+			$tax_class = 7;
+		}
+		elseif($suggested_price1 >= 5000){
+			$tax_class = 5;
+		}
+	}
+	else
+	{
+		if($suggested_price1 < 500){
+			$tax_class = 7;
+		}
+		elseif($suggested_price1 >= 500){
+			$tax_class = 5;
+		}
+	}
+//for setting category types:
+	if($type1 == "Clothing"){
+		$category = 3;
+		if($sub_type1 == "Dress"){
+			$subcategory = 8;
+		}
+		elseif($sub_type1 == "Tops"){
+			$subcategory = 9;
+		}
+		elseif($sub_type1 == "Bottoms"){
+			$subcategory = 10;
+		}
+		elseif($sub_type1 == "Outerwear"){
+			$subcategory = 11;
+		}
+		elseif($sub_type1 == "Suit"|| $sub_type1 == "Sari"){
+			$subcategory = 21;
+		}
+	}
+	elseif($type1 == "Shoes"){
+		$category = 5;
+		if($sub_type1 == "Flats"){
+			$subcategory = 19;
+		}
+		elseif ($sub_type1 == "Heels") {
+			$subcategory = 20;
+		}
+	}
+	elseif($type1 == "Bags"){
+		$category = 6;
+		if($sub_type1 == "Wallets"){
+			$subcategory = 13;
+		}
+		elseif($sub_type1 == "Clutches"){
+			$subcategory = 25;
+		}
+		elseif($sub_type1 == "Handbags"){
+			$subcategory = 12;
+		}
+		elseif($sub_type1 == "Luggage"){
+			$subcategory = 28;
+		}
+	}
+	elseif($type1 == "Accesories"){
+		$category = 29;
+		if($sub_type1 == "Belts"){
+			$subcategory =30;
+		}
+		elseif($sub_type1 == "Scarf"){
+			$subcategory =31;
+		}
+		else{
+			$subcategory = 32;
+		}
+
+	}
+
+
+
+	if($type1 == "Clothing")
+	{
+
+			if($sub_type1 == "Outerwear" || $sub_type1 == "Tops" || $sub_type1 == "Dress")
+			{
+				$size_chart = "Women Tops Dresses";
+			}
+			elseif ($sub_type1 == "Bottoms") 
+			{
+				$size_chart == "Women Bottoms";
+			}
+
+	}
+	elseif($type1 == "Shoes")
+	{
+		$size_chart = "Women Footwear";
+	} 
+
+
+//logic for short-description	
+	if($qc_status1 == "accepted")
+	{
+		$status = 1;
+			if($condition1 == "like new")
+			{
+				$shortdescription = "Like New - This item is in excellent condition, having been inspected thoroughly by Rekinza Quality Specialists. When it arrives at your door, you just might mistake it for brand new!";
+			}
+			elseif ($condition1 == "gently used") {
+				$shortdescription = "Tiny Flaw - While in excellent condition, this item does indeed have a teeny, tiny flaw. ".$gently_used_comments1." ";
+			}
+			elseif ($condition1 == "new with tag") {
+				$shortdescription = "New With Tag - Brand new! Never worn and still has the tags attached.";
+			}
+
+	}	
+	elseif($qc_status1 == "rejected")
+	{
+		$status = 2;
+		$shortdescription = "-";
+	}
+
+
+	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID); //
+    $product = Mage::getModel('catalog/product');
+try{
+    $product
+    ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    ->setAttributeSetId(4) // default attribute set
+    ->setSku($sku_name1) // generate a random SKU
+    ->setWebsiteIDs(array(1));
+
+	$product
+    ->setCategoryIds(array(2,$category,$subcategory))
+    ->setStatus($status)
+    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH) // visible in catalog and search
+    ->setUrlKey($url_key)
+    ->setUrlPath($url_path)
+    ->setMsrp($msrp);
+
+	$product
+      ->setName($product_name1) // add string attribute
+      ->setShortDescription($shortdescription)
+      ->setPrice($retail_value1)
+      ->setSpecialPrice($suggested_price1)
+      ->setTaxClassId($tax_class)    // Taxable Goods by default
+      ->setWeight(0.3)
+      ->setMetaTitle($meta_title)
+      ->setMetaKeyword($meta_keywords)
+      ->setMetaDescription($meta_description)
+      ->setDescription($product_name1)
+	  ->setReason($rejection_reason1)
+	  ->setMaterial($material1)
+	  ->setMeasurements($measurements1)
+	  ->set
+        ;
+
+	 $arg_attribute = 'color';  
+	 $arg_value = explode(",",$color1);
+	 $val = array();
+	 $j = 0;
+	 foreach($arg_value as $individualvalue)
+	 { 
+
+	$attr = $product->getResource()->getAttribute("color");
+	if ($attr->usesSource()) {
+		$val[$j] = $attr->getSource()->getOptionId($individualvalue);
+		if($val[$j] == ""){
+			echo "color value not found. not updating the product. </br>";
+			continue 2;
+		}
+		 $j++; 	 
+		}
+ 
+	}	
+	$product->setColor($val);
+
+	$attr = $product->getResource()->getAttribute("size_chart");
+    if ($attr->usesSource()) {
+    	$sizechart_id = $attr->getSource()->getOptionId($size_chart);
+    }
+        $product->setSizeChart($sizechart_id);    
+        //echo "size chart: $sizechart_id </br>";
+
+	
+if($status!= 2){
+	 $attr = $product->getResource()->getAttribute("size");
+	if ($attr->usesSource()) {
+	echo $size_id = $attr->getSource()->getOptionId($size1);
+	}
+		if($size_id)
+		$product->setSize($size_id);
+		else{
+			echo "size id not found. check again. product not suploaded. </br>";
+			continue;
+			}
+	}		
+
+	$attr = $product->getResource()->getAttribute("brands");
+	if ($attr->usesSource()) {
+		$brand_id = $attr->getSource()->getOptionId($brand1);
+	//echo "brands";
+	}		
+
+
+	if($brand_id){
+		
+		$product->setBrands($brand_id);
+	}
+	else{
+		echo "brand not exists for the above sku. hence not uploaded </br>";
+		continue; 
+	}	
+
+
+	$attr = $product->getResource()->getAttribute("vendor");
+	if ($attr->usesSource()) {
+	
+	$vendor_id = $attr->getSource()->getOptionId($customer_email_id1);
+	//echo "vendor";
+	}
+		
+	if($vendor_id){
+		//echo "<br> Code is here";
+		$product->setVendor($vendor_id);
+	}
+	else{
+		echo "This sku's vendor not found. Hence not updating </br>";
+		continue;
+	}
+
+	if($status!=2){	
+	 $attr = $product->getResource()->getAttribute("special");
+		if ($attr->usesSource()) {
+		echo $special_id = $attr->getSource()->getOptionId($condition1);
+		}
+	}
+
+	else{
+	$attr = $product->getResource()->getAttribute("special");
+	if ($attr->usesSource()) {
+	echo $special_id = $attr->getSource()->getOptionId("Like New");
+	}	
+
+	}
+		$product->setSpecial($special_id);
+
+	if($status!=2){
+			$listOfImages = array();	
+			$listOfImages[0] = "../../media/import/".$url_path."-3.jpg";
+			$listOfImages[1] = "../../media/import/".$url_path."-2.jpg";
+			$listOfImages[2] = "../../media/import/".$url_path."-1.jpg";
+			//$count = 0;
+			foreach ($listOfImages as $index=>$imagePath) {
+			if(file_exists($imagePath))	
+			{
+			    try{	
+			    	$mode = array();
+			    	//if ($count == 0) {
+			        $mode = array("thumbnail", "small_image", "image");
+			    	//}
+			    	$product->addImageToMediaGallery($imagePath, $mode, false, false);
+				} catch (Exception $e) {
+					echo $e->getMessage();
+				}	
+			}
+			else if($index >0){
+			echo "Can not find image by path: `{$imagePath}` hence not uploaded<br/>";
+			continue 2;
+	  		}
+		}
+	}	
+
+	$product->save();
+
+	//Set Product Qty and make it Available In Stock - Stuti
+	$product = Mage::getModel('catalog/product')->loadByAttribute('sku',$sku_name1); 
+ 
+	 if ( $product ) {
+	 
+	 $productId = $product->getIdBySku($sku);
+	 $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+	 $stockItemId = $stockItem->getId();
+	 $stock = array();
+	 
+	 if (!$stockItemId) {
+	 $stockItem->setData('product_id', $product->getId());
+	 $stockItem->setData('stock_id', 1); 
+	 } else {
+	 $stock = $stockItem->getData();
+	 }
+
+	$stockItem->assignProduct($product);
+	$stockItem->setData('is_in_stock', 1);
+	$stockItem->setData('qty', 1);
+	$product->setStockItem($stockItem);
+
+	 $stockItem->save();
+	 
+	 unset($stockItem);
+	 unset($product);
+	 }
+
+	 //Qty Set Complete - Stuti
+
+
+	$sql = "UPDATE inventory SET upload_status = 'uploaded' WHERE sku_name ='$mark_upload_id' ";
+	$result = mysql_query($sql);
+
+	}catch(Exception $e){
+		echo "stuck on sku $sku_name1";
+		echo $e->getMessage();
+	}	
+	} //end of for-loop
+
+		
+		if($result =='TRUE')
+		{
+			echo "Marked uploaded<br>";
+		}
+
+	mysql_close();
 }
 
 
@@ -42,6 +427,7 @@ if ( $numresult > 0 )
 		<h1>Inventory Details</h1>
 		
 		<button id="btnExport" onclick="fnExcelReport();" > Export To Excel </button>
+		<button> CHECKTOSEE </button>
 		
 		<table id="report_table">
 			<th>S. No</th>
