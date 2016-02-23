@@ -16,8 +16,11 @@
 	}
 	  ?>
 	 <div class="header-cart-title">
-	 	<i class="fa fa-shopping-cart"></i>
-		<span class="badge"><?php echo $_cartQty.' '.$this->__('Item(s)') ?></span>		
+	 	<!--i class="fa fa-shopping-cart"></i>
+		<span class="badge"></span-->
+		<a href = "<?php echo Mage::helper('checkout/cart')->getCartUrl();?>"><img src="http://www.diannesgraphicdesign.com/img/logo_cart.png" style="position: relative;width: 44px; height:44px;"></a>
+		<a href = "<?php echo Mage::helper('checkout/cart')->getCartUrl();?>"><h2 style ="position: absolute; width :100%; top:16%; left:41%; color:white;"><?php echo $_cartQty ?></h2></a>
+		
 	 </div>
      <div class="header-cart-content">
 	    <!--div class="remain_cart" id="minicart">
