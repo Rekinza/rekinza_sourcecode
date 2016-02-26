@@ -13,7 +13,6 @@
  * @see Mage_Review_Block_Product_View
  */
 ?>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <?php $_helper = $this->helper('catalog/output'); ?>
 <?php $_product = $this->getProduct(); ?>
@@ -144,7 +143,7 @@
                     $custom_tab_content = Mage::helper('cms')->getBlockTemplateProcessor()->filter($custom_tab_content);
                 }
             }
-		    ?> 
+		    ?>
 		    <?php
 				//add the size-chart to the product tab
 				$attribute = $_product->getResource()->getAttribute('size_chart');

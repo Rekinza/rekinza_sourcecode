@@ -69,13 +69,12 @@
 </ul>
 </div>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
 <script src="http://localhost:8080/rekinza/js/jquery.dlmenu.js"></script> 
 <script>
-jQuery(function(){
+$(function() {
 	$( '#dl-menu' ).dlmenu();
 });
+
 </script>
 <?php
 } elseif( Mage::helper('oxynic')->getConfig('menu_mobile', 1) == '2' ){?>
