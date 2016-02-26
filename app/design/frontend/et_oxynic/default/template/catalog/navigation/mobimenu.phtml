@@ -39,64 +39,44 @@
  * string If specified wraps children list in div with this class
  */
 ?>
+<script src="http://localhost:8080/rekinza/js/modernizr.custom.js"></script>
 <?php if( Mage::helper('oxynic')->getConfig('menu_mobile', 1) == '1' ){ ?>
-	<span class="menu-button">
-		<i class="fa fa-bars"></i>
-    </span>
-    <div class="hidden-lg hidden-md hidden-xs hidden-sm" id="menu_sidebar">
-	    <ul class="nav-menu clearfix">
-	    	<!--<li>
-		    	<form role="search" class="navbar-form navbar-left">
-	                <div class="form-group">
-	                    <?php echo $this->getLayout()->getBlock('top.search')->toHtml(); ?>
-	                </div>
-	            </form>
-	        </li>-->
-			<li>
-				<a href="<?php echo $this->getUrl('') ?>" title="Home">
-					<span><?php echo $this->__('Home')?></span>
-				</a>
-			</li>
-                        <li>
-				<a href="http://www.rekinza.com/sell" title="Sell">
-					<span><?php echo $this->__('Sell')?></span>
-				</a>
-			</li>
-			<?php foreach ($this->getStoreCategories() as $_category): ?>
-				<?php //echo $this->drawItem($_category) ?>
-				<?php echo $this->_renderCategoryMenuItemHtml($_category,0,0,0,0,'','',true); ?>
-			<?php endforeach ?>
-                        <li>
-				<a href="http://www.rekinza.com/brands" title="Brands">
-					<span><?php echo $this->__('Brands')?></span>
-				</a>
-			</li>
-                        <li>
-				<a href="http://www.rekinza.com/sellers" title="Kinzahunt">
-					<span><?php echo $this->__('Kinzahunt')?></span>
-				</a>
-			</li>
-			<li>
-				<a href="http://www.rekinza.com/customer/account/login/" title="Login/Sign Up">
-					<span><?php echo $this->__('Login/Sign Up')?></span>
-				</a>
-			</li>
-	    </ul>
-	    <script type="text/javascript">
-	        jQuery(document).ready(function($){
-	            $('body').append('<div class="et_menu_sidebar"><nav id="et-screennav"><ul class="siderbar-menu"></ul></nav></div>');
-	            $('#et-screennav ul.siderbar-menu').html($('#menu_sidebar ul.nav-menu').html());
-	                $('.mobile-nav .menu-button').click(function(){
-	                    if($('body').hasClass('show_sidebar')){
-	                        $('body').removeClass('show_sidebar');
-	                    }else{
-	                        $('body').addClass('show_sidebar');
-	                    }
-	                });
-	                
-	        });
-	    </script>
-	</div>
+
+<div id="dl-menu" class="dl-menuwrapper">
+<button class="dl">Open <a href="http://www.jqueryscript.net/menu/">Menu</a></button>
+<ul class="dl-menu">
+<li> <a href="http://localhost:8080/rekinza/">Home</a></li>
+<?php foreach ($this->getStoreCategories() as $_category): ?>
+	<?php if ($_category->getIsActive()): ?>
+		<li><a href="#"><?php echo $_category->getName(); ?></a>
+	<?php endif; ?>
+	<?php if ($_category->hasChildren()): ?>
+		<ul class="dl-submenu">
+			<li class="dl-back"><a href="#">back</a></li>
+			<li><a href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->__('All'); ?><?php echo $_category->getName(); ?></a></li>
+		    <?php $category = Mage::getModel('catalog/category')->load($_category->getId()); ?>
+		        <?php foreach ($category->getChildrenCategories() as $subcategory): ?>
+		            <?php if ($subcategory->getIsActive()): ?>
+		               <li><a href="<?php echo $this->getCategoryUrl($subcategory); ?>"> <?php echo $subcategory->getName(); ?></a></li>
+		            <?php endif; ?>
+		        <?php endforeach; ?>
+		</ul>
+	</li>
+	<?php endif; ?>
+<?php endforeach ?>
+<li> <a href="http://localhost:8080/rekinza/sell">Sell</a></li>
+<li> <a href="http://localhost:8080/rekinza/sell">Brands</a></li>
+</ul>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+<script src="http://localhost:8080/rekinza/js/jquery.dlmenu.js"></script> 
+<script>
+jQuery(function(){
+	$( '#dl-menu' ).dlmenu();
+});
+</script>
 <?php
 } elseif( Mage::helper('oxynic')->getConfig('menu_mobile', 1) == '2' ){?>
     <span class="menu-button" data-toggle="collapse" data-target=".nav-collapse">
@@ -137,9 +117,9 @@
 						jQuery(this).parent().children('.res-wrapnav').css('height', jQuery(this).parent().children('.res-wrapnav').children('ul').height());
 					}
 				});
-			});
-			
+			});			
 		</script>
 	</div>
 <?php } ?>
+
 

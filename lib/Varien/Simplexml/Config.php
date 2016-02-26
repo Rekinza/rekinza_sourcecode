@@ -492,7 +492,7 @@ class Varien_Simplexml_Config
             //throw new Exception('Can not read xml file '.$filePath);
             return false;
         }
-		//echo "<br>Path is ".$filePath."<br>";
+
         $fileData = file_get_contents($filePath);
         $fileData = $this->processFileData($fileData);
         return $this->loadString($fileData, $this->_elementClass);

@@ -49,7 +49,7 @@ $products->addAttributeToSelect("*")->addAttributeToFilter("entity_id",array("ne
             <li>
 				<div class="product-image">
 					<a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>">
-						<img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(270, 270) ?>" width="270" height="270" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" />
+						<img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(500, 500) ?>" width="270" height="auto" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" />
 					</a>
 					
 					<?php
@@ -70,12 +70,14 @@ $products->addAttributeToSelect("*")->addAttributeToFilter("entity_id",array("ne
 				</div>
                 <div class="product-info">
                     <span class="product-name">
-						<a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a>						
+						<a href="<?php echo $_item->getProductUrl() ?>">
+                        <div>
+                    
+                            <span class="brands" style="display:block;"><?php echo $_item->getAttributeText('brands'); ?></span>
+                        </div>		
+                        <?php echo $this->escapeHtml($_item->getName()) ?></a>  			
 					</span>
-					 <div>
-					
-							<span class="brands" style="display:block;"><?php echo $_item->getAttributeText('brands'); ?></span>
-                    </div>
+					 
 					<?php echo $this->getReviewsSummaryHtml($_item, 'short', true) ?>
 					<?php echo $this->getPriceHtml($_item, true, '-related') ?>
 					<div class="item-cwc-wrap">

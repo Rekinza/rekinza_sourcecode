@@ -7,12 +7,12 @@
  */
 
 /* @var $helper ET_Carousel_Helper_Data */
-$helper = Mage::helper('products');
+//$helper = Mage::helper('products');
 
 /* @var $this ET_Products_Block_Basic */
-$collection = $this->getItems();
+//$collection = $this->getItems();
 
-$items = $collection->getItems();
+/*$items = $collection->getItems();
 
 if(! empty($items)) :
 
@@ -65,7 +65,7 @@ if(! empty($items)) :
 		<div class="basic-products row">
 	    <?php foreach ($items as $_item) :
 	    	
-	    	/* @var $_item Mage_Catalog_Model_Product */
+	    	//@var $_item Mage_Catalog_Model_Product 
 	    	// prepare item's data
 	    	$_item_url = $_item->getProductUrl();
 	    	$_item_image_label = $this->getImageLabel($_item, $_image_source, null, true);
@@ -130,5 +130,5 @@ if(! empty($items)) :
 </div>
 
 <?php
-endif; // show only items is not empty.
+endif; // show only items is not empty.*/
 ?>

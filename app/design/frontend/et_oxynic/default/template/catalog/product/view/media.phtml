@@ -35,29 +35,8 @@ $_helper = $this->helper('catalog/output');
 $_uniq_mv = false;
 
 if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
-<div class="product-image product-image-zoom">
-    <a id="cloud_zoom" class="cloud-zoom" rel="zoomWidth:360, zoomHeight:360, adjustX: 20, adjustY: -3" title="<?php echo $this->htmlEscape($this->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(720,720)->setQuality(100); ?>">
-    <?php
-        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(360, 360).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo $_helper->productAttribute($_product, $_img, 'image');
-    ?>
-    </a>
-    <span class="btn-popup-image fancybox-button" data-fancybox-group="button" href="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail'); ?>"><?php echo $this->__('Double click on above image to view full picture');?></span>
-    <?php foreach ($this->getGalleryImages() as $_image) : ?>
-        <a style="display:none;" class="fancybox-button fancybox-image-hidden" data-fancybox-group="button" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())?>"></a>
-    <?php endforeach; ?>
-</div>
-<?php else: ?>
-<div class="product-image">
-    <?php
-        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(360, 360).'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo $_helper->productAttribute($_product, $_img, 'image');
-    ?>
-</div>
-<?php endif; ?>
 
-<?php if (count($this->getGalleryImages()) > 0) : $_uniq_mv = 'small_thumbnails_' . uniqid(); ?>
-<div class="more-views">
+<div class="more-views col-lg-2 col-md-2 col-sm-2">
     <ul class="more-views-slider" id="<?php echo $_uniq_mv; ?>">
     <?php
         $i = 0;
@@ -66,13 +45,56 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
         <li>
             <a  class="cloud-zoom-gallery <?php if ($i==1) echo "actived"; ?>"
                 onclick="$$('.cloud-zoom-gallery').each(function(e,i){e.removeClassName('actived');});this.addClassName('actived')"
-                rel="useZoom: 'cloud_zoom', smallImage: '<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(360, 360)->setQuality(100); ?>'" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()); ?>">
+                rel="useZoom: 'cloud_zoom', smallImage: '<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())/*->resize(360, 360)->setQuality(100)*/; ?>'" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()); ?>">
                 <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(75, 75)->setQuality(100); ?>" width="75" height="75" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" />
             </a>
         </li>
     <?php endforeach; ?>
     </ul>
 </div>
+
+<div class="product-image product-image-zoom col-lg-10 col-md-10 col-sm-10 col-xs-12">
+    <div class="product-photo-box">
+    <a id="cloud_zoom" class="cloud-zoom" rel="zoomWidth:200, zoomHeight:200, adjustX: 20, adjustY: -3" title="<?php echo $this->htmlEscape($this->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(1600,1600)->setQuality(100); ?>">
+    <?php
+        $_img = '<img id="image" src="'.$this->helper('catalog/image')->init($_product, 'image')/*->resize(360, 360)->setQuality(95)*/.'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" style="height:100%;"/>';
+        echo $_helper->productAttribute($_product, $_img, 'image');
+    ?>
+    </a>
+    <span class="btn-popup-image fancybox-button" data-fancybox-group="button" href="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail'); ?>"><?php echo $this->__('Double click on above image to view full picture');?></span>
+    <?php foreach ($this->getGalleryImages() as $_image) : ?>
+        <a style="display:none;" class="fancybox-button fancybox-image-hidden" data-fancybox-group="button" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())?>"></a>
+    <?php endforeach; ?>
+</div>
+</div>
+<?php else: ?>
+<div class="product-image">
+    <?php
+        $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')/*->resize(360, 360)->setQuality(95)*/.'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" style="width:260px;"/>';
+        echo $_helper->productAttribute($_product, $_img, 'image');
+    ?>
+</div>
+<?php endif; ?>
+
+<?php if (count($this->getGalleryImages()) > 0) : $_uniq_mv = 'small_thumbnails_' . uniqid(); ?>
+<!--
+<div class="more-views col-lg-2 col-md-2 col-s-0 col-xs-0">
+    <ul class="more-views-slider" id="<?php echo $_uniq_mv; ?>">
+    <?php
+        $i = 0;
+        foreach ($this->getGalleryImages() as $_image) :
+            $i++; ?>
+        <li>
+            <a  class="cloud-zoom-gallery <?php if ($i==1) echo "actived"; ?>"
+                onclick="$$('.cloud-zoom-gallery').each(function(e,i){e.removeClassName('actived');});this.addClassName('actived')"
+                rel="useZoom: 'cloud_zoom', smallImage: '<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())/*->resize(360, 360)->setQuality(100)*/; ?>'" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()); ?>">
+                <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(75, 75)->setQuality(100); ?>" width="75" height="75" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" />
+            </a>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+-->
 <?php endif; ?>
 
 

@@ -35,7 +35,7 @@
     $_productCollection=$this->getLoadedProductCollection();
     $_helper = $this->helper('catalog/output');
 
-if (! $_productCollection->count()) : ?>
+if (! $_productCollection->count()): ?>
 <?php $addtocart = $this->__('Add to Cart'); ?>
 <?php $sold = $this->__('Sold'); ?>
 <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
@@ -198,11 +198,10 @@ else : ?>
                         <?php endif; ?>
                         <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true); ?>">
                         <div class="product-info">
-                            <span class="brands" style="display:block;"><?php echo $_product->getAttributeText('brands'); ?></span> <!--New Catalog Page-->
+                            
+                            <div class="brand"><?php echo $_product->getAttributeText('brands'); ?></div> 
                             <div class="product-name">
-                                
-                                    
-                                      <?php
+                                    <?php
                                     $product_name=$_helper->productAttribute($_product, $_product->getName() , 'name');
                                     if (strlen($product_name)>19){
                                     $product_name=substr($product_name,0,19);
@@ -210,9 +209,10 @@ else : ?>
                                     }
                                     ?>
                                    <?php echo $product_name; ?>
-                                </a>
                             </div>
+                            <div class="size" style="display:block;"><?php echo $_product->getAttributeText('size'); ?></div>
                             <div>
+                        </a>
                             <?php
                             // print_r($_product->getData());
                             // Provides extra blocks on which to hang some features for products in the list
@@ -227,7 +227,7 @@ else : ?>
                             }
                             ?>
                             
-                            <span class="product-size" style="display:block;"><?php echo $this->__('Size: ') ?><?php echo $_product->getAttributeText('size'); ?></span>
+                            
                             </div>
                             
                             <?php echo $this->getReviewsSummaryHtml($_product, 'short', true); ?>
@@ -272,7 +272,7 @@ else : ?>
         </div>
     </div>
 <?php endif; ?>
-<?php
+<!--?php
 // Provides a block where additional page components may be attached, primarily good for in-page JavaScript
 if ($this->getChild('after')) {
     $_afterChildren = $this->getChild('after')->getSortedChildren();
@@ -283,7 +283,7 @@ if ($this->getChild('after')) {
         echo $_afterChild->toHtml();
     }
 }
-?>
+?>-->
 <script type="text/javascript">
     //<![CDATA[
     function pushState(data, link, replace) {

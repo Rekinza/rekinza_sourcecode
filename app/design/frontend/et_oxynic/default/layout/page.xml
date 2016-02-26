@@ -46,6 +46,12 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>varien/form.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
+                <action method="addJs"><script>modernizr.custom.js</script></action>
+                <action method="addJs"><script>jquery.dlmenu.js</script></action>
+
+                
+
+                <action method="addCss"><stylesheet>css/component.css</stylesheet></action>
 
                 <block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
             </block>

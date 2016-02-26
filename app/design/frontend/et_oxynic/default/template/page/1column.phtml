@@ -65,9 +65,11 @@
                
                 <div class="home-page-banner"><img src="/skin/frontend/et_oxynic/default/images/header-images.jpg"/></div>
                 
+                <!--
 				<?php if( $this->getChildHtml('homeslider') && $cms_page == 'home' || $cms_page == 'home-left' ){ ?>
 							<?php echo $this->getChildHtml('homeslider'); ?>
 						<?php } ?>
+				-->
 				<div class="col-main">
 				
 				
@@ -76,6 +78,7 @@
 						<?php echo $this->getChildHtml('global_messages') ?>
 						
 						<?php echo $this->getChildHtml('content') ?>
+						<!--
 						<?php if( $this->getChildHtml('homeservice') && $cms_page == 'home' || $cms_page == 'home-left' ){ ?>
 							<?php echo $this->getChildHtml('homeservice') ?>
 						<?php } ?>
@@ -101,30 +104,18 @@
 						<?php } ?>
 						<?php if( $this->getChildHtml('buy_sell_button') ){ ?>
 							<?php echo $this->getChildHtml('buy_sell_button') ?>
-						<?php }?>											
-						<?php if( $this->getChildHtml('homebanner') && $cms_page == 'home' ){ ?>
-							<?php echo $this->getChildHtml('homebanner') ?>
-						<?php } ?>
-						<?php if($this->getChildHtml('homebrand')){ ?>
-							<?php echo $this->getChildHtml('homebrand') ?>
-						<?php } ?>	
-						<?php if( $this->getChildHtml('happyclients') ){ ?>
-						<div class="happyclients-wrap">
-							<div class="home-container-special">
-								<?php echo $this->getChildHtml('happyclients') ?>
-							</div>
-						</div>
+						<?php }?>	
+						-->
+									
+						<?php if( $this->getChildHtml('block-home-1') && $cms_page == 'home'){ ?>
+							<?php echo $this->getChildHtml('block-home-1') ?>
 						<?php }?>
-						<?php if( $this->getChildHtml('featured') ){ ?>
-							<?php echo $this->getChildHtml('featured') ?>
+						<?php if( $this->getChildHtml('block-home-2') && $cms_page == 'home'){ ?>
+							<?php echo $this->getChildHtml('block-home-2') ?>
 						<?php }?>
-						<!--<div class="container" style="magin-left:auto; margin-right:auto; width:90%;">
-							<?php if( $this->getChildHtml('homefeature') && $cms_page == 'home' ){ ?>
-							<?php echo $this->getChildHtml('homefeature') ?>
-							<?php } ?>
-						</div>-->
+
 					</div>					
-					<!--/div-->
+
 					<?php if( $this->getChildHtml('homebannerfull') || $this->getChildHtml('homebrand') ){ ?>
 					<div class="home-container-special">
 						<?php if( $this->getChildHtml('homebannerfull') ){ ?>

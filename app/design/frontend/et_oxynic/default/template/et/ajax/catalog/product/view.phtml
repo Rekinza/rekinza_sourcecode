@@ -13,18 +13,21 @@
  * @see Mage_Review_Block_Product_View
  */
 ?>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <?php $_helper = $this->helper('catalog/output'); ?>
 <?php $_product = $this->getProduct(); ?>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
 <script type="text/javascript">
     optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <div class="product-essential row">
-        <div class="product-img-box col-lg-5 col-md-5 col-sm-6 col-xs-12">
+        <div class="product-img-box col-lg-7 col-md-7 col-sm-7 col-xs-12">
             <?php echo $this->getChildHtml('media') ?>
         </div>
-		<form class="col-lg-7 col-md-7 col-sm-6 col-xs-12" action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+		<form class="col-lg-5 col-md-5 col-sm-5 col-xs-12" action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 			<?php echo $this->getBlockHtml('formkey') ?>
 			<div class="no-display">
 				<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
@@ -33,23 +36,27 @@
 
 			<div class="product-shop">
 				<div class="product-name">
-					<h1><?php echo $_product->getAttributeText("brands");?></h1>
-                                        
+					<div class="brand-and-name">
+						<div class="brand"><?php echo $_product->getAttributeText("brands");?></div>
+                    	<div class = "name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></div>
+                	</div>
+                	<div class="size-and-guide">
+						<div class = "size"><?php echo $_product->getAttributeText("size");?></div> 
+						<div class = "name"><?php echo $this->__('(Size Guide)');?></div>                                
+					</div>
 				</div>
-                            <span class="manufacture"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></span>
-                <p>&nbsp;</p>
-                <div class="product-name-size">
-					<h1><?php echo $this->__('Size: ') ?><?php echo $_product->getAttributeText("size");?></h1>                                     
-				</div>
+				
 
                 <?php echo $this->getReviewsSummaryHtml($_product, false, true); ?>
                 <?php echo $this->getChildHtml('alert_urls'); ?>
                 <?php echo $this->getChildHtml('product_type_data'); ?>
                 <?php echo $this->getTierPriceHtml(); ?>
                 <?php echo $this->getChildHtml('extrahint'); ?>
+				<!--
 				<?php 
 					echo $this->getChildHtml("seller_profile");		
 							?>
+				-->
                             
 				<?php /* <?php if ($_product->getShortDescription()): ?>
 					<div class="short-description">
@@ -80,25 +87,34 @@
 					</strong>
 				</a>
 				
+				<div class="dispatch">
+				<?php echo $this->__('Dispatched in 1 working day'); ?>
+				</div>
+
 				<?php if (!$this->hasOptions()):?>
 					<div class="add-to-box">
 						<?php if($_product->isSaleable()): ?>
 							<?php  echo $this->getChildHtml('addtocart') ?>
-							<?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-							<?php endif; ?>
+							<!--<?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+							<?php endif; ?>-->
 						<?php endif; ?>
-						<?php echo $this->getChildHtml('addto') ?>
+						<!--<?php echo $this->getChildHtml('addto') ?>-->
 						
 					</div>
 					<?php echo $this->getChildHtml('extra_buttons') ?>
 					<?php elseif (!$_product->isSaleable()): ?>
-					<div class="add-to-box">
+					<!--<div class="add-to-box">
 						<?php echo $this->getChildHtml('addto') ?>
-					</div>
+					</div>-->
 					
 				<?php endif; ?>
+				<div style="text-align:center;padding-bottom:10px;">
+				<img src="http://localhost:8080/rekinza/images/buyer-protection.png" style="width:60%; margin:auto;"/>
+				</div>
+				
+			
 
-				<!--1 Item Left Only on Unsold Items/Stuti-->
+				<!--1 Item Left Only on Unsold Items/Stuti
 				<?php if ($_product->isSaleable()) : ?>
 				<h2 class="only-1"><?php echo $this->__('Only 1 Piece Available!'); ?></h2>
 				<?php endif; ?>
@@ -107,7 +123,7 @@
 				<?php if ($_product->isSaleable() && $this->hasOptions()):?>
 				<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
 				<?php endif;?>
-				
+				-->
 				
 				
 			<div class="product-collateral">
@@ -128,7 +144,7 @@
                     $custom_tab_content = Mage::helper('cms')->getBlockTemplateProcessor()->filter($custom_tab_content);
                 }
             }
-		    ?>
+		    ?> 
 		    <?php
 				//add the size-chart to the product tab
 				$attribute = $_product->getResource()->getAttribute('size_chart');
@@ -140,68 +156,67 @@
 				$customtitle = $blockcustommodel->getTitle();
 				$customtab = $blockcustom->toHtml();
 			?>
-				
-				
-			<ul id="product_tab_nav" class="product-tab-nav">
-				<?php if ($_description = $this->getChildHtml('description')):?>
-				<li class="active"><a data-toggle="tab" href="#tab_decription"><?php echo $this->__('Description') ?></a></li>
-				<?php endif; ?>
 
-				<?php if($customtab): ?>
-				<li>
-					<a data-toggle="tab" href="#tab_size"><?php echo $this->__('Size Guide') ?></a></li>
-				<?php endif; ?>
-				
-				<?php if($quality = $this->getChildHtml('quality')): ?>
-				<li>
-					<a data-toggle="tab" href="#tab_reviewform"><?php echo $this->__('Quality And Authenticity') ?></a>
-				</li>
-				<?php endif; ?>
-				<?php if ($shipping = $this->getChildHtml('shipping')):?>
-				<li>
-					<a data-toggle="tab" href="#tab_additional"><?php echo $this->__('Shipping And Returns') ?></a>
-				</li>
-				<?php endif; ?>
-				
-				
-				
-			</ul>
-			<div class="tab-content">
-				<?php if ( $_description ):?>
-				<div id="tab_decription" class="tab-pane fade in active">
+			<?php if ($_description = $this->getChildHtml('description')):?>
+			<?php endif; ?>
+			<?php if($quality = $this->getChildHtml('quality')): ?>
+			<?php endif; ?>
+			
+			<div class="accordion" id="accordion2">
+			  <div class="accordion-group">	    	
+				    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+				    	<div class="accordion-heading">
+				        Product Details
+				        <span class="accordion-item-arrow"></span>
+				        </div>
+				        
+				    </a>
+			    <div id="collapseOne" class="accordion-body collapse">
+			      <div class="accordion-inner">
 					<?php echo $_description ?>
 				</div>
-				<?php endif;?>
+		      </div>
+		    </div>
+			  <div class="accordion-group">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+			        <div class="accordion-heading">
+				        Why Pre-Loved?
+				        <span class="accordion-item-arrow"></span>
+				        </div>
+				        
+			      	</div>
+			      </a>
+			    <div id="collapseTwo" class="accordion-body collapse">
+			      <div class="accordion-inner">
+			      	<?php echo $quality ?>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="accordion-group">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+			        <div class="accordion-heading">
+			        Size Guide
+			        <span class="accordion-item-arrow"></span>
+			    	</div>
+			      </a>
+			    <div id="collapseThree" class="accordion-body collapse">
+			      <div class="accordion-inner">
+			      	<?php echo $customtab ?>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			</div>
+			</div>
+		
+			
+		</div>
+			
+		<div class="clearer"></div>
+		<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+			<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+		<?php endif;?>
 
-				<?php if($customtab): ?>                        
-				<div id="tab_size" class="tab-pane fade">                         
-					<?php echo  $customtab; ?>                      
-				</div>                      
-				<?php endif; ?>
-				
-				<?php if( $quality ): ?>
-				<div id="tab_reviewform" class="tab-pane fade">
-					<?php echo $quality;?>
-				</div>
-				<?php endif;?>
-				
-				<?php if ( $shipping ) : ?>
-				<div id="tab_additional" class="tab-pane fade">
-					<?php echo $shipping; ?>
-				</div>
-				<?php endif;?>
-				
-			</div>
-			</div>
-
-			</div>
-			
-			
-			
-			<div class="clearer"></div>
-			<?php if ($_product->isSaleable() && $this->hasOptions()):?>
-				<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
-			<?php endif;?>
 			
 		</form>
 		
@@ -267,12 +282,13 @@
 			}.bind(productAddToCartForm);
 		//]]>
 		</script>
+		</div>
 		
-    </div>
+
     <div>
 		<?php
-		$show_related_products = Mage::helper('oxynic')->getConfig('show_related_products', true);
-		$show_upsell_products = Mage::helper('oxynic')->getConfig('show_upsell_products', true);
+		$show_related_products = Mage::helper('oxynic')->getConfig('show_related_products', false);
+		$show_upsell_products = Mage::helper('oxynic')->getConfig('show_upsell_products', false);
 		if ($show_related_products){
             echo $this->getChildHtml('related_products');
         }
@@ -282,3 +298,4 @@
 		?>
     </div>
 </div>
+

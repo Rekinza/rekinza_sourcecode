@@ -33,9 +33,12 @@
 <?php 
 $_product=$this->getProduct();
 ?>
-    <h2><?php echo $this->__('Details') ?></h2>
+    <!--<h2><?php echo $this->__('Details') ?></h2>-->
     <div class="std">
         <?php /* echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') */ ?>
+        <h2>Condition : </h2>
+        <?php echo $_product->getShortDescription();?>
+        <p>&nbsp;</p>
         <div class="">
             <ul class="sizing">
 				<?php if ($size=$_product->getAttributeText('size')):?>
@@ -75,5 +78,4 @@ $_product=$this->getProduct();
             </ul>
         </div>
     </div>
-    <h2>Condition</h2>
-<?php echo $_product->getShortDescription();?>
+    

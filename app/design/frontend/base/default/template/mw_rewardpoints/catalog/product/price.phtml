@@ -83,11 +83,11 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
     <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_convertedFinalPrice, true) ?>
     <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
     <!-- New Catalog Page-->
-    <p class="old-price">
-                <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+    <div class="old-price col-lg-4 col-md-4 col-s-4">
+                <span id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
                 </span>
-    </p>
+    </div>
     <!-- Done-->
     <?php if ($_finalPrice >= $_price): ?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
@@ -237,12 +237,12 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
         <?php $_originalWeeeTaxAmount = $_store->roundPrice($_store->convertPrice($_originalWeeeTaxAmount)) ?>
 
         <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
-            <p class="old-price">
+            <div class="old-price">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_regularPrice + $_originalWeeeTaxAmount, false) ?>
                 </span>
-            </p>
+            </div>
 
             <?php if ($_taxHelper->displayBothPrices()): ?>
                 <p class="special-price a8">
@@ -271,12 +271,12 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
             <?php endif; ?>
 
         <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // incl. + weee ?>
-            <p class="old-price">
+            <div class="old-price">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_regularPrice + $_originalWeeeTaxAmount, false) ?>
                 </span>
-            </p>
+            </div>
 
             <p class="special-price a2">
             <?php if ($_taxHelper->displayBothPrices()): ?>
@@ -319,12 +319,12 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
             <?php endif; ?>
             </p>
         <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 4)): // incl. + weee ?>
-            <p class="old-price">
+            <div class="old-price">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_regularPrice + $_originalWeeeTaxAmount, false) ?>
                 </span>
-            </p>
+            </div>
 
             <p class="special-price a4">
                 <span class="price-label"><?php echo $_specialPriceStoreLabel ?></span>
@@ -349,7 +349,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
             </span>
             </p>
         <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 2)): // excl. + weee + final ?>
-            <p class="old-price">
+            <p class="old-price col-lg-4 col-md-4 col-sm-4 col-xs-6">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
@@ -377,11 +377,10 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     </span>
                 </span>
             </p>
-        <?php else: // excl. ?>
-              
-                <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
+        <?php else: // excl. ?>          
+                <div class="new-price col-lg-4 col-md-4 col-sm-4" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->formatPrice($_finalPrice, false) ?>
-                </span>
+                </div>
               
            
 
@@ -410,10 +409,15 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     <?php echo $_coreHelper->formatPrice($_regularPrice, false) ?>
                 </span>
             </p> New Catalog Page -->
-                <p class="peroff a7">
+                <div class="peroff a7 col-lg-4 col-md-4 col-sm-4">
+                    <!--Buy it for New Catalog Layout 
+                    <b><?php echo (int)(($_regularPrice-$_finalPrice)*100/$_regularPrice);?>% Off</b> -->
+                    Save <?php echo $_coreHelper->formatPrice((int)($_regularPrice-$_finalPrice));?>
+                </div>
+                <div class="peroff-catalog a7 col-lg-4 col-md-4 col-sm-4">
                     <!--Buy it for New Catalog Layout -->
-                    <b><?php echo (int)(($_regularPrice-$_finalPrice)*100/$_regularPrice);?>% Off</b>
-                </p>
+                    <?php echo (int)(($_regularPrice-$_finalPrice)*100/$_regularPrice);?>% Off
+                </div>
             <?php endif; ?>
         <?php endif; ?>
 

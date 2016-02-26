@@ -6,7 +6,7 @@ class Thredshare_Vendor_Model_Observer{
         $startdate = date('Y-m-d H:i:s', strtotime("-0 days"));
         //$enddate = date('Y-m-d', strtotime("-10 days"));
 
-        $enddate = date('Y-m-d H:i:s', strtotime("-1 week"));
+        $enddate = date('Y-m-d H:i:s', strtotime("-20 days"));
         $coll= Mage::getModel('sales/order')->getCollection()
         									->addAttributeToFilter('created_at', array('from'=>$enddate, 'to'=>$startdate));
         
@@ -292,7 +292,9 @@ public function cronpickrr($value)
 
 			    	$content = json_decode($contentold, true);
 
-			    	$delivery_status_date = $content['delivery_status_date'];
+			    	$final_status = $content['final_status'];
+			    	$final_status_date = $content['final_status_date'];
+			    	//$delivery_status_date = $content['delivery_status_date'];
 			    	$transit_status_date = $content['transit_status_date'];
 			    	$warehouse_status_date = $content['warehouse_status_date'];
 			    	$pickup_status_date = $content['pickup_status_date'];
@@ -305,12 +307,14 @@ public function cronpickrr($value)
 			    	mage::log($pickup_status_date);
 			    	mage::log("all printed");
 
-			    	if( !is_null($delivery_status_date)){
-
-			    		return ($delivery_status_date."  Delivered");
-			    	}
-
-			    		
+			    	if( !is_null($final_status)){
+			    		if($final_status == "delivered"){
+						return ($final_status_date."  Delivered");
+						}
+						if($final_status == "rto"){
+						return ($final_status_date."  Returned");
+						}
+			    	}			    		
 			    	elseif( !is_null($transit_status_date)){
 			    		return ($transit_status_date."  In-Transit");
 			    	}	
@@ -322,10 +326,7 @@ public function cronpickrr($value)
 			    	}
 			    	elseif (!is_null($order_status_date)) {
 			    			return ($order_status_date."  Manifested");
-			    	}			    	
-			    	elseif (!is_null($cancelled)) {
-			    			return ($cancelled."  Returned");
-			    	}
+			    	}	
 
 }
 

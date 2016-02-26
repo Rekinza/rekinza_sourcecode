@@ -28,9 +28,9 @@ class Openwriter_Cartmart_Model_Product_Attribute_Source_Vendor extends Mage_Eav
 
         $current_user = Mage::getSingleton('admin/session')->getUser();
 
-        if ($current_user->getRole()->getRoleId() == $role->getRoleId())
+        /*if ($current_user->getRole()->getRoleId() == $role->getRoleId())
             $options[] = array('value' => $current_user->getId(), 'label' => $current_user->getEmail());
-        else {
+        else {*/
             $options = array(array('value' => '', 'label' => ''));
 
             $userIds = Mage::getResourceModel('admin/roles')->getRoleUsers($role);
@@ -42,7 +42,7 @@ class Openwriter_Cartmart_Model_Product_Attribute_Source_Vendor extends Mage_Eav
 
             foreach ($collection as $user)
                 $options[] = array('value' => $user->getId(), 'label' => $user->getEmail());
-        }
+        //}
         return $options;
     }
 	/**

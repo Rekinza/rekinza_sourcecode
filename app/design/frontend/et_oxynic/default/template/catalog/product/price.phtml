@@ -411,8 +411,9 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 </span>
             </p> New Catalog Page -->
                 <p class="peroff a7">
-                    <!--Buy it for New Catalog Layout -->
-                    <b><?php echo (int)(($_regularPrice-$_finalPrice)*100/$_regularPrice);?>% Off</b>
+                    <!--Buy it for New Catalog Layout 
+                    (<?php echo (int)(($_regularPrice-$_finalPrice)*100/$_regularPrice);?>% Off) -->
+                    Save Rs.<?php echo (int)($_finalPrice-$_regularPrice);?>
                 </p>
             <?php endif; ?>
         <?php endif; ?>
