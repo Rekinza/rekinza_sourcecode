@@ -106,8 +106,16 @@ class MW_RewardPoints_CheckoutController extends Mage_Core_Controller_Front_Acti
     	}
     	$this->_getSession()->getQuote()->collectTotals()->save();
     	
-    	$this->loadLayout();
-		$this->renderLayout();
+		//Mage::getSingleton('checkout/session')->getQuote()->collectTotals()->save();
+        $result=$this->_getReviewHtml();
+        //$result["mwpoint"] = Mage::getSingleton('checkout/session')->getQuote()->getMwRewardpoint();
+        //$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+		Mage::log($result);
+		echo $result;
+		//Mage::log($result["html"]);
+		//Mage::log($result["mwpoint"]);
+    	//$this->loadLayout();
+		//$this->renderLayout();
 		
     }
     

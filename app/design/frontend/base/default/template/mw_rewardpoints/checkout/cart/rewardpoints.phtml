@@ -4,6 +4,7 @@
 	  $earn_rewardpoint = (int)$quote->getEarnRewardpoint();
 	  $reward_icon = Mage::helper('rewardpoints/data')->getRewardIconHtml($store_id);
 $check = version_compare(Mage::getVersion(),'1.4.0.1','>=');?>
+<?php if (0): //No need to display kinzacash module on cart page?> 
 <div id="rewardpoints_box">
 <form id="rewardpoints-form" action="<?php echo $this->getUrl('rewardpoints/checkout/rewardPointsPost') ?>" onsubmit="return false;" method="post">
     <div class="discount discount-codes box" style="width:100%;margin-top: 18px;">
@@ -24,7 +25,7 @@ $check = version_compare(Mage::getVersion(),'1.4.0.1','>=');?>
 		    
         	<?php $rate = $this->getPointPerMoney($store_id);?>
         	<div style="width:100%; padding-top: 5px;">
-        	<?php if($this->_getCustomer()->getId()):?>
+        	<?php if($this->_getCustomer()->getId() && $spend_point >0):?>
 	        	<div style="float:left;width:258px; border-top: 1px dashed;">
 	        		<div style="margin-top:5px;"><?php echo $this->__("You have <b>%s</b> available <br>(<b>%s</b> = <b>%s</b>)",Mage::helper('rewardpoints')->formatPoints($this->getCurrentRewardPoints(),$store_id),Mage::helper('rewardpoints')->formatPoints($rate[0],$store_id), $this->formatMoney($rate[1]))?></div>
 	        		<div id="mw_reward_slider_contaner" class="mw_reward_slider_contaner" style="width:215px;">
@@ -37,7 +38,7 @@ $check = version_compare(Mage::getVersion(),'1.4.0.1','>=');?>
 
 				</div>
 		         <?php else:?>
-		         <div style="text-align: center; margin-top:10px; border-top: 1px dashed;padding-top: 10px;"><?php echo $this->__("Please <a href='%s'>LOGIN</a> to use KinzaCash", Mage::getUrl('customer/account/login',array('mw_re_login' => 1)))?></div>
+		         
 	            <?php endif;?>
             </div>
             <div style="clear:both;"></div>
@@ -45,6 +46,7 @@ $check = version_compare(Mage::getVersion(),'1.4.0.1','>=');?>
 	</div>
 </form>
 </div>
+<?php endif;?>
 <?php 
 $point = $quote->getMwRewardpoint();
 $step = Mage::helper('rewardpoints/data')->getPointStepConfig($store_id);

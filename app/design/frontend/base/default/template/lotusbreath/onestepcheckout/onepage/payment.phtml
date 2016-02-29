@@ -8,7 +8,8 @@
 </script>
 	<div id="payment-error" class="error"></div>
     <fieldset>
-        <?php echo $this->getChildHtml('methods') ?>
+                <?php echo Mage::helper('core/mwrewardpoints')->formRewardOnepageCheckoutRewardPoints(); ?>
+		<?php echo $this->getChildHtml('methods'); ?>
     </fieldset>
 
 <div class="tool-tip" id="payment-tool-tip" style="display:none;">
