@@ -36,7 +36,7 @@ $_uniq_mv = false;
 
 if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
 
-<div class="more-views col-lg-2 col-md-2 col-sm-2">
+<!--div class="more-views col-lg-2 col-md-2 col-sm-2">
     <ul class="more-views-slider" id="<?php echo $_uniq_mv; ?>">
     <?php
         $i = 0;
@@ -51,9 +51,27 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
         </li>
     <?php endforeach; ?>
     </ul>
+</div-->
+<div class= "product-image product-image-zoom col-lg-10 col-md-10 col-sm-10 col-xs-12 swiper-container">
+	<div class="product-photo-box swiper-wrapper">
+		<?php
+        $i = 0;
+        foreach ($this->getGalleryImages() as $_image) :
+            $i++; ?>
+            <a  class="cloud-zoom-gallery <?php if ($i==1) echo "actived"; ?>"
+                onclick="$$('.cloud-zoom-gallery').each(function(e,i){e.removeClassName('actived');});this.addClassName('actived')"
+                rel="useZoom: 'cloud_zoom', smallImage: '<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())/*->resize(360, 360)->setQuality(100)*/; ?>'" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()); ?>">
+                <!--img src="" width="75" height="75" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" /-->
+			</a>
+			<div class="swiper-slide product-image" style ="text-align:center;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'base image', $_image->getFile()); ?>" width="360" height="auto" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" /></div>
+		<?php endforeach; ?>
+    </div>
+    <div class="swiper-pagination"></div>
+	<div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
 </div>
 
-<div class="product-image product-image-zoom col-lg-10 col-md-10 col-sm-10 col-xs-12">
+<!--div class="product-image product-image-zoom col-lg-10 col-md-10 col-sm-10 col-xs-12">
     <div class="product-photo-box">
     <a id="cloud_zoom" class="cloud-zoom" rel="zoomWidth:200, zoomHeight:200, adjustX: 20, adjustY: -3" title="<?php echo $this->htmlEscape($this->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(1600,1600)->setQuality(100); ?>">
     <?php
@@ -73,7 +91,7 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
         $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')/*->resize(360, 360)->setQuality(95)*/.'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" style="width:260px;"/>';
         echo $_helper->productAttribute($_product, $_img, 'image');
     ?>
-</div>
+</div-->
 <?php endif; ?>
 
 <?php if (count($this->getGalleryImages()) > 0) : $_uniq_mv = 'small_thumbnails_' . uniqid(); ?>
@@ -96,6 +114,8 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
 </div>
 -->
 <?php endif; ?>
+
+
 
 
 <script type="text/javascript">
@@ -181,4 +201,14 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
     		jQuery(window).on('load', init);
         }
     });
+</script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+		loop:true,
+		nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+		spaceBetween: 30
+    });    
 </script>

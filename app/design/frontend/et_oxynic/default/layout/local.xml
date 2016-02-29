@@ -112,4 +112,14 @@
 			<block type="core/template" template="thredshare/pickup/pickup.phtml"/>
 		</reference>
 	</thredshare_pickup_pickup_getpickup>
+	<catalog_product_view>
+         <reference name="head">
+				<action method="addJs">
+					<script>swiper/swiper.min.js</script>
+				</action>
+				<action method="addCss">
+					<stylesheet>css/swiper.min.css</stylesheet>
+				</action>
+			</reference>
+	</catalog_product_view>
 </layout>
