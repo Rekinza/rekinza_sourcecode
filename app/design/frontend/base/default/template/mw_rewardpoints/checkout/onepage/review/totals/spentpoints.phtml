@@ -7,9 +7,9 @@
 	  ?>
 
 
-<?php if($total_reward_point  && $reward_point_sell_product):?>
+<?php if($total_reward_point):?>
 	<tr>
-	    <td colspan="3" class="a-right" colspan="1"><b><?php echo Mage::helper("rewardpoints")->__("Total Points");?></b></td>
-	    <td class="a-right"><span class="price"><?php echo Mage::helper('rewardpoints')->formatPoints($total_reward_point,$store_id)?></span></td>
+	    <td colspan="3" class="a-right" colspan="1"><?php echo Mage::helper("rewardpoints")->__("KinzaCash Redeemed");?></td>
+	    <td class="a-right"><span class="price"><?php echo $total_reward_point?></span></td>
 	</tr> 
 <?php endif;?>

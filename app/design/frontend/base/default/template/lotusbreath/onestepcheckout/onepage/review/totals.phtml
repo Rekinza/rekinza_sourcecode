@@ -16,7 +16,9 @@ if ($isNewsletter){
 <tfoot>
 
     <?php $_colspan = $this->helper('tax')->displayCartBothPrices() ? 5 : 3; ?>
+	<?php echo Mage::helper('core/mwrewardpoints')->earnPointsOnepageReviewRewardPoints(); ?>
     <?php echo $this->renderTotals(null, $_colspan); ?>
+	<?php echo Mage::helper('core/mwrewardpoints')->totalPointsRedeemOnepageReviewRewardPoints(); ?>
     <!--<tr>
         <td class="a-right" colspan="4" style="height: 10px;"></td>
     </tr>
@@ -85,15 +87,17 @@ if ($isNewsletter){
             <?php endif;?>
             <?php echo $this->getChildHtml('agreements') ?>
             <div id="saveOder-error" class="error"></div>
-            <button role='review-save' type="submit"
-                    title="<?php echo Mage::helper('checkout')->__('Place Order') ?>" name="submitbtn"
-                    id="lbonepage-place-order-btn" class="button btn-checkout finalorder">
-                <span><span><?php echo Mage::helper('checkout')->__('Place Order') ?></span></span>
-            </button>
+
         </td>
     </tr>
 </tfoot>
 <?php endif; ?>
+<div id="checkout-totals-please-wait" style="display: none; ">
+	<div style="text-align:center;margin-top:30px;">
+	    <!--img src="<?php //echo $this->getSkinUrl('mw_rewardpoints/images/loading.gif')?>" class="v-middle" alt="loading"--> 
+	    <?php echo Mage::helper('rewardpoints')->__("Updating order details information...")?>
+	</div>
+</div>
 <!--script for analytic.js event trigger for final order placed -->
 <script type="text/javascript">
 
