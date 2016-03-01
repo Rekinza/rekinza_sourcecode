@@ -9,6 +9,7 @@ $pickup_id = $_GET['pickup_id'];
 $email_type = $_GET['email_type'];
 $mobile = $_GET['mobile'];
 $powerpacket = $_GET['powerpacket'];
+$return_tracking_id = $_GET['return_tracking_id'];
 
 if ($email_type == "pickedup")
 {
@@ -153,6 +154,29 @@ else if($email_type=="cancelled")
 	echo $body;
 }	
 
+else if($email_type=="return_initiated")
+{
+	if($customer_name == NULL || $waybill_number == NULL)
+	{
+		echo "customer name or waybill number missing";
+	}
+	$subject = $customer_name.", Update on your item(s) to be returned";
+	$html = file_get_contents('http://www.rekinza.com/emails/pickup/unaccepted-returns-initiated.html');
+	$html = str_replace("{customer_name}", $customer_name, $html);
+	$body = $html;
+	echo $body;
+}	
+else if($email_type=="return_dispatched")
+{
+	$subject = $customer_name.", your item(s) to be returned are on your way";
+	$tracking_link = "http://www.pyck.in/customer_tracking/?tracking_id=".$return_tracking_id;
+	$html = file_get_contents('http://www.rekinza.com/emails/pickup/unaccepted-returns-dispatched.html');
+	$html = str_replace("{customer_name}", $customer_name, $html);
+	$html = str_replace("{tracking_link}", $tracking_link, $html);
+	$html = str_replace("{tracking_id}", $return_tracking_id, $html);
+	$body = $html;
+	echo $body;
+}
 
 
 	

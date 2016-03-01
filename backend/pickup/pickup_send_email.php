@@ -47,8 +47,10 @@ require_once('../PHPMailer/class.smtp.php');
 			if($mail->Send() == true)
 				{
 					echo 'Message has been sent.';
-					$status = getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer_email_id,$powerpacket);
-					$query = "UPDATE thredshare_pickup SET status = '$status' WHERE id = '$pickup_id' ";
+					$status_update = getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer_email_id,$powerpacket);
+					$status_field = $status_update['status_field'];
+					$status_field_value = $status_update['status_field_value'];
+					$query = "UPDATE thredshare_pickup SET $status_field = '$status_field_value' WHERE id = '$pickup_id' ";
 	
 					$result = mysql_query($query);
 					
@@ -79,7 +81,9 @@ function getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer
 {
 	if ($email_type =='pickedup')
 	{
-		return 'picked-up';
+		$status['status_field'] = 'status';
+		$status['status_field_value'] = 'picked-up';
+		return $status;
 	}
 	else if ($email_type =='received')
 	{
@@ -140,11 +144,16 @@ function getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer
 			echo $output;
 
 			//ENDING SMS TYPE THING.
-		return 'received';
+			
+			$status['status_field'] = 'status';
+			$status['status_field_value'] = 'received';
+			return $status;
 	}
 	else if ($email_type =='processed')
 	{
-		return 'processed';
+			$status['status_field'] = 'status';
+			$status['status_field_value'] = 'processed';
+			return $status;
 	}
 		else if ($email_type =='live')
 	{
@@ -250,7 +259,9 @@ function getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer
 			    $vendorRewardPoint->saveTransactionHistory($historyData);
 			}
 
-		return 'live';
+			$status['status_field'] = 'status';
+			$status['status_field_value'] = 'live';
+			return $status;
 	}
 
 	else if ($email_type == 'cancelled')
@@ -313,8 +324,22 @@ function getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer
 
 			//ENDING SMS TYPE THING.
 
-		return 'cancelled';
+			$status['status_field'] = 'status';
+			$status['status_field_value'] = 'cancelled';
+			return $status;
 	}	
+	else if($email_type == 'return_initiated')
+	{
+		$status['status_field'] = 'unaccepted_item_status';
+		$status['status_field_value'] = 'return initiated';
+		return $status;
+	}
+	else if($email_type == 'return_dispatched')
+	{
+		$status['status_field'] = 'unaccepted_item_status';
+		$status['status_field_value'] = 'return dispatched';
+		return $status;
+	}
 	
 }
 

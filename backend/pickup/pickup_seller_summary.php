@@ -17,6 +17,11 @@ if(isset($_POST['pickup_id']))
 	$customer_email_id = $_POST['customer_email_id'];
 	$unaccepted_item_status = $_POST['unaccepted_item_status'];
 	$unaccepted_action = $_POST['unaccepted_action'];
+	/* Return Details */
+	$return_payment_status =$_POST['return_payment_status'];;
+	$return_tracking_id =$_POST['return_tracking_id'];;
+	$return_logistics_partner =$_POST['return_logistics_partner'];;
+	$return_dispatch_date = $_POST['return_dispatch_date'];
 	
 	include 'db_config.php';
 	
@@ -26,7 +31,7 @@ if(isset($_POST['pickup_id']))
 			$status = 'scheduled';
 	}
 	
-	$query = "UPDATE thredshare_pickup SET first_name='$first_name',last_name='$last_name',unaccepted_action='$unaccepted_action', unaccepted_item_status='$unaccepted_item_status',status = '$status', email = '$customer_email_id', pick_up_date = '$pick_up_date', pickup_cost = '$pickup_cost', logistics_partner = '$logistics_partner', waybill_number = '$waybill_number', item_count = '$item_count' WHERE id = '$pickup_id' ";
+	$query = "UPDATE thredshare_pickup SET first_name='$first_name',last_name='$last_name',unaccepted_action='$unaccepted_action', unaccepted_item_status='$unaccepted_item_status',status = '$status', email = '$customer_email_id', pick_up_date = '$pick_up_date', pickup_cost = '$pickup_cost', logistics_partner = '$logistics_partner', waybill_number = '$waybill_number', item_count = '$item_count', return_payment_status ='$return_payment_status', return_tracking_id ='$return_tracking_id', return_logistics_partner = '$return_logistics_partner', return_dispatch_date = '$return_dispatch_date' WHERE id = '$pickup_id' ";
 	
 	$result = mysql_query($query);
 	
@@ -135,6 +140,10 @@ if ( $numresult > 0 )
 			<th>Items</th>
 			<th>Item Count</th>
 			<th>Approx Value</th>
+			<th>Return Payment Status</th>
+			<th>Return Logisitics Partner</th>
+			<th>Return Dispatch Date</th>
+			<th>Return Tracking ID</th>
 			<th> Unaccepted Item Status</th>
 			<th>Unaccepted Action</th>
 			<th>No. Of Item</th>
@@ -167,6 +176,10 @@ if ( $numresult > 0 )
 			$item_count =mysql_result($result,$i,'item_count');
 			$items =mysql_result($result,$i,'items');
 			$amount =mysql_result($result,$i,'amount');
+			$return_payment_status =mysql_result($result,$i,'return_payment_status');
+			$return_tracking_id =mysql_result($result,$i,'return_tracking_id');
+			$return_logistics_partner =mysql_result($result,$i,'return_logistics_partner');
+			$return_dispatch_date =mysql_result($result,$i,'return_dispatch_date');
 			$unaccepted_action =mysql_result($result,$i,'unaccepted_action');
 			$unaccepted_item_status = mysql_result($result,$i,'unaccepted_item_status');
 
@@ -194,6 +207,8 @@ if ( $numresult > 0 )
 				$totalitems = $totalitems + $quantity;
 			}
 
+			if($totalitems > 0)
+			{
 			$acceptance_ratio = $countacceptance/$totalitems;
 
 			if ($acceptance_ratio >= 0.75  && $totalitems > 3)
@@ -204,7 +219,11 @@ if ( $numresult > 0 )
 			{
 				$powerpacket = 0;
 			}
-			
+			}
+			else
+			{
+					$powerpacket = 0;
+			}
 
 		
 		?>
@@ -299,10 +318,56 @@ if ( $numresult > 0 )
 			<?php
 
 					//status for rejected items. Not retrieved from any table.
-					$row = array('warehouse','returned','donated','partial','no unaccepted items');
+					$row = array('COD','Prepaid requested','Prepaid paid');
+					$option = '<option value="" disabled="disabled" selected="selected">Payment Status</option>';
+					for($j = 0; $j < 3; $j++)
+					{
+						 if($row[$j] != $return_payment_status)	
+						 	$option .= '<option value = "'.$row[$j].'">'.$row[$j].'</option>';
+						 else
+								$option .= '<option value = "'.$row[$j].'" selected = "selected">'.$row[$j].'</option>';
+					}
+				?>
+				<select name ="return_payment_status">
+					<?php echo $option ?>
+				</select>
+				<td>
+				<?php
+						$get = mysql_query("SELECT partner_name FROM logistics_partner where 1");
+						//$option = '<option value="" disabled="disabled" selected="selected">Select Partner</option>';
+						$option = '';
+						$partner_found_flag = 0 ; //flag to check if assigned logistics partner for a pick up is found
+						while($row = mysql_fetch_assoc($get))
+						{
+							if($row['partner_name'] == $return_logistics_partner)	
+							{		
+									$option .= '<option value = "'.$row['partner_name'].'" selected = "selected">'.$row['partner_name'].'</option>';
+									$partner_found_flag = 1;
+							}
+							else if (($row['partner_name'] == 'NuvoEx') && ($partner_found_flag == 0))
+							{
+									$option .= '<option value = "'.$row['partner_name'].'" selected = "selected">'.$row['partner_name'].'</option>';
+							}
+							else
+							{	
+									$option .= '<option value = "'.$row['partner_name'].'">'.$row['partner_name'].'</option>';
+							}	
+						}
+				?>
+					<select name ="return_logistics_partner">
+						<?php echo $option ?>
+					</select>
+				</td>
+				<td><input type = "date" name = "return_dispatch_date" value = <?php echo $return_dispatch_date; ?> ></td>
+			</td>
+			<td ><input type = "text" value = '<?php echo $return_tracking_id; ?>' name = "return_tracking_id"> </td>	
+			<td>
+			<?php
+					//status for rejected items. Not retrieved from any table.
+					$row = array('warehouse','returned','donated','partial','no unaccepted items','return initiated','return dispatched');
 					
 					$option = '<option value="" disabled="disabled" selected="selected">Unaccepted Status</option>';
-					for($j = 0; $j < 5; $j++)
+					for($j = 0; $j < 7; $j++)
 					{
 						 if($row[$j] != $unaccepted_item_status)	
 						 	$option .= '<option value = "'.$row[$j].'">'.$row[$j].'</option>';
@@ -331,7 +396,9 @@ if ( $numresult > 0 )
 				<a href = '<?php echo "pickup_prepare_email.php?email_type=received&waybill_number=".$waybill_number."&email_id=".$customer_email_id."&name=".$first_name."&pickup_id=".$pickup_id."&mobile=".$mobile?>'>Received Email</a>
 				<a href = '<?php echo "pickup_prepare_email.php?email_type=processed&waybill_number=".$waybill_number."&email_id=".$customer_email_id."&pickup_id=".$pickup_id."&name=".$first_name."&mobile=".$mobile."&powerpacket=".$powerpacket?>'>Processed Email</a>
 				<a href = '<?php echo "pickup_prepare_email.php?email_type=live&email_id=".$customer_email_id."&pickup_id=".$pickup_id."&name=".$first_name."&mobile=".$mobile."&powerpacket=".$powerpacket?>'>Items Live Email</a>
-				<a href = '<?php echo "pickup_prepare_email.php?email_type=cancelled"."&email_id=".$customer_email_id."&pickup_id=".$pickup_id."&name=".$first_name."&mobile=".$mobile?>'>Cancelled Email</a>
+				<a href = '<?php echo "pickup_prepare_email.php?email_type=cancelled&email_id=".$customer_email_id."&pickup_id=".$pickup_id."&name=".$first_name."&mobile=".$mobile?>'>Cancelled Email</a>
+				<a href = '<?php echo "pickup_prepare_email.php?email_type=return_initiated&email_id=".$customer_email_id."&pickup_id=".$pickup_id."&name=".$first_name?>'>Return Initiated Email</a>
+				<a href = '<?php echo "pickup_prepare_email.php?email_type=return_dispatched&return_tracking_id=".$return_tracking_id."&email_id=".$customer_email_id."&pickup_id=".$pickup_id."&name=".$first_name?>'>Return Dispatched Email</a>
 			</td>
 			<td>
 				<a target="_blank" href = '<?php echo "pickup_create_accounts.php?email_id=".$customer_email_id."&first_name=".$first_name."&last_name=".$last_name."&mobile=".$mobile.'&pickup_id='.$pickup_id?>'>Create buyer and seller accounts</a>
