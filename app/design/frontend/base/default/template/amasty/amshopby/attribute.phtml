@@ -9,13 +9,14 @@
 /**
  * @var $this Amasty_Shopby_Block_Catalog_Layer_Filter_Attribute
  */
-?><ol class="
+?>
+<ol class="
 <?php if ($this->getCollapsed() && !$this->getHasSelection()): ?>no-display-current<?php endif ?>
 <?php
-	if ($this->getSortFeaturedFirst() && in_array($this->getDisplayType(), array(Amasty_Shopby_Model_Source_Attribute::DT_LABELS_ONLY, Amasty_Shopby_Model_Source_Attribute::DT_IMAGES_AND_LABELS))):
-	?>sort-featured-first-<?php echo $this->getRequestValue(); endif ?>
+    if ($this->getSortFeaturedFirst() && in_array($this->getDisplayType(), array(Amasty_Shopby_Model_Source_Attribute::DT_LABELS_ONLY, Amasty_Shopby_Model_Source_Attribute::DT_IMAGES_AND_LABELS))):
+    ?>sort-featured-first-<?php echo $this->getRequestValue(); endif ?>
 ">
-	<?php if ($this->getSortFeaturedFirst()): ?><input type="hidden" id="field_sort_featured_<?php echo $this->getRequestValue();?>" value="default_sort"><?php endif ?>
+    <?php if ($this->getSortFeaturedFirst()): ?><input type="hidden" id="field_sort_featured_<?php echo $this->getRequestValue();?>" value="default_sort"><?php endif ?>
 <?php
 switch ($this->getDisplayType()){
     case Amasty_Shopby_Model_Source_Attribute::DT_LABELS_ONLY:
@@ -24,13 +25,16 @@ switch ($this->getDisplayType()){
         }
         foreach ($this->getItemsAsArray() as $item){
             echo
-				'<li '.
-				(isset($item['style']) ? $item['style'] : '') .
-				(isset($item['default_sort']) ? ' data-default_sort="' . $item['default_sort'] . '"': '') .
-				(isset($item['featured_sort']) ? ' data-featured_sort="' . $item['featured_sort'] . '"': '') .
-				'data-text="' . htmlspecialchars($item['label']) . '"> ' .
-				'<a class="'.$item['css'].'"' . $item['rel'] . ' href="'.$item['url'].'">'. $item['label'] . $item['count'] . '</a>' .
-				'</li>';
+                '<li '.
+                (isset($item['style']) ? $item['style'] : '') .
+                (isset($item['default_sort']) ? ' data-default_sort="' . $item['default_sort'] . '"': '') .
+                (isset($item['featured_sort']) ? ' data-featured_sort="' . $item['featured_sort'] . '"': '') .
+                'data-text="' . htmlspecialchars($item['label']) . '"> ' .'<input type="checkbox" name="'.$item['url'].'"value="'.$item['id'].'" class="'.$item['css'].' nik "' . $item['rel'] . '">'. $item['label'] . $item['count'] . '</input>' .
+                //'<a class="'.$item['css'].'"' . $item['rel'] . ' href="'.$item['url'].'">'. $item['label'] . $item['count'] . '</a>' .
+                '</li>';
+                // mage::log($item);
+                // mage::log("now individually");
+                // mage::log($item['css']." css ended ".$item['rel']."href: ".$item['url']);
         }
     break;
     
@@ -56,9 +60,9 @@ switch ($this->getDisplayType()){
         }
         foreach ($this->getItemsAsArray() as $item){
             echo '<li '.$item['style'].
-				(isset($item['default_sort']) ? ' data-default_sort="' . $item['default_sort'] . '"': '') .
-				(isset($item['featured_sort']) ? ' data-featured_sort="' . $item['featured_sort'] . '"': '') .
-				' data-text="' . htmlspecialchars($item['label']) . '"><a class="'.$item['css'].'" '.$item['rel'].' href="'.$item['url'].'">';
+                (isset($item['default_sort']) ? ' data-default_sort="' . $item['default_sort'] . '"': '') .
+                (isset($item['featured_sort']) ? ' data-featured_sort="' . $item['featured_sort'] . '"': '') .
+                ' data-text="' . htmlspecialchars($item['label']) . '"><a class="'.$item['css'].'" '.$item['rel'].' href="'.$item['url'].'">';
             
             if (isset($item['image_hover']) && $item['image_hover'] != '') {
                 echo '<img src="' . $item['image_hover'] . '" style="display: none;" />';
@@ -93,13 +97,15 @@ switch ($this->getDisplayType()){
         echo '<div class="amshopby-column">';
         for ($i=0; $i<$half; $i++){
             $item = $items[$i];
-            echo '<a class="'.$item['css'].'" '.$item['rel'].' href="'.$item['url'].'" data-text="' . htmlspecialchars($item['label']) . '">'. $item['label'] . $item['count'] . '</a>' . '<br/>';
+            echo '<input type="checkbox" name="'.$item['url'].'"value="'.$item['id'].'" class="'.$item['css'].' nik "' . $item['rel'] . '">'. $item['label'] . $item['count'] . '</input>' ;
+            //echo '<a class="'.$item['css'].'" '.$item['rel'].' href="'.$item['url'].'" data-text="' . htmlspecialchars($item['label']) . '">'. $item['label'] . $item['count'] . '</a>' . '<br/>';
         }
         echo '</div>';
         echo '<div class="amshopby-column">';
         for ($i=$half; $i<$size; $i++){
             $item = $items[$i];
-            echo '<a class="'.$item['css'].'" '.$item['rel'].' href="'.$item['url'].'" data-text="' . htmlspecialchars($item['label']) . '">'. $item['label'] . $item['count'] . '</a>' . '<br/>';
+
+            echo '<input type="checkbox" name="'.$item['url'].'"value="'.$item['id'].'" class="'.$item['css'].' nik "' . $item['rel'] . '">'. $item['label'] . $item['count'] . '</input>' ;//'<a class="'.$item['css'].'" '.$item['rel'].' href="'.$item['url'].'" data-text="' . htmlspecialchars($item['label']) . '">'. $item['label'] . $item['count'] . '</a>' . '<br/>'; 
         }
         echo '</div>';
         echo '</li>';

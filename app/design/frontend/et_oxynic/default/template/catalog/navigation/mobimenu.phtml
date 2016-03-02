@@ -47,13 +47,11 @@
 <ul class="dl-menu">
 <li> <a href="http://localhost:8080/rekinza/">Home</a></li>
 <?php foreach ($this->getStoreCategories() as $_category): ?>
-	<?php if ($_category->getIsActive()): ?>
+	<?php if (($_category->getIsActive()) && ($_category->hasChildren())): ?>
 		<li><a href="#"><?php echo $_category->getName(); ?></a>
-	<?php endif; ?>
-	<?php if ($_category->hasChildren()): ?>
-		<ul class="dl-submenu">
-			<li class="dl-back"><a href="#">back</a></li>
-			<li><a href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->__('All'); ?><?php echo $_category->getName(); ?></a></li>
+			<ul class="dl-submenu">
+			<li class="dl-back"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
+			<li><a href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $this->__('All '); ?><?php echo $_category->getName(); ?></a></li>
 		    <?php $category = Mage::getModel('catalog/category')->load($_category->getId()); ?>
 		        <?php foreach ($category->getChildrenCategories() as $subcategory): ?>
 		            <?php if ($subcategory->getIsActive()): ?>
@@ -61,18 +59,19 @@
 		            <?php endif; ?>
 		        <?php endforeach; ?>
 		</ul>
-	</li>
+	<?php else:?>
+		 <li><a href="<?php echo $this->getCategoryUrl($_category); ?>"><?php echo $_category->getName(); ?></a>
 	<?php endif; ?>
+	</li>
 <?php endforeach ?>
 <li> <a href="http://localhost:8080/rekinza/sell">Sell</a></li>
-<li> <a href="http://localhost:8080/rekinza/sell">Brands</a></li>
+<li> <a href="http://localhost:8080/rekinza/brands">Brands</a></li>
 </ul>
 </div>
-
 <script src="http://localhost:8080/rekinza/js/jquery.dlmenu.js"></script> 
 <script>
-$(function() {
-	$( '#dl-menu' ).dlmenu();
+jQuery(function() {
+	jQuery( '#dl-menu' ).dlmenu();
 });
 
 </script>

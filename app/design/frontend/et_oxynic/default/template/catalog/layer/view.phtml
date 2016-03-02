@@ -34,38 +34,319 @@
 <?php if($this->canShowBlock()): ?>
 
 <script type="text/javascript">
-jQuery(document).ready(function(){    
-    
-    if(jQuery(window).innerWidth() <= 766) { 
-        /*jQuery('#narrow-by-list dd').hide();
-        jQuery('#narrow-by-list dt').click(function() {
-            jQuery('#narrow-by-list dd').slideUp();
-            jQuery(this).next().slideDown();
-            return(false);
-        });*/
-        jQuery('#narrow-by-lists dd').hide();
-                    jQuery('#narrow-by-lists dt').click(function() {
-                        jQuery('#narrow-by-lists dd').removeClass( "active" );
-                        jQuery(this).next("dd").addClass( "active" );
-                        jQuery(this).siblings("dd").not("dd.active").slideUp();
-                        jQuery(this).next("dd").slideToggle();
-                    });
-    };
-});
+
+    function redirect2(){
+      var selected = [];
+      var prices = [];
+        var paramvalues = [];
+        var catvalues = [];
+        var removelabel = [];
+        var url = window.location.href;
+
+        jQuery(".forcatselected:checked").each(function(){
+    catvalues.push(jQuery(this).attr('value'));
+    });
+
+        jQuery(".forcat:checked").each(function(){
+    catvalues.push(jQuery(this).attr('value'));
+    });
+
+        jQuery(".amshopby-attr-selected:checked").each(function(){
+    removelabel.push(jQuery(this).attr('value'));
+    });
+
+    jQuery(".amshopby-attr:checked").each(function(){
+    selected.push(jQuery(this).attr('value'));
+    });
+
+    jQuery(".priceclass:checked").each(function(){
+    prices.push(jQuery(this).attr('value'));
+    });
+
+    console.log("this is the price"+prices);
+
+    var allitems = removelabel.concat(selected);
+    var priceappend = "";
+
+    if(prices.length == 1){
+      priceappend = "&price=" + prices[0];
+    }
+    else if(prices.length > 1){
+          var min = prices[0].split("-");
+          var max = prices[prices.length - 1].split("-");
+          priceappend = "&price=" + min[0] + "-" + max[1];
+          console.log("new price"+priceappend);
+    }
+
+    var priceparam = url.search("\&price\=");
+
+    if(priceparam != -1){
+      priceappend = "&price=";
+    for(var i=priceparam + 7; i<url.length; i++){
+        if(!isNaN(url[i]) || url[i] == "-"){
+            priceappend = priceappend + url[i];
+        }
+        else{
+          console.log("this is breakpoint:"+url[i]);
+          break;
+        }
+    }
+    }
+
+    console.log("here:"+prices.length+priceappend);
+     
+      
+    if(allitems.length != 0){
+      console.log("but it is null"+allitems);
+        var dataarray = {};
+        for (var i = 0; i < allitems.length ; i++) {
+               console.log("logged");
+                var dataitem = showRoom(allitems[i]);
+                dataarray[allitems[i]] = dataitem;
+
+
+       } 
+     }  
+
+            var x;
+          if (dataarray != null) {  
+              var brands = [];
+              var size = [];
+              var special = [];
+              var color = [];
+            for (x in dataarray){
+              if(dataarray[x] == "brands"){
+                  brands.push(x);
+              }
+              else if (dataarray[x] == "size") {
+                  size.push(x);
+              }
+              else if (dataarray[x] == "color"){
+                  color.push(x);
+              }
+              else if (dataarray[x] == "special"){
+                  special.push(x);
+              }
+            }
+          }  
+
+        console.log("this is the data:"+JSON.stringify(dataarray));
+    //start url testing from here:
+    var searchindex = url.indexOf("catalogsearch");  //check url for search
+    console.log("searchhh:"+searchindex);
+    if(searchindex != -1){
+      console.log("is not -1");
+
+      var queryprev = url.indexOf("\&");
+      if(queryprev != -1){
+        url = url.slice(0, queryprev);
+      }
+
+      var appendment = "&";
+        var catappend = "cat=";
+        if (catvalues) {
+          for (var i = 0; i < catvalues.length ; i++){
+            catappend = catappend + catvalues[i];
+            if (catvalues[i+1]){
+              catappend = catappend + "%2C";
+            }
+          }
+          appendment = appendment+catappend;
+          console.log("appendment:"+appendment);
+          
+          if (allitems.length != 0) {
+
+            console.log("inside allitems");
+            //appendment = appendment + "&";
+            if (brands.length != 0){
+              appendment = appendment + "&brands=";
+                for (var i = 0; i < brands.length; i++){
+                    appendment = appendment + brands[i];
+                    if (brands[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+            console.log("this is brand app:"+appendment);
+            if (size.length != 0){
+              appendment = appendment + "&size=";
+                for (var i = 0; i < size.length; i++){
+                    appendment = appendment + size[i];
+                    if (size[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+            console.log("this is size app:"+appendment);
+            if (color.length != 0){
+              appendment = appendment + "&color=";
+                for (var i = 0; i < color.length; i++){
+                    appendment = appendment + color[i];
+                    if (color[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+            console.log("this is color app:"+appendment);
+            if (special.length != 0){
+              appendment = appendment + "&special=";
+                for (var i = 0; i < special.length; i++){
+                    appendment = appendment + special[i];
+                    if (special[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+
+         };
+
+         url = url + appendment + priceappend;
+         console.log("new ur:"+url);
+         window.location=url; 
+        }; //if catvalues exist
+
+    }    
+    else{
+    var indexnumber = url.indexOf("\?");        //finally to see if url is of /catalog/new type
+    console.log("insex is:"+indexnumber);       
+    console.log("present url:"+url);
+       if (indexnumber != -1) {                            //if found "?"
+             
+        url = url.slice(0, indexnumber);
+        } 
+      else{
+          var res = url.slice(-1);
+             if (res != "/"){
+              var lastindex = url.indexOf("\/");
+               url = url.slice(0, lastindex);
+          }
+          else{
+            console.log("this is the result:"+url);
+          }
+        }                                      //end of if indexnumber = -1
+
+
+          
+          console.log("new url after slicing:"+url);
+        var appendment = "?";
+        var catappend = "cat=";
+        if (catvalues) {
+          for (var i = 0; i < catvalues.length ; i++){
+            catappend = catappend + catvalues[i];
+            if (catvalues[i+1]){
+              catappend = catappend + "%2C";
+            }
+          }
+          appendment = appendment+catappend;
+          console.log("appendment:"+appendment);
+          
+          if (allitems.length != 0) {
+
+            console.log("inside allitems");
+            //appendment = appendment + "&";
+            if (brands.length != 0){
+              appendment = appendment + "&brands=";
+                for (var i = 0; i < brands.length; i++){
+                    appendment = appendment + brands[i];
+                    if (brands[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+            console.log("this is brand app:"+appendment);
+            if (size.length != 0){
+              appendment = appendment + "&size=";
+                for (var i = 0; i < size.length; i++){
+                    appendment = appendment + size[i];
+                    if (size[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+            console.log("this is size app:"+appendment);
+            if (color.length != 0){
+              appendment = appendment + "&color=";
+                for (var i = 0; i < color.length; i++){
+                    appendment = appendment + color[i];
+                    if (color[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+            console.log("this is color app:"+appendment);
+            if (special.length != 0){
+              appendment = appendment + "&special=";
+                for (var i = 0; i < special.length; i++){
+                    appendment = appendment + special[i];
+                    if (special[i+1])
+                    {
+                      appendment = appendment + "%2C";
+                    }
+                }
+            }
+
+         };
+
+         url = url + appendment + priceappend;
+         console.log("new ur:"+url);
+         window.location=url; 
+        }; //if catvalues exist
+
+
+       };  //end of else-statment where index = -1
+
+
+      
+    //separate functions:
+
+      function showRoom(attrchecked){
+            jQuery.ajax({
+            type:"POST",
+            url:"/rekinza/backend/utils/return_attribute_id.php",
+            data:{type:attrchecked},
+            async: false,
+            success:function(data){
+              //dataarray.push(data);
+             window.attri = data;
+             
+           }
+        });
+        return attri;
+      };
+      
+     }
+
+     //for other sthing. redirect2 was over above
+
+     jQuery(document).ready(function(){    
+
+      jQuery(".amshopby-attr-selected").prop('checked', true);
+      jQuery(".forcatselected").prop('checked', true);
+    });   
+
+
 </script>
 
 <div class="navbar-header">
     <a href="#top">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#layered-navigation" aria-expanded="false" aria-controls="layered-navigation" style="
-          width: 100%;
-          position: fixed;
-          z-index: 99; 
-          top: 99px; 
-          left: 0;
-          background-color: #f2f2f2;
-          font-size:9px;
-          border-top:solid 1px #323232;
-          border-bottom:solid 1px #323232;
+        <button type="button" class="navbar-toggle collapsed" data-toggle="modal" data-target="#myModal" data-toggle="collapse" data-target="#layered-navigation" aria-expanded="false" aria-controls="layered-navigation" style="
+              width: 48%;
+                position: fixed;
+                z-index: 99;
+                bottom: 0;
+                right: 0;
+                background-color: #ffffff;
+                font-size: 9px;
+                border: solid 1px #323232;
+                margin:4px;
+
         ">
         <strong><span style="font-size: 184.62%; color: #000;font-weight: bold; font-family: 'Montserrat';">Filter By</span></strong>
         </button>
@@ -96,6 +377,60 @@ jQuery(document).ready(function(){
                 </dl>
                 <script type="text/javascript">decorateDataList('narrow-by-lists')</script>
             <?php endif; ?>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade filter" role="dialog">
+    <div class="block block-layered-nav nav-bar modal-dialog modal-lg">
+        <div class="block-title filter-head">
+            <strong><span><?php echo $this->__('Filter By') ?></span></strong>
+        </div>
+        <div class="block-content modal-content">
+            <?php echo $this->getStateHtml() ?>
+            <?php if ($this->getLayer()->getState()->getFilters()): ?>
+                <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+            <?php endif; ?>
+            <?php if($this->canShowOptions()): ?>
+                <!--p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p-->
+                <dl>
+                    <ul class="nav nav-tabs mobile-filter-header">
+                    <?php $_filters = $this->getFilters() ?>
+                    <?php $i=-1; ?>
+                    <?php foreach ($_filters as $index=>$_filter): ?>
+                    <?php if($_filter->getItemsCount()): ?>
+                        <?php $i++; ?>
+                        <?php if ($i == 0): ?>
+                            <li class ="active"><a data-toggle="tab" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
+                        <?php else: ?>
+                            <li> <a data-toggle="tab" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
+                        <?php endif;?>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                    </ul>
+                    <div class="tab-content mobile-filter-content">
+                    <?php $i=-1; ?>
+                    <?php foreach ($_filters as $index=>$_filter): ?>
+                    <?php if($_filter->getItemsCount()): ?>
+                        <?php $i++; ?>
+                        <?php if ($i ==0): ?>
+                            <div id="<?php echo $this->__($_filter->getName()) ?>" class="tab-pane fade in active">
+                                <dd><?php echo $_filter->getHtml() ?></dd>
+                            </div>
+                        <?php else: ?>
+                            <div id="<?php echo $this->__($_filter->getName()) ?>" class="tab-pane fade">
+                                <dd><?php echo $_filter->getHtml() ?></dd>
+                            </div>
+                        <?php endif;?>
+                    
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </dl>
+                <script type="text/javascript">decorateDataList('narrow-by-lists')</script>
+            <?php endif; ?>
+            <div class="modal-footer">
+            <button type="button" class = "btn btn-default toapply" name="added" onclick="redirect2()" > APPLY </button>  
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

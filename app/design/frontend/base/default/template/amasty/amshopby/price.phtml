@@ -45,11 +45,19 @@ if (count($this->getItems()) == 1){
     <?php foreach ($this->getItems() as $_item):?>
         <li>
             <?php if ($_item->getCount() > 0): ?>
-                <a class="<?php echo $prefix?>" href="<?php echo $this->urlEscape($_item->getUrl()) ?>"<?php if ($this->getSeoRel()) echo ' rel="nofollow"' ?>>
+            <input type = "checkbox" name="<?php echo $this->urlEscape($_item->getUrl()) ?>" class="priceclass" value="<?php echo $_item->getValue()?>">
+               <!-- <a class="<?php //echo $prefix?>" href="<?php //echo $this->urlEscape($_item->getUrl()) ?>"<?php //if ($this->getSeoRel()) echo ' rel="nofollow"' ?>> -->
                     <?php echo $_item->getLabel() ?><?php if (!$hideCounts):?>&nbsp;<span class="count">(<?php echo $_item->getCount() ?>)</span><?php endif;?>
-                </a>
+                </input>
             <?php endif; ?>
         </li>
+       <?php mage::log($_item->getUrl());
+            mage::log($_item->getValue());
+            // mage::log($_item->getLabel());
+            // mage::log($this->_filter->getMaxValue());
+            mage::log("above value");
+
+        ?>
     <?php endforeach ?>
 <?php elseif (Amasty_Shopby_Model_Catalog_Layer_Filter_Price::DT_DROPDOWN == $this->getDisplayType() && $show): ?>
     <li>

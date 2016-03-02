@@ -1,14 +1,14 @@
 jQuery(document).ready(function(){
-var menu_top=jQuery('.header-menu').offset().top;
+var menu_top =jQuery('.menu-nav').offset().top;
 var product_height=jQuery('.products-grid .item').height();
 var isLoadingMoreProducts=false;
 var iniPageLoadedurl="";
 jQuery(document).scroll(function(){
 
 	if (jQuery(document).scrollTop()>menu_top){
-	jQuery('.header-menu').addClass("hang");
+	jQuery('.menu-nav').addClass("hang");
 	}else{
-	jQuery('.header-menu').removeClass("hang");
+	jQuery('.menu-nav').removeClass("hang");
 	}
 	if (jQuery('body').hasClass('cms-sellers')){
 		

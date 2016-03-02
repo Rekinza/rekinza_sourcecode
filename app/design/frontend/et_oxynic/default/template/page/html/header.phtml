@@ -91,7 +91,7 @@
 			</div>
 		</div>
 
-		<div class="header-under">
+		<div class="header-under header-menu menu-column">
 			<div class="container">
 				<div class="row">
 					<div>
@@ -100,14 +100,23 @@
 								<img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
 							</a>
 						</div>
+						<div class="new-mobile-logo">
+							<a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>">
+								<img src="http://localhost:8080/rekinza/images/REKINZA-mobile-logo.png" alt="<?php echo $this->getLogoAlt() ?>" />
+							</a>
+						</div>
 					</div>
 					<div style="margin-top:24px">
                                                 <?php $sub_total = number_format(Mage::getModel('checkout/cart')->getQuote()->getSubtotal(), 2); ?>
                                                 <?php $cart_item_count = Mage::getSingleton('checkout/cart')->getSummaryQty(); ?>
                                                 <?php $cart_item_count = (($cart_item_count < 1) || ($cart_item_count == '')) ? 0 : $cart_item_count; ?>
                                              
-						<?php echo $this->getChildHtml('ajaxCart') ?>
 						<?php echo $this->getChildHtml('topSearch'); ?>
+						<div class="mobile-login">
+						<a class="icon" href="http://localhost:8080/rekinza/customer/account/login/"><span class="glyphicon glyphicon-user"></span></a>
+						</div>
+						<?php echo $this->getChildHtml('ajaxCart') ?>
+						
                                            
 					</div>
 					<div style="color: #fff;
@@ -120,11 +129,11 @@
 					    z-index: 100;">
 					<div data-id="ePQwC2Z1tX" class="livechat_button"><a href="https://www.livechatinc.com/customer-service/?partner=lc_6770341&amp;utm_source=chat_button">customer service</a></div></div>
 					<?php echo $this->getChildHtml('topContainer'); ?>
-				</div>
+				<!--/div>
 			</div>
 		</div>
 		<div class="header-menu menu-column">
-			<div class="container">
+			<div class="container"-->
 				<div class="menu-nav">
 					<?php if ( Mage::helper('oxynic')->getConfig('use_megamenu', 1) ): ?>
 					<?php echo $this->getChildHtml('megaMenu') ?>
@@ -134,8 +143,8 @@
 				</div>
 				<nav class="mobile-nav">
 					<?php echo $this->getChildHtml('topMobimenu') ?>
-				</nav>								
-			</div>
+				</nav>						
+			<!--/div-->
 		</div>		
 	</div>
 </div>

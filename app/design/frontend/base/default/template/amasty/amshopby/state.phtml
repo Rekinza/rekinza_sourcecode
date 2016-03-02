@@ -32,7 +32,7 @@
             <?php endforeach; ?>
         </ol>
         <?php if (!method_exists('Mage', 'getEdition')): // CE 1.7+, EE 1.12+?>
-            <div class="actions"><a href="<?php echo $this->getParentBlock()->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
+            <button type="button" class="btn btn-default"><div class="actions"><a href="<?php echo $this->getParentBlock()->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div></button>
         <?php endif; ?>
     </div>
 <?php endif; ?>

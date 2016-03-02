@@ -19,21 +19,28 @@
     <?php foreach ($this->getItems() as $_item): ?>
         <li class="amshopby-cat amshopby-cat-level-<?php echo max(1, $_item->getLevel())?> <?php if ($_multiselectEnabled) echo 'amshopby-cat-multi' . ($_item->getIsSelected() ? ' amshopby-cat-multiselected' : '') ?>">
             <?php if ($_item->getIsSelected()) :?>
-                <?php if ($_multiselectEnabled) echo '<a href="' . $this->urlEscape($_item->getUrl())  .'">' ?>
+                <?php if ($_multiselectEnabled) echo '<input type="checkbox" name="'.$_item->getUrl().'"value="'.$_item['id'].'" class= "forcatselected">'//'<a href="' . $this->urlEscape($_item->getUrl())  .'">' ?>
                 <?php echo $_item->getLabel() ?>
                 <?php if ($_showCount && $_item->getCount()):?>
                     <span class="count">(<?php echo $_item->getCount() ?>)</span>
                 <?php endif;?>
-                <?php if ($_multiselectEnabled) echo '</a>' ?>
+                <?php if ($_multiselectEnabled) echo '</input>' ?>
             <?php else:?>
-                <a href="<?php echo $this->urlEscape($_item->getUrl()) ?>">
+                <?php echo '<input type="checkbox" name="'.$_item->getUrl().'"value="'.$_item['id'].'" class="forcat">'?>
                     <?php echo $_item->getLabel() ?>
                     <?php if ($_showCount && $_item->getCount()):?>
                         <span class="count">(<?php echo $_item->getCount() ?>)</span>
                     <?php endif;?>
-                </a>
+                </input> 
             <?php endif;?>
+       
         </li>
+        <?php 
+
+            // mage::log($_item);
+            //     mage::log("now individually");
+            //     mage::log($_item['css']." css ended ".$_item['rel']."href: ".$_item['url']."now id:".$_item['id']);
+         ?>       
     <?php endforeach ?>
 <?php elseif (Amasty_Shopby_Model_Catalog_Layer_Filter_Category::DT_STATIC2LVL == $_displayType): ?>
     <?php foreach ($this->getItems() as $_item): ?>
