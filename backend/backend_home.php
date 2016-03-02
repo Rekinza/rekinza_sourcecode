@@ -63,9 +63,9 @@
 				</form>
 				
 				<form action = "pickup\pickup_seller_summary.php" method = "POST">
-				<h3>Search by Date Range</h3>			
-					Start Date:<input type = "date" name = "start_date">
-					End Date:<input type = "date" name = "end_date">
+				<h3>Search by Pick up Date Range</h3>			
+					Start Date:<input type = "date" name = "pickup_start_date">
+					End Date:<input type = "date" name = "pickup_end_date">
 					<p class = "submit">
 						<input type = "submit" value = "Search">
 					</p>			
@@ -96,6 +96,14 @@
 					?>
 					<?php echo $option ?>
 					</select>
+					<p class = "submit">
+						<input type = "submit" value = "Search">
+					</p>
+				</form>
+				<form action = "pickup\pickup_seller_summary.php" method = "POST">
+				<h3>Search by Return Dispatch Date Range</h3>			
+					Start Date:<input type = "date" name = "return_dispatch_start_date">
+					End Date:<input type = "date" name = "return_dispatch_end_date">
 					<p class = "submit">
 						<input type = "submit" value = "Search">
 					</p>

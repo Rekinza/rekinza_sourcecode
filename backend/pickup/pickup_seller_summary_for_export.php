@@ -8,6 +8,8 @@ $start_date = $_GET['start_date'];
 $end_date = $_GET['end_date'];
 $waybill_number = $_GET['waybill_number'];
 $status_search = $_GET['status_search'];
+$return_dispatch_start_date = $_GET['return_dispatch_start_date'];
+$return_dispatch_end_date = $_GET['return_dispatch_end_date'];
 
 
 if ($customer_email_id != NULL)
@@ -51,6 +53,11 @@ else if ($waybill_number != NULL)
 else if ($status_search != NULL)
 {
 	$query = "SELECT * FROM thredshare_pickup WHERE status = '$status_search' ";
+	$result = mysql_query($query);
+}
+else if ($return_dispatch_start_date != NULL && $return_dispatch_end_date != NULL)
+{
+	$query = "SELECT * FROM thredshare_pickup WHERE return_dispatch_date BETWEEN '$return_dispatch_start_date' AND '$return_dispatch_end_date' ";
 	$result = mysql_query($query);
 }
 

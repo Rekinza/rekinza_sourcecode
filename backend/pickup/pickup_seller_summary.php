@@ -52,10 +52,12 @@ include 'db_config.php';
 	
 $customer_email_id = $_POST['customer_email_id'];
 
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
+$pickup_start_date = $_POST['pickup_start_date'];
+$pickup_end_date = $_POST['pickup_end_date'];
 $waybill_number = $_POST['waybill_number'];
 $status_search = $_POST['status_search'];
+$return_dispatch_start_date = $_POST['return_dispatch_start_date'];
+$return_dispatch_end_date = $_POST['return_dispatch_end_date'];
 
 if ($customer_email_id != NULL)
 {
@@ -81,10 +83,10 @@ if ($customer_email_id != NULL)
 	}
 }
 
-else if ($start_date != NULL && $end_date != NULL)
+else if ($pickup_start_date != NULL && $pickup_end_date != NULL)
 {
 	
-	$query = "SELECT * FROM thredshare_pickup WHERE pick_up_date BETWEEN '$start_date' AND '$end_date' ";
+	$query = "SELECT * FROM thredshare_pickup WHERE pick_up_date BETWEEN '$pickup_start_date' AND '$pickup_end_date' ";
 	$result = mysql_query($query);
 }
 
@@ -99,6 +101,11 @@ else if ($status_search != NULL)
 {
 	
 	$query = "SELECT * FROM thredshare_pickup WHERE status = '$status_search' ";
+	$result = mysql_query($query);
+}
+else if ($return_dispatch_start_date != NULL && $return_dispatch_end_date != NULL)
+{
+	$query = "SELECT * FROM thredshare_pickup WHERE return_dispatch_date BETWEEN '$return_dispatch_start_date' AND '$return_dispatch_end_date' ";
 	$result = mysql_query($query);
 }
 
@@ -117,7 +124,7 @@ if ( $numresult > 0 )
 	<div id ="pickup_date_table">
 		<h1>Pickup Details</h1>
 		
-		<a target ="blank" href = '<?php echo "pickup_seller_summary_for_export.php?status_search=".$status_search."&start_date="."$start_date"."&end_date="."$end_date"?>'> Export To Excel </a>
+		<a target ="blank" href = '<?php echo "pickup_seller_summary_for_export.php?status_search=".$status_search."&pickup_start_date="."$pickup_start_date"."&pickup_end_date="."$pickup_end_date"."&return_dispatch_start_date=".$return_dispatch_start_date."&return_dispatch_end_date=".$return_dispatch_end_date?>'> Export To Excel </a>
 		
 		<table id="report_table">
 			<th>S. No</th>
@@ -388,8 +395,8 @@ if ( $numresult > 0 )
 			<td><?php echo $countrejection; ?></td>
 
 			<td><a href = <?php echo "../inventory/inventory_search_by_seller.php?pickup_id=".$pickup_id?>>Inv</a></td>
-			<td hidden = "true"><input type = "text" value = '<?php echo $start_date ?>' name = "start_date" readonly = true> </td>
-			<td hidden = "true"><input type = "text" value = '<?php echo $end_date ?>' name = "end_date" readonly = true> </td>
+			<td hidden = "true"><input type = "text" value = '<?php echo $pickup_start_date ?>' name = "pickup_start_date" readonly = true> </td>
+			<td hidden = "true"><input type = "text" value = '<?php echo $pickup_end_date ?>' name = "pickup_end_date" readonly = true> </td>
 			
 			<td>
 				<a href = '<?php echo "pickup_prepare_email.php?email_type=pickedup&waybill_number=".$waybill_number."&email_id=".$customer_email_id."&name=".$first_name."&pickup_id=".$pickup_id."&mobile=".$mobile?>'>Picked up Email</a>

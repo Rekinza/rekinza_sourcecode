@@ -50,7 +50,18 @@ require_once('../PHPMailer/class.smtp.php');
 					$status_update = getStatusFromEmailType($email_type, $mobile, $name, $shop_url,$customer_email_id,$powerpacket);
 					$status_field = $status_update['status_field'];
 					$status_field_value = $status_update['status_field_value'];
-					$query = "UPDATE thredshare_pickup SET $status_field = '$status_field_value' WHERE id = '$pickup_id' ";
+					$return_dispatch_date = strtotime("+3 day");
+					$day = date('D', $return_dispatch_date);
+					if($day == 'Sat')   //Dispatch date should not be a saturday, so moving to Monday
+					{
+						$return_dispatch_date = strtotime("+5 day");
+					}
+					else if($day == 'Sun')  //Dispatch date should not be a saturday, so moving to Sunday
+					{
+						$return_dispatch_date = strtotime("+4 day");
+					}
+					$return_dispatch_date = date('Y-m-d', $return_dispatch_date);   //Formatting to SQL friendly format
+					$query = "UPDATE thredshare_pickup SET $status_field = '$status_field_value', return_dispatch_date = '$return_dispatch_date' WHERE id = '$pickup_id' ";
 	
 					$result = mysql_query($query);
 					
