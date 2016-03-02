@@ -70,13 +70,11 @@
     	<div id="mySortModal" class="modal fade sorting" role="dialog">
     		<div class"modal-dialog modal-lg">
 				<div class="modal-content">
-        <!--div class="sort-by" -->
-            <!--label><?php //echo $this->__('Sort By') ?></label-->
-				<div class="sort-by-active">
+				<!--div class="sort-by-active">
 				<?php if($this->isLimitCurrent($_key)): ?>
 					<?php echo $this->__('Current: ') ?><?php echo $_limit ?>
 				<?php endif ?>
-				</div>		
+				</div-->		
 
 					<ul class="sort-by-option">
 					   <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
@@ -104,13 +102,13 @@
             <?php else: ?>
                 <a class="fa fa-angle-down" href="<?php echo $this->getOrderUrl(null, 'desc') ?>" title="<?php echo $this->__('Set Descending Direction') ?>"></a>
             <?php endif; ?>		
-        </div>
+            </div>
 		</div>
-        </div>
     </div>
-    <?php endif; ?>
+</div>
+
 	
-    <div class="pager" style="display:none;">
+<div class="pager" style="display:none;">
         <div class="limiter">
             <!--label><?php //echo $this->__('Show') ?></label-->
 		   <div class="limiter-active"><?php if($this->isLimitCurrent($_key)): ?><?php echo $_limit ?><?php endif ?></div>
@@ -130,10 +128,8 @@
 			<span><?php echo $this->__('products per page') ?></span>
         </div>
         <?php echo $this->getPagerHtml() ?>
-    </div>
-	
 </div>
-<!--?php endif ?-->
+<?php endif ?>
 
 <script language="javascript">
     jQuery(document).ready(function($) {
