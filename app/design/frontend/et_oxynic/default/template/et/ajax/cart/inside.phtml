@@ -57,7 +57,7 @@
 			<script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
 			<div class="actions">
 		        <?php echo $this->getChildHtml('extra_actions') ?>
-		        <button type="button" title="<?php echo $this->__('View Cart') ?>" class="button viewcart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart')?>')"><span><span><?php echo $this->__('View Cart') ?></span></span></button>
+		        <button type="button" title="<?php echo $this->__('View Bag') ?>" class="button viewcart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart')?>')"><span><span><?php echo $this->__('View Bag') ?></span></span></button>
 		        <button type="button" title="<?php echo $this->__('Checkout') ?>" class="button checkoutcart" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
 		    </div>
 		    <?php else: ?>
