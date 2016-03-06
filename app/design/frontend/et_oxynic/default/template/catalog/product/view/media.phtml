@@ -52,7 +52,7 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
     <?php endforeach; ?>
     </ul>
 </div-->
-<div class= "product-image product-image-zoom col-lg-10 col-md-10 col-sm-10 col-xs-12 swiper-container">
+<div class= "product-image product-image-zoom col-lg-12 col-md-12 col-sm-12 col-xs-12 swiper-container">
 	<div class="product-photo-box swiper-wrapper">
 		<?php
         $i = 0;
@@ -63,12 +63,12 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
                 rel="useZoom: 'cloud_zoom', smallImage: '<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())/*->resize(360, 360)->setQuality(100)*/; ?>'" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile()); ?>">
                 <!--img src="" width="75" height="75" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" /-->
 			</a>
-			<div class="swiper-slide product-image" style ="text-align:center;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'base image', $_image->getFile()); ?>" width="360" height="auto" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" /></div>
+			<div class="swiper-slide product-image" style ="text-align:center;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'base image', $_image->getFile()); ?>" alt="<?php echo $this->escapeHtml($_image->getLabel()); ?>" /></div>
 		<?php endforeach; ?>
     </div>
     <div class="swiper-pagination"></div>
-	<div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
+	<div class="swiper-button-next"><i class="fa fa-angle-right" style="font-size:48px; color:#adadad;"></i></div>
+    <div class="swiper-button-prev"><i class="fa fa-angle-left" style="font-size:48px; color:#adadad;"></i></div>
 </div>
 
 <!--div class="product-image product-image-zoom col-lg-10 col-md-10 col-sm-10 col-xs-12">
@@ -209,6 +209,6 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
 		loop:true,
 		nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-		spaceBetween: 30
+		spaceBetween: 0
     });    
 </script>

@@ -38,21 +38,21 @@
                     <li class="fields">
                         <?php if (!$this->isCustomerLoggedIn()): ?>
 
-                            <label for="billing:email"
-                                   class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                            <!--label for="billing:email"
+                                   class="required"><em>*</em><?php echo $this->__('Email Address') ?></label-->
 
                             <div class="input-box input-box-wide">
                                 <input type="text" name="billing[email]" id="billing:email"
                                        value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>"
                                        title="<?php echo $this->__('Email Address') ?>"
                                        data-validate="{required:true, 'validate-email':true }"
-                                       class="input-text validate-email required-entry <?php echo $isCheckEmailExists ? 'check-email-exists' : '';?>"/>
+                                       class="input-text validate-email required-entry <?php echo $isCheckEmailExists ? 'check-email-exists' : '';?>" placeholder="Email"/>
                             </div>
 
                         <?php endif; ?>
                     </li>
                     <li class="fields"><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?></li>
-                    <li class="fields">
+                    <!--li class="fields">
 
                         <?php if (Mage::getStoreConfig('lotusbreath_onestepcheckout/billingaddress/allowshowcompanyfield')): ?>
 
@@ -66,19 +66,19 @@
                                 </div>
 
                         <?php endif; ?>
-                    </li>
+                    </li-->
 
                     <?php $_streetValidationClass = $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('street'); ?>
                     <li class="fields">
-                        <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?>
+                        <!--label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?>
 
-                        </label>
+                        </label-->
 
                         <div class="input-box input-box-wide">
                             <input type="text" title="<?php echo $this->__('Street Address') ?>"
                                    name="billing[street][]" id="billing:street1"
                                    value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>"
-                                   class="input-text <?php echo $_streetValidationClass ?>"/>
+                                   class="input-text <?php echo $_streetValidationClass ?>" placeholder="Address Line 1"/>
                         </div>
                     </li>
                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
@@ -88,7 +88,7 @@
                                 <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>"
                                        name="billing[street][]" id="billing:street<?php echo $_i ?>"
                                        value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>"
-                                       class="input-text <?php echo $_streetValidationClass ?>"/>
+                                       class="input-text <?php echo $_streetValidationClass ?>" placeholder="Address Line 2"/>
                             </div>
                         </li>
                     <?php endfor; ?>
@@ -114,24 +114,43 @@
                     <?php endif; ?>
                     <li class="fields">
                         <div class="field">
+                            <!--label for="billing:postcode"
+                                   class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label-->
+
+                            <div class="input-box">
+                                <?php
+                                $changeLocationClass = '';
+                                if (in_array('postcode', $relatedLocationFields))
+                                    $changeLocationClass = 'change_location_field';
+                                ?>
+                                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>"
+                                       name="billing[postcode]" id="billing:postcode"
+                                       value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>"
+                                       class="<?php /*echo $changeLocationClass;*/ ?> input-text validate-zip-international <?php /*echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('postcode') */?>" placeholder="Pincode"/>
+                            </div>
+                        </div>
+                        <div class="field">
                             <?php
                             $changeLocationClass = '';
                             if (in_array('city', $relatedLocationFields))
                                 $changeLocationClass = 'change_location_field';
                             ?>
-                            <label for="billing:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
+                            <!--label for="billing:city" class="required"><em>*</em><?php echo $this->__('City') ?></label-->
 
-                            <div class="input-box">
+                            <div class="input-box" style="float:right;">
                                 <input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]"
                                        value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>"
                                        class="<?php /*echo $changeLocationClass;*/?> input-text <?php /*echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('city') */?>"
-                                       id="billing:city"/>
+                                       id="billing:city" placeholder="City"/>
                             </div>
                         </div>
+                        
+                    </li>
+                    <li class="fields">
                         <div class="field region ">
 
-                            <label for="billing:region_id"
-                                   class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+                            <!--label for="billing:region_id"
+                                   class="required"><em>*</em><?php echo $this->__('State/Province') ?></label-->
 
                             <div class="input-box">
                                 <?php
@@ -164,27 +183,21 @@
                                     />
                             </div>
                         </div>
-                    </li>
-                    <li class="fields">
                         <div class="field">
-                            <label for="billing:postcode"
-                                   class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
+                            <!--label for="billing:telephone"
+                                   class="required"><em>*</em><?php echo $this->__('Telephone') ?></label-->
 
-                            <div class="input-box">
-                                <?php
-                                $changeLocationClass = '';
-                                if (in_array('postcode', $relatedLocationFields))
-                                    $changeLocationClass = 'change_location_field';
-                                ?>
-                                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>"
-                                       name="billing[postcode]" id="billing:postcode"
-                                       value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>"
-                                       class="<?php /*echo $changeLocationClass;*/ ?> input-text validate-zip-international <?php /*echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('postcode') */?>"/>
+                            <div class="input-box" style="float:right;">
+                                <input type="text" name="billing[telephone]"
+                                       value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>"
+                                       title="<?php echo $this->__('Telephone') ?>"
+                                       class="input-text <?php echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('telephone') ?>"
+                                       id="billing:telephone" placeholder="Phone Number"/>
                             </div>
                         </div>
-                        <div class="field">
-                            <label for="billing:country_id"
-                                   class="required"><em>*</em><?php echo $this->__('Country') ?></label>
+                        <div class="field country-checkout">
+                            <!--label for="billing:country_id"
+                                   class="required"><em>*</em><?php echo $this->__('Country') ?></label-->
                             <div class="input-box">
                                 <?php echo $this->getCountryHtmlSelect('billing') ?>
                             </div>
@@ -214,7 +227,7 @@
                         </div>
                     </li>
                     <li class="fields">
-                        <div class="field">
+                        <!--div class="field">
                             <label for="billing:telephone"
                                    class="required"><em>*</em><?php echo $this->__('Telephone') ?></label>
 
@@ -223,12 +236,12 @@
                                        value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>"
                                        title="<?php echo $this->__('Telephone') ?>"
                                        class="input-text <?php echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('telephone') ?>"
-                                       id="billing:telephone"/>
+                                       id="billing:telephone" placeholder="Phone Number"/>
                             </div>
-                        </div>
+                        </div>-->
                         <?php if (Mage::getStoreConfig('lotusbreath_onestepcheckout/billingaddress/allowshowfaxfield')): ?>
                             <div class="field">
-                                <label for="billing:fax"><?php echo $this->__('Fax') ?></label>
+                                <!--label for="billing:fax"><?php echo $this->__('Fax') ?></label-->
 
                                 <div class="input-box">
                                     <input type="text" name="billing[fax]"
@@ -276,24 +289,24 @@
                         <?php $passwordLiId = $isAllowGuest ? 'register-customer-password' : ''; ?>
                         <li class="fields" id="<?php echo $passwordLiId;?>">
                             <div class="field">
-                                <label for="billing:customer_password"
-                                       class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                <!--label for="billing:customer_password"
+                                       class="required"><em>*</em><?php echo $this->__('Password') ?></label-->
 
                                 <div class="input-box">
                                     <input type="password" name="billing[customer_password]"
                                            id="billing:customer_password" title="<?php echo $this->__('Password') ?>"
-                                           class="input-text required-entry validate-password"/>
+                                           class="input-text required-entry validate-password" placeholder="Password"/>
                                 </div>
                             </div>
                             <div class="field">
-                                <label for="billing:confirm_password"
-                                       class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
+                                <!--label for="billing:confirm_password"
+                                       class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label-->
 
-                                <div class="input-box">
+                                <div class="input-box" style="float:right;">
                                     <input type="password" name="billing[confirm_password]"
                                            title="<?php echo $this->__('Confirm Password') ?>"
                                            id="billing:confirm_password"
-                                           class="input-text required-entry validate-cpassword"/>
+                                           class="input-text required-entry validate-cpassword" placeholder="Confirm Password"/>
                                 </div>
                             </div>
                         </li>
@@ -344,7 +357,7 @@
 
 
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!--script src="http://code.jquery.com/jquery-1.9.1.js"></script-->
 <script>
 ( function($) {	   
 $(document).ready(

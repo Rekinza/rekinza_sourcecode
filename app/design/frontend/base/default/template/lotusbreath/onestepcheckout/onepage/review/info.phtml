@@ -13,13 +13,13 @@
         <?php endif; ?>
         <col width="1"/>
         <thead>
-        <tr>
+        <!--tr>
             <th rowspan="<?php echo $rowspan ?>"><?php echo $this->__('Product Name') ?></th>
             <th colspan="<?php echo $colspan ?>" class="a-center"><?php echo $this->__('Price') ?></th>
             <th rowspan="<?php echo $rowspan ?>" wrap="wrap" class="a-center"><?php echo $this->__('Qty') ?></th>
             <th colspan="<?php echo $colspan ?>" class="a-center"><?php echo $this->__('Subtotal') ?></th>
-            <!--<th colspan="<?php echo $colspan ?>" class="a-center remove-item-diplay" style="display: none;"></th> -->
-        </tr>
+           <th colspan="<?php echo $colspan ?>" class="a-center remove-item-diplay" style="display: none;"></th>
+        </tr-->
         <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
             <tr>
                 <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
@@ -39,7 +39,7 @@
 		<table id = "order_payment_details" class="table data-table">
 			<?php echo $this->getChildHtml('totals'); ?>
 		</table>
-		<button role='review-save' type="submit"
+		<button class="continue_button" role='review-save' type="submit"
                     title="<?php echo Mage::helper('checkout')->__('Place Order') ?>" name="submitbtn"
                     id="lbonepage-place-order-btn" class="button btn-checkout finalorder">
                 <span><span><?php echo Mage::helper('checkout')->__('Place Order') ?></span></span>

@@ -65,7 +65,7 @@ jQuery(document).ready(function(){
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
-    <!--<h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>-->
+    <h1 class="page-heading"><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
 </div>
 
 <?php if($_imgUrl): ?>

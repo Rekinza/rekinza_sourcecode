@@ -38,77 +38,77 @@
     function redirect2(){
       var selected = [];
       var prices = [];
-        var paramvalues = [];
-        var catvalues = [];
-        var removelabel = [];
-        var url = window.location.href;
+      var paramvalues = [];
+      var catvalues = [];
+      var removelabel = [];
+      var url = window.location.href;
 
-        jQuery(".forcatselected:checked").each(function(){
-    catvalues.push(jQuery(this).attr('value'));
-    });
+      jQuery(".forcatselected:checked").each(function(){
+      catvalues.push(jQuery(this).attr('value'));
+      });
 
-        jQuery(".forcat:checked").each(function(){
-    catvalues.push(jQuery(this).attr('value'));
-    });
+      jQuery(".forcat:checked").each(function(){
+      catvalues.push(jQuery(this).attr('value'));
+      });
 
-        jQuery(".amshopby-attr-selected:checked").each(function(){
-    removelabel.push(jQuery(this).attr('value'));
-    });
+      jQuery(".amshopby-attr-selected:checked").each(function(){
+      removelabel.push(jQuery(this).attr('value'));
+      });
 
-    jQuery(".amshopby-attr:checked").each(function(){
-    selected.push(jQuery(this).attr('value'));
-    });
+      jQuery(".amshopby-attr:checked").each(function(){
+      selected.push(jQuery(this).attr('value'));
+      });
 
-    jQuery(".priceclass:checked").each(function(){
-    prices.push(jQuery(this).attr('value'));
-    });
+      jQuery(".priceclass:checked").each(function(){
+      prices.push(jQuery(this).attr('value'));
+      });
 
-    console.log("this is the price"+prices);
+      console.log("this is the price"+prices);
 
-    var allitems = removelabel.concat(selected);
-    var priceappend = "";
+      var allitems = removelabel.concat(selected);
+      var priceappend = "";
 
-    if(prices.length == 1){
-      priceappend = "&price=" + prices[0];
-    }
-    else if(prices.length > 1){
-          var min = prices[0].split("-");
-          var max = prices[prices.length - 1].split("-");
-          priceappend = "&price=" + min[0] + "-" + max[1];
-          console.log("new price"+priceappend);
-    }
+      if(prices.length == 1){
+        priceappend = "&price=" + prices[0];
+      }
+      else if(prices.length > 1){
+            var min = prices[0].split("-");
+            var max = prices[prices.length - 1].split("-");
+            priceappend = "&price=" + min[0] + "-" + max[1];
+            console.log("new price"+priceappend);
+      }
 
-    var priceparam = url.search("\&price\=");
+      var priceparam = url.search("\&price\=");
 
-    if(priceparam != -1){
-      priceappend = "&price=";
-    for(var i=priceparam + 7; i<url.length; i++){
-        if(!isNaN(url[i]) || url[i] == "-"){
-            priceappend = priceappend + url[i];
-        }
-        else{
-          console.log("this is breakpoint:"+url[i]);
-          break;
-        }
-    }
-    }
+      if(priceparam != -1){
+        priceappend = "&price=";
+      for(var i=priceparam + 7; i<url.length; i++){
+          if(!isNaN(url[i]) || url[i] == "-"){
+              priceappend = priceappend + url[i];
+          }
+          else{
+            console.log("this is breakpoint:"+url[i]);
+            break;
+          }
+      }
+      }
 
-    console.log("here:"+prices.length+priceappend);
-     
-      
-    if(allitems.length != 0){
-      console.log("but it is null"+allitems);
-        var dataarray = {};
-        for (var i = 0; i < allitems.length ; i++) {
-               console.log("logged");
-                var dataitem = showRoom(allitems[i]);
-                dataarray[allitems[i]] = dataitem;
+      console.log("here:"+prices.length+priceappend);
+       
+        
+      if(allitems.length != 0){
+        console.log("but it is null"+allitems);
+          var dataarray = {};
+          for (var i = 0; i < allitems.length ; i++) {
+                 console.log("logged");
+                  var dataitem = showRoom(allitems[i]);
+                  dataarray[allitems[i]] = dataitem;
 
 
-       } 
-     }  
+         } 
+       }  
 
-            var x;
+        var x;
           if (dataarray != null) {  
               var brands = [];
               var size = [];
@@ -130,7 +130,7 @@
             }
           }  
 
-        console.log("this is the data:"+JSON.stringify(dataarray));
+    console.log("this is the data:"+JSON.stringify(dataarray));
     //start url testing from here:
     var searchindex = url.indexOf("catalogsearch");  //check url for search
     console.log("searchhh:"+searchindex);
@@ -331,6 +331,10 @@
       jQuery(".forcatselected").prop('checked', true);
     });   
 
+    function hideajaxmodal(){
+    jQuery("#ajax-loading").hide();
+  }
+
 
 </script>
 
@@ -342,20 +346,22 @@
                 z-index: 99;
                 bottom: 0;
                 right: 0;
-                background-color: #ffffff;
+                background-color: #323232;
                 font-size: 9px;
-                border: solid 1px #323232;
                 margin:4px;
+                border-radius:0;
 
         ">
-        <strong><span style="font-size: 184.62%; color: #000;font-weight: bold; font-family: 'Montserrat';">Filter By</span></strong>
+        <strong><span style="font-size: 16px; color: #fff;font-weight: bold; font-family: 'Lato'; text-transform:uppercase;">Filter By</span></strong>
         </button>
     </a>       
 </div>
+<!--Desktop Filters-->
 <div id="layered-navigation" class="collapse navbar-collapse" style="max-height:none !important;">
     <div class="block block-layered-nav nav-bar">
         <div class="block-title filter-head">
             <strong><span><?php echo $this->__('Filter By') ?></span></strong>
+            <button type="button" class = "btn btn-default toapply apply1" name="added" onclick="redirect2()" > APPLY </button>
         </div>
         <div class="block-content">
             <?php echo $this->getStateHtml() ?>
@@ -380,6 +386,7 @@
         </div>
     </div>
 </div>
+<!--Mobile Filters-->
 <div id="myModal" class="modal fade filter" role="dialog">
     <div class="block block-layered-nav nav-bar modal-dialog modal-lg">
         <div class="block-title filter-head">
@@ -390,6 +397,10 @@
             <?php if ($this->getLayer()->getState()->getFilters()): ?>
                 <div class="actions"><a href="<?php echo $this->getClearUrl() ?>"><?php echo $this->__('Clear All') ?></a></div>
             <?php endif; ?>
+            <div class="modal-header">
+              <button type="button" class="btn btn-default" data-dismiss="modal" style="text-transform: uppercase;border-radius: 0;padding: 8px;font-size: inherit;font-weight: 600;">Close</button>
+            </div>
+
             <?php if($this->canShowOptions()): ?>
                 <!--p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p-->
                 <dl>
@@ -402,7 +413,7 @@
                         <?php if ($i == 0): ?>
                             <li class ="active"><a data-toggle="tab" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
                         <?php else: ?>
-                            <li> <a data-toggle="tab" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
+                            <li> <a data-toggle="tab" onclick="hideajaxmodal()" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
                         <?php endif;?>
                     <?php endif; ?>
                     <?php endforeach; ?>
@@ -428,13 +439,13 @@
                 <script type="text/javascript">decorateDataList('narrow-by-lists')</script>
             <?php endif; ?>
             <div class="modal-footer">
-            <button type="button" class = "btn btn-default toapply" name="added" onclick="redirect2()" > APPLY </button>  
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class = "btn btn-default toapply apply2" name="added" onclick="redirect2()" > APPLY </button>  
             </div>
         </div>
     </div>
 </div>
 <?php endif; ?>
+
 
 
 

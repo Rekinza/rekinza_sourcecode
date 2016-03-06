@@ -1,5 +1,7 @@
 <?php $_item = $this->getItem()?>
 <?php
+$isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
+$_product= Mage::getSingleton('catalog/product')->load($_item->getProductId());
 $isShowImage = Mage::getStoreConfig('lotusbreath_onestepcheckout/revieworder/show_image');
 $review_img = '';
 if ($isShowImage){
@@ -26,7 +28,6 @@ if ($isShowImage){
         <img  src="<?php echo $review_img; ?>" alt="<?php echo $this->htmlEscape($this->getProductName()); ?>"/>
         </div>
         <?php endif;?>
-        <h3 class="product-name"><?php echo $this->escapeHtml($this->getProductName()) ?></h3>
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
@@ -49,8 +50,29 @@ if ($isShowImage){
             <?php echo $addtInfoBlock->setItem($_item)->toHtml() ?>
         <?php endif;?>
     </td>
+    <td class="a-center items-cart-td">
+        <h2 class="product-name">
+        <?php if ($this->hasProductUrl()):?>
+                <div class="cart-brand"><?php echo $_product->getResource()->getAttribute('brands')->getFrontend()->getValue($_product); ?>
+                </div>
+                <div class="cart-name">
+                <?php echo $this->escapeHtml($this->getProductName()) ?>
+                </div>
+                <div class="cart-size" style="display:block;"><?php echo $_product->getResource()->getAttribute('size')->getFrontend()->getValue($_product); ?></div>
+        <?php else: ?>
+            <div class="cart-brand"><?php echo $_product->getResource()->getAttribute('brands')->getFrontend()->getValue($_product); ?>
+            </div>
+            <div class="cart-name">
+            <?php echo $this->escapeHtml($this->getProductName()) ?>
+            </div>
+            <div class="cart-size" style="display:block;"><?php echo $_product->getResource()->getAttribute('size')->getFrontend()->getValue($_product); ?></div>
+        <?php endif; ?>
+        </h2>
+    
+    </td>
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
-    <td class="a-right">
+    
+    <!--td>
         <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
             <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
         <?php else: ?>
@@ -94,7 +116,7 @@ if ($isShowImage){
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-    </td>
+    </td-->
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td>
@@ -142,7 +164,7 @@ if ($isShowImage){
         <?php endif; ?>
     </td>
     <?php endif; ?>
-    <td class="a-center" nowrap>
+    <!--td class="a-center" nowrap>
         <?php
         $stockItem = $_item->getProduct()->getStockItem();
 
@@ -156,7 +178,7 @@ if ($isShowImage){
         <?php endif;?>
         <input data-max="<?php echo (int)$maxQty;?>" name="cart[<?php echo $_item->getId() ?>][qty]" class="spinner-qty review-qty-input" style="display: none;"  value="<?php echo $_item->getQty() ?>"/>
 
-    </td>
+    </td-->
     <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
     <td class="a-right">
         <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>

@@ -35,7 +35,13 @@
 <div class="cart" id="checkout_cart">
     <div class="page-title title-buttons" style="width:100%;">
         <h1><?php echo $this->__('Shopping Bag') ?></h1>
-        <?php if(!$this->hasError()): ?>
+    </div>
+    
+        
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('form_before') ?>
+    <div class="checkout-btn-cart">
+    <?php if(!$this->hasError()): ?>
         <ul class="checkout-types">
         <?php foreach ($this->getMethods('top_methods') as $method): ?>
             <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
@@ -43,27 +49,25 @@
             <?php endif; ?>
         <?php endforeach; ?>
         </ul>
-        <?php endif; ?>
+    <?php endif; ?>
     </div>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    <?php echo $this->getChildHtml('form_before') ?>
-    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post" class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
         <?php echo $this->getBlockHtml('formkey'); ?>
         <fieldset>
-            <table id="shopping-cart-table" class="data-table cart-table">
+            <table id="shopping-cart-table" class="data-table cart-table ">
 
             <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
-                <thead>
+                <!-- <thead>
                     <tr>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
-                        <!--<th rowspan="<?php echo $mergedCells; ?>" class="a-center"></th>-->
+                       <th rowspan="<?php echo $mergedCells; ?>" class="a-center"></th>
                         <?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><span class="nobr"><?php echo $this->__('Move to Wishlist') ?></span></th>
                         <?php endif ?>
                         <th class="a-center" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Price') ?></span></th>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
-                        <!--<th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>-->
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
                     </tr>
                     <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
@@ -74,13 +78,13 @@
                         <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
                     </tr>
                     <?php endif; ?>
-                </thead>
-                <tbody>
+                </thead>-->
+                <tbody class="item-cart-body">
                 <?php foreach($this->getItems() as $_item): ?>
                     <?php echo $this->getItemHtml($_item) ?>
                 <?php endforeach ?>
                 </tbody>
-                <tfoot>
+                <!--tfoot>
                     <tr>
                         <td colspan="50" class="a-right">
                             <?php if($this->getContinueShoppingUrl()): ?>
@@ -88,7 +92,7 @@
                             <?php endif; ?>
                             <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Shopping Cart'); ?>" class="button btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
                             <?php /*<button type="submit" name="update_cart_action" value="empty_cart" title="<?php echo $this->__('Clear Shopping Cart'); ?>" class="button btn-empty" id="empty_cart_button"><span><span><?php echo $this->__('Clear Shopping Cart'); ?></span></span></button> */ ?>
-                            <!--[if lt IE 8]>
+                            <[if lt IE 8]>
                             <input type="hidden" id="update_cart_action_container" />
                             <script type="text/javascript">
                             //<![CDATA[
@@ -109,10 +113,10 @@
                                 });
                             //]]>
                             </script>
-                            <![endif]-->
+                            <![endif]>
                         </td>
                     </tr>
-                </tfoot>
+                </tfoot-->
             </table>
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
@@ -120,17 +124,18 @@
     <div class="cart-collaterals">
         <div class="col2-set">
         	<div class="row">
-	            <div class="col-1 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	            <!--div class="col-1 col-lg-4 col-md-4 col-sm-4 col-xs-12">
 	                <?php //echo $this->getChildHtml('crosssell') ?>
 				<?php 	echo $this->getChildHtml('rewardpoints') ;?>
-	            </div>
-	            <div class="col-2 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	            </div-->
+	            <div class="col-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    
 	                <?php /* Extensions placeholder */ ?>
 	                <?php echo $this->getChildHtml('checkout.cart.extra') ?>
 	                <?php echo $this->getChildHtml('coupon') ?>
 	                <?php /* if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; */?>
 	            </div>
-	            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	            <div class="col-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			        <div class="totals">
 			            <?php echo $this->getChildHtml('totals'); ?>
 			            <?php if(!$this->hasError()): ?>

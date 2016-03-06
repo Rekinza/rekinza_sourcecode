@@ -144,8 +144,8 @@ div.mage-error, p.mage-error , .error {color : red;}
     color:#ffffff;
     Background-color:#464646;
     border-bottom: 1px solid ; /*#e87403*/
-    margin : 15px 0 15px 0;
-    padding:4px;
+    /*margin : 15px 0 15px 0;*/
+    padding:10px;
 }
 .form-list .fields {
     display: block;
@@ -161,13 +161,13 @@ div.mage-error, p.mage-error , .error {color : red;}
     width : 100%;
 }
 .form-list .fields .field .input-box {
-    width: 80%;
+    width: 99%;
 }
 .form-list .input-box-wide {
-    width: 90%;
+    width: 100%;
 }
 .form-list li {
-    margin: 0 0 8px;
+    margin: 0 0 10px;
     width: auto;
     display: block;
     height: auto;
@@ -301,7 +301,7 @@ div.mage-error, p.mage-error , .error {color : red;}
     width: 500px;
     padding : 0 10px;
 }
-.lt-buttons-set {margin: 10px 0 0 0;}
+.lt-buttons-set {margin: 10px 0 0 0; display: inline-block;}
 .row { max-width: 100% !important; }
 .review-qty-input {
     width : 15px;
@@ -335,7 +335,7 @@ div.mage-error, p.mage-error , .error {color : red;}
 
 .no-padding {padding : 0 !important;}
 p.newsletter {
-    margin: 25px 0 ;
+    margin: 10px 0 ;
 }
 
 .valid + .mage-error {
@@ -371,7 +371,7 @@ button#lbonepage-place-order-btn > span {
 
 }
 #review_partial  .data-table td {
-    border-bottom: 1px solid #CCCCCC;
+    /*border-bottom: 1px solid #CCCCCC;*/
 }
 
 #review_partial .data-table thead th {
@@ -517,3 +517,92 @@ div.edit-cart-review {
     clear: both;
 }
 
+/*New Accordion Layout*/ 
+#accordion-checkout .accordion-group{
+    width:100%;
+    margin: 0;
+}
+#accordion-checkout .accordion-group .accordion-heading{
+    background: none;
+    margin: 0;
+    padding:0;
+    font-size: 12px;
+    text-align: left;
+}
+.login_button{
+    /*border:1px solid #323232;*/
+    background: #50c7c2;
+    color: #ffffff;
+    padding: 16px 10px;
+    width: 44%;
+    margin-left: 2%;
+    margin-top: 20px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    display: inline-block;
+    font-size: 16px;
+}
+.helptext{
+    text-transform: capitalize;
+    display: block;
+    font-weight: 400;
+    font-size: 10px;
+    margin-left: 62%;
+    margin-bottom: 20px;
+    width: 50%;
+    width: 44%;
+}
+@media (max-width: 767px){
+    .login_button{
+        width:88%;
+        margin:20px auto;
+        display: block;
+
+    }
+    .helptext{
+
+        margin: auto;
+        width: 88%;
+        text-align: center;
+        margin-top: -10px;
+        margin-bottom: 10px;
+
+    }
+    .continue_button{
+        width:100% !important;
+        margin:10px auto;
+        display: block;
+    }
+    .form-list .fields .field .input-box{
+        float:left!important;
+        width:100%;
+    }
+}
+.continue_button{
+    /*border:1px solid #323232;*/
+    background: #50c7c2;
+    color: #ffffff;
+    padding: 16px 10px;
+    width: 32%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    display: block;
+    font-size: 16px;
+    border:none;
+}
+.field.country-checkout{
+    display:none;
+}
+button#apply_coupon_btn {
+    color: #868686;
+    background: #ffffff;
+    border: 1px solid #323232;
+}
+td.a-right{
+    padding-right: 10px !important;
+}
