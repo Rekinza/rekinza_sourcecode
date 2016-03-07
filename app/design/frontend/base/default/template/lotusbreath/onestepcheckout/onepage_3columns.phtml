@@ -42,7 +42,7 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
     <form id="checkout_form" name="checkout_form">
         <div class="grid">
             <?php if ($pageTitle = Mage::getStoreConfig('lotusbreath_onestepcheckout/content/pagetitle')):?>
-                <h2 class="page-title"><?php echo $pageTitle;?></h2>
+            <div class="page-title"><h1><?php echo $pageTitle;?></h1></div>
             <?php endif;?>
             <?php if ($pageDescription = Mage::getStoreConfig('lotusbreath_onestepcheckout/content/pagedescription')):?>
                 <p class="page-description"><?php echo $pageDescription;?></p>
@@ -62,7 +62,7 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
                             
                             <div class="accordion-toggle login_button" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#customer"><div style="color:#ffffff;">Continue as Guest</div></a></div>
 
-                            <a href="javascript:void(0);" id="loginFrmDlgO"> <div class="login_button">Log In </div> <div class="helptext">(I already have an account)</div></a>
+                            <a href="javascript:void(0);" id="loginFrmDlgO" class="login_link"> <div class="login_button">Log In </div> <div class="helptext">(I already have an account)</div></a>
                            
                             
 
@@ -88,23 +88,27 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
                             </h3>
                         </div>
                     </a>
-                    <div id="billing" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            <?php echo $this->getChildHtml('billing'); ?>
-                            <div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment"><div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"><div class="continue_button">Continue</div></div>
-                            <div id="shipping-area" style="display: none;">
-                                <h3 class="ptitle">
-                                    <?php if ($shippingHeader = Mage::getStoreConfig('lotusbreath_onestepcheckout/content/shipping_address_header')):?>
-                                        <?php echo $shippingHeader;?>
-                                    <?php else:?>
-                                        <?php echo $this->__("Shipping Information");?>
-                                    <?php endif;?>
-                                </h3>
-                                <?php echo $this->getChildHtml('shipping'); ?>
+                    <?php if (!Mage::helper('customer')->isLoggedIn()) : ?>
+                        <div id="billing" class="accordion-body collapse">
+                    <?php else: ?>
+                        <div id="billing" class="accordion-body collapse in">
+                    <?php endif; ?>
+                            <div class="accordion-inner">
+                                <?php echo $this->getChildHtml('billing'); ?>
+                                <div id="shipping-area" style="display: none;">
+                                    <h3 class="ptitle">
+                                        <?php if ($shippingHeader = Mage::getStoreConfig('lotusbreath_onestepcheckout/content/shipping_address_header')):?>
+                                            <?php echo $shippingHeader;?>
+                                        <?php else:?>
+                                            <?php echo $this->__("Shipping Information");?>
+                                        <?php endif;?>
+                                    </h3>
+                                    <?php echo $this->getChildHtml('shipping'); ?>
+                                </div>
+                                <div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment"><div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"><div class="continue_button">Continue</div></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
                  <div class="four columns accordion-group">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment">
                         <!--<?php if(!$this->getQuote()->isVirtual()):?>

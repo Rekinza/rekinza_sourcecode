@@ -50,8 +50,11 @@
         <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+        <div class="badge-icon">
+            <img src="http://localhost:8080/rekinza/images/badge-buyer-protect.png" style="width:100%; margin:auto;"/>
+        </div>
     </div>
-    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post" class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post" class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding:0;">
         <?php echo $this->getBlockHtml('formkey'); ?>
         <fieldset>
             <table id="shopping-cart-table" class="data-table cart-table ">
@@ -128,14 +131,14 @@
 	                <?php //echo $this->getChildHtml('crosssell') ?>
 				<?php 	echo $this->getChildHtml('rewardpoints') ;?>
 	            </div-->
-	            <div class="col-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
+	            <div class="col-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     
 	                <?php /* Extensions placeholder */ ?>
 	                <?php echo $this->getChildHtml('checkout.cart.extra') ?>
 	                <?php echo $this->getChildHtml('coupon') ?>
 	                <?php /* if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; */?>
 	            </div>
-	            <div class="col-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
+	            <div class="col-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
 			        <div class="totals">
 			            <?php echo $this->getChildHtml('totals'); ?>
 			            <?php if(!$this->hasError()): ?>
@@ -147,6 +150,9 @@
 			            <?php endforeach; ?>
 			            </ul>
 			            <?php endif; ?>
+                        <div class="badge-icon">
+                            <img src="http://localhost:8080/rekinza/images/badge-buyer-protect.png" style="width:100%; margin:auto;"/>
+                        </div>
 			        </div>
 		        </div>
 	        </div>

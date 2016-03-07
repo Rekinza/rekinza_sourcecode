@@ -8,7 +8,7 @@ include 'db_config.php';
 
 $pincode =$_POST['pincode'];
 
-$query = "SELECT * FROM `pincodes_fedex` WHERE pincode = '$pincode'";
+$query = "SELECT * FROM `pincodes_pyck` WHERE pincode = '$pincode'";
 
 $result = mysql_query($query);
 

@@ -147,6 +147,23 @@
 			</div>		
 		</div>
 	</div>
+	<div class="header-info">
+		<div class="desktop-info">
+			<div class="info col-lg-4 col-md-4 col-sm-4"><i class="fa fa-truck info-icon" style="font-size:14px;"></i>  Free Shipping on Orders above Rs.999</div>
+			<div class="info col-lg-4 col-md-4 col-sm-4"><span class="glyphicon glyphicon-refresh info-icon"></span>  Easy 3-Day Returns</div>
+			<div class="info col-lg-4 col-md-4 col-sm-4"><span class="glyphicon glyphicon-bookmark info-icon"></span>  100% Trusted Quality</div>
+		</div>
+		<div class="mobile-info">
+			<div class= "swiper-container">
+               <div class="swiper-wrapper">
+                       <br>
+                       <div class="swiper-slide product-image" style ="text-align:center; font-weight:bold;"><i class="fa fa-truck info-icon" style="font-size:14px;"></i>  Free Shipping on Orders above Rs.999</div>
+                       <div class="swiper-slide product-image" style ="text-align:center;font-weight:bold;;"><span class="glyphicon glyphicon-refresh info-icon"></span>  Easy 3-Day Returns</div>
+                       <div class="swiper-slide product-image" style ="text-align:center;font-weight:bold;"><span class="glyphicon glyphicon-bookmark info-icon"></span>  100% Trusted Quality</div>                              
+               </div>
+           </div>
+       </div>
+	</div>
 </div>
 </div>
 
@@ -160,4 +177,11 @@ jQuery(".mobilecart").unbind().click(function() {
 
 });
 
+var swiper = new Swiper('.swiper-container', {
+       pagination: '.swiper-pagination',
+       paginationClickable: true,
+       loop:true,
+       autoplay: 5000,
+       autoplayDisableOnInteraction: false
+   });
 </script>

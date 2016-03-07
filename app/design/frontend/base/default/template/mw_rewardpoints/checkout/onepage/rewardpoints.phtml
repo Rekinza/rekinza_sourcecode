@@ -8,21 +8,25 @@ $check = version_compare(Mage::getVersion(),'1.4.0.1','>=');?>
 <div id="rewardpoints_box">
 <form id="rewardpoints-form" action="<?php echo $this->getUrl('rewardpoints/checkout/rewardPointsPost') ?>" onsubmit="return false;" method="post">
     <div class="discount discount-codes box" style="width:100%;margin-top: 18px;">
-        <?php if($check):?><h2 style="background-image:none; padding: 0px 0px 5px 0px;"><?php echo $reward_icon.$this->__('KinzaCash') ?></h2><?php else:?><h4 style="background-image: : none; padding: 0px;"><?php echo $reward_icon.$this->__('KinzaCash') ?></h4><?php endif;?>
+        <?php if($check):?><h2 style="background-image: none;padding: 0px 0px 5px 0px;font-size: 20px;text-transform: uppercase;"><?php echo $reward_icon.$this->__('KinzaCash') ?></h2><?php else:?><h4 style="background-image: : none; padding: 0px;"><?php echo $reward_icon.$this->__('KinzaCash') ?></h4><?php endif;?>
         <div class="discount-form">
         	<?php $rate = $this->getPointPerMoney($store_id);?>
         	<div style="width:100%; padding-top: 5px;">
         	<?php if($this->_getCustomer()->getId() && $spend_point >0):?>
 	        	<div style="float:left;width:258px; border-top: 1px dashed;">
-	        		<div style="margin-top:5px;"><?php echo $this->__("You have <b>%s</b> available <br>(<b>%s</b> = <b>%s</b>)",Mage::helper('rewardpoints')->formatPoints($this->getCurrentRewardPoints(),$store_id),Mage::helper('rewardpoints')->formatPoints($rate[0],$store_id), $this->formatMoney($rate[1]))?></div>
+	        		<div style="margin-top: 5px;line-height: 1.6em;font-size: 12px;"><?php echo $this->__("You have <b style=\" color:#50c7c2;\">%s</b> available <br>(<b>%s</b> = <b>%s</b>)",Mage::helper('rewardpoints')->formatPoints($this->getCurrentRewardPoints(),$store_id),Mage::helper('rewardpoints')->formatPoints($rate[0],$store_id), $this->formatMoney($rate[1]))?></div>
 	        		
 	        		<div style="padding: 15px 0 5px 0;"><label for="mw_amount"><?php echo $this->__("Points to redeem")?> </label><input style="color:#f6931f; width:30%; text-align:center;font-size: 13px;font-weight: bold;" type="number" name="mw_amount" id="mw_amount" onchange ="unsetmaxrewardpointscheckbox();" max =<?php echo $spend_point;?> /> <label id="mw_label_amount" style="color:#f6931f; font-weight:bold;display:none;"></label></div>
 					<div><?php echo '<input type ="checkbox" id ="maximum_kinzacash_checbox" onclick="SetMaximumRewardPoints(\'mw_amount\',\''.$spend_point.'\')" /></input>';?><label for="mw_use_max_points" style="padding-left: 5px;"><?php echo $this->__("Use maximum (<b>%s</b>)",Mage::helper('rewardpoints')->formatPoints($spend_point,$store_id));?></label>
 						<br><span id="error_msg"></span>
 	        		</div>
-					<?php echo '<button type ="button" id ="apply_reward_points" onclick="applyrewardpoints(\'mw_amount\',\''.$spend_point.'\')" />Apply</button>';?>
+					<?php echo '<button type ="button" id ="apply_reward_points" onclick="applyrewardpoints(\'mw_amount\',\''.$spend_point.'\')"style="padding: 11px 15px;border: 1px solid #323232;background:#ffffff; margin:8px 0; font-weight:600;";/><span style=text-transform:uppercase;font-size:12px;">Apply</span></button>';?>
+					<span id ="applying-kinzacash"></span>
 					<br><br>
-					<span>Please choose from below options to pay remaining amount</span><br>
+					<div style="border-top: 1px solid #eaeaea;padding-top: 8px;">
+						<span>Please choose from below options to pay remaining amount</span>
+					</div>
+					<br>
 				</div>
 		         <?php else:?>
 		         <!--div style="text-align: center; margin-top:10px; border-top: 1px dashed;padding-top: 10px;"><?php echo $this->__("Please <a href='%s'>LOGIN</a> to use reward points", Mage::getUrl('customer/account/login'))?></div-->
@@ -102,9 +106,12 @@ function applyrewardpoints(input_id,points_available)
 	if(points_available < points_input)
 	{
 		document.getElementById('error_msg').innerHTML="<strong>Sorry! Please enter amount within your KinzaCash limit</strong>";
+		document.getElementById('applying-kinzacash').hide();
 	}
 	else
 	{
+		//console.log("Clearing error msg");
+		document.getElementById('applying-kinzacash').show();
 		document.getElementById('error_msg').innerHTML="";
 		updateRewardPoints();
 	}
@@ -123,8 +130,11 @@ function updateRewardPoints()
 	if(amount < <?php echo $min?>) amount = 0;
 
 
-	$('#order_payment_details').html("Applying KinzaCash...Please wait");	
-	document.getElementById('lbonepage-place-order-btn').hidden=true;	
+	jQuery('#order_payment_details').html("Applying KinzaCash...Please wait");
+
+	jQuery('#applying-kinzacash').html("Applying KinzaCash...Please wait");
+
+	document.getElementById('lbonepage-place-order-btn').hide();	
 	
 
 	
@@ -138,9 +148,10 @@ function updateRewardPoints()
 				}
 			}*/
 			onSuccess: function(transport){
-				console.log(transport.responseText);
-                $('#order_payment_details').html(transport.responseText);
-				document.getElementById('lbonepage-place-order-btn').hidden=false;
+				//console.log(transport.responseText);
+                jQuery('#order_payment_details').html(transport.responseText);
+                jQuery('#applying-kinzacash').html("Kinzacash Applied");
+				document.getElementById('lbonepage-place-order-btn').show();
                 /*if(response.mwpoint == 0){
                     $('mw_use_max_points').checked = 0;
                     //mw_sider.setPointChange1(0);

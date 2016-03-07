@@ -50,9 +50,10 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>jquery.dlmenu.js</script></action>
                 <action method="addJs"><script>uisearch.js</script></action>
                 <action method="addJs"><script>classie.js</script></action>
-
+                <action method="addJs"><script>swiper/swiper.min.js</script></action>
                 
 
+                <action method="addCss"><stylesheet>css/swiper.min.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/component.css</stylesheet></action>
 
                 <block type="page/js_cookie" name="js_cookies" template="page/js/cookie.phtml"/>
