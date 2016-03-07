@@ -126,7 +126,7 @@
                                 <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>"
                                        name="billing[postcode]" id="billing:postcode"
                                        value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>"
-                                       class="<?php /*echo $changeLocationClass;*/ ?> input-text validate-zip-international <?php /*echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('postcode') */?>" placeholder="Pincode"/>
+                                       class="<?php /*echo $changeLocationClass;*/ ?> input-text validate-zip-international <?php /*echo $this->helper('lotusbreath_onestepcheckout')->getAttributeValidationClass('postcode') */?>" placeholder="Pincode" onchange = "updatecitystate();"/>
                             </div>
                         </div>
                         <div class="field">
@@ -356,47 +356,33 @@
 </fieldset>
 
 
+<script type="text/javascript">
 
-<!--script src="http://code.jquery.com/jquery-1.9.1.js"></script-->
-<script>
-( function($) {	   
-$(document).ready(
-	function($)
+function updatecitystate()
 	{
-		//$('#testpincode').change(
-		$('#billing\\:postcode').change(
-			function()
-			{
-				$.ajax({
-				type:'POST',
+
+	var pincode = document.getElementById("billing\:postcode").value;	
+
+
+	
+	new Ajax.Request("/rekinza/backend/utils/checkout/pincode_city_state_mapping.php", {
+		   method: 'post',
+		   postBody: "pincode="+pincode,
+
+			onSuccess: function(data){
 				
-				url:"/rekinza/backend/utils/checkout/pincode_city_state_mapping.php",
-				data:
-				{
-					'pincode':$('#billing\\:postcode').val()
-				},
-				async: false,
+			
 				
-				success:function(data)
-				{
-					if(!$.trim(data)) 
-					{ 
-						jQuery('#testcity').val("Howdy");
-					}
-					else
-					{
-						var json_data = JSON.parse(data);
-						jQuery('#billing\\:city').val(json_data.city); 
-						jQuery('#billing\\:region_id').val(json_data.state_code);
-					}
+			
+				var json_data = JSON.parse(data.responseText);
+			
+				document.getElementById("billing\:city").value= json_data.city;
+				document.getElementById("billing\:region_id").value= json_data.state_code	;
+               
 				}
-				});
+	})
 			
 			}
-		);		
-	}
-);
-})(jQuery);
 
 
 </script>
