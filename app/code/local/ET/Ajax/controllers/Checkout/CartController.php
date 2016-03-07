@@ -82,7 +82,7 @@ class ET_Ajax_Checkout_CartController extends Mage_Checkout_CartController {
 	                $this->loadLayout();
 	                $response['success'] = 1;
 	                $response['actions'] = $this->getLayout()->getBlock('after_add_success_actions')->toHtml();
-	                $response['message'] = $this->__('<strong>%s</strong> was added to your shopping cart.', Mage::helper('core')->escapeHtml($product->getName()));
+	                $response['message'] = $this->__('<strong>%s</strong> has been added to your bag.', Mage::helper('core')->escapeHtml($product->getName()));
 	                Mage::helper('ajax')->addUpdatesToResponse($response, array('ajaxcart', 'top.links'));
 	            } else {
 	                $quote_errors = $cart->getQuote()->getErrors();
