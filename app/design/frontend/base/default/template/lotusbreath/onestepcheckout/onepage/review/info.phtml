@@ -58,6 +58,10 @@
     //<![CDATA[
     review = new Review();
     //]]>
+	jQuery("#lbonepage-place-order-btn").unbind().click(function() {
+    console.log("orderplaced");
+    ga('send', 'event', 'order place', 'click', 'order place', {'nonInteraction': 1}); 
+});
 </script>
 
 

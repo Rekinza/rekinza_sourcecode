@@ -71,6 +71,10 @@
 <!--script for analytic.js event trigger minicart -->
 <script type="text/javascript">
 
+jQuery(".header-cart-title").unbind().click(function() {
+	console.log("clicked header cart");
+	ga('send', 'event', 'header cart', 'header cart click',{'nonInteraction': 1}); 
+});
 jQuery(".viewcart").unbind().click(function() {
 	console.log("clickedviewcart");
 	ga('send', 'event', 'mini cart', 'view cart',{'nonInteraction': 1}); 

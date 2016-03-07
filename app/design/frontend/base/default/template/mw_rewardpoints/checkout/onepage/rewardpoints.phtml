@@ -101,12 +101,10 @@ function applyrewardpoints(input_id,points_available)
 
 	if(points_available < points_input)
 	{
-		console.log("Error message");
 		document.getElementById('error_msg').innerHTML="<strong>Sorry! Please enter amount within your KinzaCash limit</strong>";
 	}
 	else
 	{
-		console.log("Clearing error msg");
 		document.getElementById('error_msg').innerHTML="";
 		updateRewardPoints();
 	}

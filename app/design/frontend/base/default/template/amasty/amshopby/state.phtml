@@ -18,14 +18,14 @@
                         <?php foreach ($_filter->getData('children') as $child): ?>
                             <span class="label-rk"><span class="multiselect-child" style="padding:0px;">
                                 <?php echo $child['label']  ?>
-                                <!--a href="<?php echo $child['url'] ?>" class="btn-remove-inline">
+                                <a href="<?php echo $child['url'] ?>" class="btn-remove-inline">
                                     <img src="<?php echo Mage::getDesign()->getSkinUrl('images/spacer.gif') ?>" width="13" height="12" alt="<?php echo $_removeTxt ?>" />
-                                </a-->
+                                </a>
                             </span></span>
                         <?php endforeach ?>
                     <?php else: ?>
                     <span class="label-rk"><?php echo $_filter->getLabel() ?></span>
-                    <!--a href="<?php echo $_filter->getRemoveUrl() ?>" class="btn-remove-rk" title="<?php echo $_removeTxt ?>"><?php echo $_removeTxt ?></a-->
+                    <a href="<?php echo $_filter->getRemoveUrl() ?>" class="btn-remove-rk" title="<?php echo $_removeTxt ?>"><?php //echo $_removeTxt ?></a>
                    
                     <?php endif ?>
                 </li>
