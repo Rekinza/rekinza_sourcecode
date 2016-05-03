@@ -67,10 +67,11 @@ class Openwriter_Cartmart_Model_Observer
 			</tr>
 		</thead>';
 	Using only the required columns  Rishiraj*/
-		$head = '<thead style="background:#f9f9f9;">
+		$head = '<thead style="background:#50c7c2;">
 			<tr>
-				<th align="left" bgcolor="#EAEAEA" style="font-size: 13px; padding: 3px 9px;"><strong>Product</strong></th>
-				<th align="left" bgcolor="#EAEAEA" style="font-size: 13px; padding: 3px 9px;"><strong>Price</strong></th>
+				<th align="center" bgcolor="#50c7c2" style="color:#ffffff; font-size: 12px; padding: 3px 9px;"><strong>Product Details</strong></th>
+				<th align="center" bgcolor="#50c7c2" style="color:#ffffff; font-size: 12px; padding: 3px 9px;"><strong>Selling Price</strong></th>
+				<th align="center" bgcolor="#50c7c2" style="color:#ffffff; font-size: 12px; padding: 3px 9px;"><strong>Your Earnings</strong></th>
 			</tr>
 		</thead>';
 
@@ -110,10 +111,10 @@ class Openwriter_Cartmart_Model_Observer
 				
 				$orderDetails[$vendorId]['order_items'] .= '<tbody>
 					<tr>
-						<td align="left" bgcolor="#EAEAEA" style="font-size: 13px; padding: 3px 9px;">
-							' . $item->getName().
+						<td align="left" bgcolor="#efefef" style="font-size: 12px; padding: 3px 9px;">' . $item->getProduct()->getAttributeText("brands"). " " . $item->getName().
 						'</td>
-						<td align="left" bgcolor="#EAEAEA" style="font-size: 13px; padding: 3px 9px;">' . Mage::helper('core')->currency($item->getOriginalPrice(), true, false) . '</td>
+						<td align="center" bgcolor="#efefef" style="font-size: 12px; padding: 3px 9px;">' . Mage::helper('core')->currency($item->getOriginalPrice(), true, false) . '</td>
+						<td align="center" bgcolor="#efefef" style="font-size: 12px; padding: 3px 9px;">' . Mage::helper('core')->currency($item->getProduct()->getMsrp(),true,false) . '</td>
 					</tr>
 				</tbody>';	
 			}			

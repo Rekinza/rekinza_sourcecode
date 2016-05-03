@@ -379,7 +379,7 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
      */
     public function getFillingPercentage()
     {
-        $mems = $this->_memcache->getExtendedStats();
+       /* $mems = $this->_memcache->getExtendedStats();
 
         $memSize = null;
         $memUsed = null;
@@ -403,7 +403,39 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
             Zend_Cache::throwException('Can\'t get filling percentage');
         }
 
-        return ((int) (100. * ($memUsed / $memSize)));
+        return ((int) (100. * ($memUsed / $memSize))); */
+		
+		
+		$mems = $this->_memcache->getExtendedStats();
+ 
+        $memSize = null;
+        $memUsed = null;
+        foreach ($mems as $key => $mem) {
+            if ($mem === false) {
+                $this->_log('can\'t get stat from ' . $key);
+                continue;
+            }
+ 
+            $eachSize = $mem['limit_maxbytes'];
+            $eachUsed = $mem['bytes'];
+            if ($eachUsed > $eachSize) {
+                $eachUsed = $eachSize;
+            }
+ 
+            $memSize += $eachSize;
+            $memUsed += $eachUsed;
+        }
+ 
+        if ($memSize === null or $memUsed === null) {
+			$mem = $this->_memcache->getstats();
+			if (isset($mem['bytes']) and $mem['limit_maxbytes'] > 0) {
+				return ((int) (100 * ($mem['bytes'] / $mem['limit_maxbytes'])));
+			}
+        } else {
+        	return ((int) (100. * ($memUsed / $memSize)));
+        }
+ 
+        return 100;
     }
 
     /**

@@ -33,6 +33,18 @@
 				<input type="hidden" name="related_product" id="related-products-field" value="" />
 			</div>
 
+			<?php
+				//load the size-chart
+				$attribute = $_product->getResource()->getAttribute('size_chart');
+				if(is_object($attribute)){
+				$identifier = $_product->getData("size_chart");
+				}
+				$blockcustom =  Mage::app()->getLayout()->createBlock('cms/block') ->setBlockId($_product->getAttributeText('size_chart'));
+				$blockcustommodel = Mage::getModel('cms/block')->load($identifier);
+				$customtitle = $blockcustommodel->getTitle();
+				$customtab = $blockcustom->toHtml();
+			?>
+
 			<div class="product-shop">
 				<div class="product-name">
 					<div class="brand-and-name">
@@ -41,7 +53,9 @@
                 	</div>
                 	<div class="size-and-guide">
 						<div class = "size"><?php echo $_product->getAttributeText("size");?></div> 
-						<div class = "name"><?php echo $this->__('(Size Guide)');?></div>                                
+						<?php if ($customtab):?>
+						<div class = "name"><a data-toggle="modal" data-target="#sizeModal"><?php echo $this->__('(Size Guide)');?></a></div>
+						<?php endif; ?>                                
 					</div>
 				</div>
 				
@@ -107,8 +121,8 @@
 					</div>-->
 					
 				<?php endif; ?>
-				<div class="badge icon">
-					<img src="http://localhost:8080/rekinza/images/badge-buyer-protect.png" style="width:100%; margin:auto;"/>
+				<div class="badge-icon">
+					<img src="http://www.rekinza.com/images/badge-buyer-protect.png" style="width:100%; margin:auto;"/>
 				</div>
 				
 			
@@ -144,17 +158,19 @@
                 }
             }
 		    ?>
-		    <?php
-				//add the size-chart to the product tab
-				$attribute = $_product->getResource()->getAttribute('size_chart');
-				if(is_object($attribute)){
-				$identifier = $_product->getData("size_chart");
-				}
-				$blockcustom =  Mage::app()->getLayout()->createBlock('cms/block') ->setBlockId($_product->getAttributeText('size_chart'));
-				$blockcustommodel = Mage::getModel('cms/block')->load($identifier);
-				$customtitle = $blockcustommodel->getTitle();
-				$customtab = $blockcustom->toHtml();
-			?>
+		    
+			<div id="sizeModal" class="modal fade size-guide-modal" role="dialog">
+				<div class"modal-dialog modal-lg">
+					<div class="modal-content" style="padding:20px;">
+						<?php echo $customtab ?>
+
+						<div class="modal-footer" style="padding:8px; margin-top:4px;">
+		            		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+		            	</div>
+	            	</div>
+	            </div>
+	        </div>
+
 
 			<?php if ($_description = $this->getChildHtml('description')):?>
 			<?php endif; ?>
@@ -191,9 +207,9 @@
 			      </div>
 			    </div>
 			  </div>
-			  <div class="accordion-group">
+			  <!--div class="accordion-group">
 			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-			        <div class="accordion-heading">
+			        <div class="accordion-heading" id="size-guide-accordion">
 			        Size Guide
 			        <span class="accordion-item-arrow"></span>
 			    	</div>
@@ -203,7 +219,7 @@
 			      	<?php echo $customtab ?>
 			      </div>
 			    </div>
-			  </div>
+			  </div-->
 			</div>
 			</div>
 			</div>
@@ -298,3 +314,15 @@
     </div>
 </div>
 
+
+<!--script for analytic.js event trigger -->
+
+<script type="text/javascript">
+
+jQuery(".size-and-guide").unbind().click(function() {
+	ga('send', 'event', 'size guide - pdp', 'click', {'nonInteraction': 1}); 
+});
+
+</script>
+
+<!--script end -->

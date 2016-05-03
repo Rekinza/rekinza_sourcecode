@@ -41,47 +41,47 @@ $_taxHelper = $this->helper('tax');
 /* @var $_taxHelper Mage_Tax_Helper_Data */
 
 $_product = $this->getProduct();
-$_storeId = $_product->getStoreId();
+//$_storeId = $_product->getStoreId();
 $_store = $_product->getStore();
 $_id = $_product->getId();
 $_weeeSeparator = '';
 $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
-$_minimalPriceValue = $_product->getMinimalPrice();
-$_minimalPriceValue = $_store->roundPrice($_store->convertPrice($_minimalPriceValue));
-$_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simplePricesTax);
+//$_minimalPriceValue = $_product->getMinimalPrice();
+//$_minimalPriceValue = $_store->roundPrice($_store->convertPrice($_minimalPriceValue));
+//$_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simplePricesTax);
 $_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($_product->getFinalPrice()));
-$_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStoreLabel();
+//$_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStoreLabel();
 ?>
 <?php 
     $points = 0;
-    $points = (int)Mage::getModel('catalog/product')->load($_product->getId())->getData('mw_reward_point_sell_product');
+  //  $points = (int)Mage::getModel('catalog/product')->load($_product->getId())->getData('mw_reward_point_sell_product');
     //$product_ids = Mage::getModel('catalog/product')->getCollection()->addAttributeToFilter('mw_reward_point_sell_product',array('gt' => 0))->getAllIds();
     //if(in_array($_product->getId(), $product_ids)  ){
-    if($points > 0){
+   // if($points > 0){
 ?>
- <div class="price-box">
+ <!--div class="price-box">
     <span class="price"><?php echo $points.' Reward points'?></span>
- </div>                     
-<?php }?>
+ </div-->                      
+<?php // }?>
 
 <?php if (!$_product->isGrouped()): ?>
-    <?php $_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product); ?>
-    <?php $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForRenderer($_product, null, null, null, true); ?>
-    <?php $_weeeTaxAmountInclTaxes = $_weeeTaxAmount; ?>
-    <?php if ($_weeeHelper->isTaxable()): ?>
-        <?php $_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_weeeTaxAttributes); ?>
-    <?php endif; ?>
-    <?php $_weeeTaxAmount = $_store->roundPrice($_store->convertPrice($_weeeTaxAmount)); ?>
-    <?php $_weeeTaxAmountInclTaxes = $_store->roundPrice($_store->convertPrice($_weeeTaxAmountInclTaxes)); ?>
+    <?php //$_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product); ?>
+    <?php //$_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForRenderer($_product, null, null, null, true); ?>
+    <?php //$_weeeTaxAmountInclTaxes = $_weeeTaxAmount; ?>
+    <?php //if ($_weeeHelper->isTaxable()): ?>
+        <?php //$_weeeTaxAmountInclTaxes = $_weeeHelper->getAmountInclTaxes($_weeeTaxAttributes); ?>
+    <?php //endif; ?>
+    <?php //$_weeeTaxAmount = $_store->roundPrice($_store->convertPrice($_weeeTaxAmount)); ?>
+    <?php //$_weeeTaxAmountInclTaxes = $_store->roundPrice($_store->convertPrice($_weeeTaxAmountInclTaxes)); ?>
 
     <div class="price-box">
     <!--<span class="price-label">Price</span> New Catalog Layout -->
     <?php $_convertedPrice = $_store->roundPrice($_store->convertPrice($_product->getPrice())); ?>
-    <?php $_price = $_taxHelper->getPrice($_product, $_convertedPrice); ?>
+    <?php //$_price = $_taxHelper->getPrice($_product, $_convertedPrice); ?>
     <?php $_regularPrice = $_taxHelper->getPrice($_product, $_convertedPrice, $_simplePricesTax); ?>
     <?php $_finalPrice = $_taxHelper->getPrice($_product, $_convertedFinalPrice) ?>
-    <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_convertedFinalPrice, true) ?>
-    <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
+    <?php //$_finalPriceInclTax = $_taxHelper->getPrice($_product, $_convertedFinalPrice, true) ?>
+    <?php //$_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
     <!-- New Catalog Page-->
     <div class="old-price col-lg-4 col-md-4 col-s-4">
                 <span id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
@@ -89,7 +89,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 </span>
     </div>
     <!-- Done-->
-    <?php if ($_finalPrice >= $_price): ?>
+    <?php if (0)://$_finalPrice >= $_price): ?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
                 <span class="price-excluding-tax">
@@ -236,7 +236,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
         <?php $_originalWeeeTaxAmount = $_weeeHelper->getOriginalAmount($_product); ?>
         <?php $_originalWeeeTaxAmount = $_store->roundPrice($_store->convertPrice($_originalWeeeTaxAmount)) ?>
 
-        <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
+        <?php if (0)://$_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
             <div class="old-price">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
@@ -270,7 +270,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 </p>
             <?php endif; ?>
 
-        <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // incl. + weee ?>
+        <?php elseif (0)://$_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // incl. + weee ?>
             <div class="old-price">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
@@ -318,7 +318,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                     )</span>
             <?php endif; ?>
             </p>
-        <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 4)): // incl. + weee ?>
+        <?php elseif (0)://$_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 4)): // incl. + weee ?>
             <div class="old-price">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
@@ -348,7 +348,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
                 </span>
             </span>
             </p>
-        <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 2)): // excl. + weee + final ?>
+        <?php elseif (0)://$_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 2)): // excl. + weee + final ?>
             <p class="old-price col-lg-4 col-md-4 col-sm-4 col-xs-6">
                 <span class="price-label"><?php echo $this->__('Regular Price:') ?></span>
                 <span class="price" id="old-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
@@ -384,7 +384,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
               
            
 
-            <?php if ($_taxHelper->displayBothPrices()): ?>
+            <?php if (0)://$_taxHelper->displayBothPrices()): ?>
                 <p class="special-price a6">
                     <span class="price-label"><?php echo $_specialPriceStoreLabel ?></span>
                     <span class="price-excluding-tax">
@@ -423,7 +423,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
 
     <?php endif; /* if ($_finalPrice == $_price): */ ?>
 
-    <?php if ($this->getDisplayMinimalPrice() && $_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice): ?>
+    <?php if (0)://$this->getDisplayMinimalPrice() && $_minimalPriceValue && $_minimalPriceValue < $_convertedFinalPrice): ?>
 
         <?php $_minimalPriceDisplayValue = $_minimalPrice; ?>
         <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, array(0, 1, 4))): ?>

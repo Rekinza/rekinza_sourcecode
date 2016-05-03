@@ -15,7 +15,7 @@
 <config>
     <modules>
         <Lesti_Fpc>
-            <active>true</active>
+            <active>false</active>
             <codePool>community</codePool>
             <depends>
                 <Mage_Catalog/>

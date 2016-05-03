@@ -18,8 +18,10 @@
 	 <div class="header-cart-title">
 	 	<!--i class="fa fa-shopping-cart"></i>
 		<span class="badge"></span-->
-		<a href = "<?php echo Mage::helper('checkout/cart')->getCartUrl();?>"><span class="glyphicon glyphicon-shopping-cart" style="color:#323232;font-size:28px;margin-top:2px;"></span></a>
-		<a href = "<?php echo Mage::helper('checkout/cart')->getCartUrl();?>"><div class="ajax-cart-count"><?php echo $_cartQty ?></div></a>
+		<span class="glyphicon glyphicon-shopping-cart" style="color:#323232;font-size:28px;margin-top:2px;"></span>
+		<?php if ($_cartQty >0) :?>
+			<div class="ajax-cart-count"><?php echo $_cartQty ?></div>
+		<?php endif; ?>
 	 </div>
      <div class="header-cart-content">
 	    <!--div class="remain_cart" id="minicart">

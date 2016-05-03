@@ -60,7 +60,7 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
                         <div class="accordion-inner">
                             <?php if (!Mage::helper('customer')->isLoggedIn()) : ?>
                             
-                            <div class="accordion-toggle login_button" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#customer"><div style="color:#ffffff;">Continue as Guest</div></a></div>
+                            <!--div class="accordion-toggle login_button" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#customer"--><div onclick="guest()" class="login_button guest-checkout" style="color:#ffffff;">Continue as Guest</div><!--/a></div-->
 
                             <a href="javascript:void(0);" id="loginFrmDlgO" class="login_link"> <div class="login_button">Log In </div> <div class="helptext">(I already have an account)</div></a>
                            
@@ -105,8 +105,8 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
                                     </h3>
                                     <?php echo $this->getChildHtml('shipping'); ?>
                                 </div>
-                                <div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment"><div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"><div class="continue_button">Continue</div></div>
-                                </div>
+                                <!-- <div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment"><div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#billing"> --><div onclick="billing()" class="continue_button">Continue</div><!-- /div>
+                                </div> -->
                             </div>
                         </div>
                  <div class="four columns accordion-group">
@@ -139,8 +139,8 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
                             <div id="payment_partial">
                                 <?php echo $this->getChildHtml('payment'); ?>
                                 <?php echo $this->getChildHtml('coupon'); ?>
-                                <div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment"><div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#review"><div class="continue_button">Continue</div></div>
-                            </div>
+                                <!-- <div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#payment"><div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-checkout" href="#review"> --><div onclick="payment()" class="continue_button">Continue</div><!-- </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -194,3 +194,30 @@ $commentpos = Mage::getStoreConfig('lotusbreath_onestepcheckout/layout/commentpo
     </form>
 </div>
 
+<script type = "text/javascript">
+
+function guest()
+{
+    var customer = document.getElementById("customer");
+    var billing = document.getElementById("billing");
+    customer.className = "accordion-body";
+    customer.className += " collapse";
+    billing.className += " in";
+}
+function billing()
+{
+    var payment = document.getElementById("payment");
+    var billing = document.getElementById("billing");
+    billing.className = "accordion-body";
+    billing.className += " collapse";
+    payment.className += " in";
+}
+function payment()
+{
+    var payment = document.getElementById("payment");
+    var review = document.getElementById("review");
+    payment.className = "accordion-body";
+    payment.className += " collapse";
+    review.className += " in";
+}
+</script>

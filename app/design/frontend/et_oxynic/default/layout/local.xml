@@ -63,6 +63,10 @@
 				<type>skin_js</type>
 				<name>js/gen.js</name>
 			</action>
+			<action method="addItem">
+            	<type>skin_js</type>
+            	<script>js/jquery.dlmenu.js</script>
+            </action>
 		</reference>
 		
 		<reference name="header">

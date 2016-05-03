@@ -24,8 +24,8 @@
 </div>
 <div class="pickup-box">
 <h3 class="pickup-h3"> Tell Us About You & Your Order </h3>
-<input class="required" type="text" name ="order_number" id ="order_number" placeholder="Order Number" onkeypress='validate(event)' />
-<input class="required" type="text" name="email_id" id="email_id" placeholder="Email ID"/>
+<input class="required" type="text" name="email_id" id="email_id" placeholder="Email ID" onchange ="show_order_id_field();"/>
+<input class="required" type="text" name ="order_number" id ="order_number" placeholder="Order ID" onkeypress='validate(event)'/>
 <input class="required" type="text" name="items" id="items" placeholder="Item(s) to return"/>
 <input class="required" type="text" name="mobile" placeholder="Mobile Phone Number" onkeypress='validate(event)'/>
 </div>
@@ -67,7 +67,7 @@
 <p>&nbsp;</p>
 <p >Please note that your Kinza Cash does not expire.</p>
 </div>
-<button type="button" onclick="submitReturnForm();" title="Submit" class="button"><span><span>Submit</span></span></button>
+<button type="button" onclick="submitReturnForm();" title="Submit" class="button" id ="return_submit"><span><span>Submit</span></span></button>
 </div>
 </form>
 </div>
@@ -131,33 +131,56 @@ jQuery('#datepicker').datepicker({
 	});
 });
 
+/*************Display order ID field if email ID is not null******************/
+function show_order_id_field()
+{
+	console.log("ha");
+	var email_input = document.getElementById('email_id').value;
+	
+	strlen = email_input.length;
+		
+	if (Number(strlen) > 0)
+	{
+		console.log("hi");
+		document.getElementById('order_number').removeAttribute("disabled");
+	}
+	else
+	{
+		console.log("ho");
+		document.getElementById('order_number').setAttribute("disabled", true);
+	}
+}
+
 /*************Check if order ID filled is valid******************/
 ( function($) {	   
-$(document).ready(
+jQuery(document).ready(
 	function($)
 	{
-		$('#order_number').change(
+		jQuery('#order_number').change(
 			function()
 			{
-				$.ajax({
+				jQuery.ajax({
 				type:'POST',
 				
 				url:"/backend/returns/returns_order_id_validate.php",
 				data:
 				{
-					'order_number':$('#order_number').val()
+					'order_number':jQuery('#order_number').val(),
+					'email_id':jQuery('#email_id').val()
 				},
 				async: false,
 				
 				success:function(message)
 				{
-					if(!$.trim(message)) 
+					if(!jQuery.trim(message)) 
 					{ 
-						//Do nothing
+						document.getElementById('return_submit').hidden = false;//Submit button can be enabled
 					}
 					else
 					{
 						alert(message);
+						document.getElementById('return_submit').hidden = true; //Submit button to be disabled
+						
 					}
 				}
 				});

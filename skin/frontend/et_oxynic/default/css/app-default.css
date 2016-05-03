@@ -539,12 +539,13 @@ label.payment_option{
   margin: auto;
   font-family: 'Lato-Black',sans-serif;
   font-weight: 900;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   padding-bottom: 24px;
   color: #323232;    
   border: 1px solid #323232;
   margin-bottom: 32px;
+  min-height: 260px;
 }
 .home-sub-banner img{
   border-bottom: 1px solid #323232;
@@ -554,7 +555,12 @@ label.payment_option{
 .cats-mobile{
   display: none;
 }
-
+.quality-accordion{
+  background: none;
+}
+.quality-accordion img{
+  width:112%;
+}
 .home-size-head{
   display: block;
   font-size: 24px;
@@ -593,7 +599,7 @@ label.payment_option{
 .product-name .name {
   font-weight: normal; !important;
   margin: 0;
-  font-weight: 300 !important;
+  font-weight: 400 !important;
   font-size: 14px ;
   padding-top: 4px; /*New Catalog Layout*/
   text-align: center; /*Stuti - Revamp PDP*/
@@ -628,6 +634,11 @@ label.payment_option{
   color: #adadad;
   padding-bottom: 20px;
   border-bottom: 1px solid #eaeaea
+}
+.size-guide-modal{
+  height:88%;
+  margin:auto; 
+  width:88%;
 }
 .product-name > a {
   font-size: 90.69%;
@@ -3265,6 +3276,7 @@ color:#666 !important;
 .block-layered-nav dd ol li {
   margin-top: 10px;
   position: relative;
+  font-weight: bold;
 }
 .block-layered-nav dd ol li input {
   /*display: none; New Filter - Stuti*/
@@ -4530,6 +4542,9 @@ background-position: 19px 8px;
   cursor: pointer;
   display: block;
 }
+.size-option{
+    display: none;
+  }
 .category-image {
   margin-bottom: 25px;
 }
@@ -4557,9 +4572,14 @@ background-position: 19px 8px;
   /*border: 1px solid #e1e1e1; - Stuti*/
   padding: 4px;
   position: relative;
+  text-align: center;
+  height: 286px;
+  line-height: 286px;
 }
 .products-grid .product-image img {
-  width: 100%;
+  /*width: 100%;*/
+  max-height: 268px;
+  max-width: 100%;
 }
 .products-grid .product-image .item-quickview {
   opacity: 0;
@@ -5915,6 +5935,7 @@ left: 5px;
 top: 5px;
 text-align: center;
 padding: 5px 0;
+line-height: 10px;
 }
 .new-product {
 background-color: #323232;
@@ -5926,6 +5947,7 @@ left: 5px;
 top: 5px;
 text-align: center;
 padding: 5px 0;
+line-height: 10px;
 }
 .main-container {
  padding-top: 4px;
@@ -7247,7 +7269,7 @@ margin-right:0px;
 .new_vendor select {width: 50% !important;display: block;margin: 9px 0px;}
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-    .sectionSellPage img {width: 73%;}
+  .sectionSellPage img {width: 73%;}
   .layout-boxed .wrapper {
     width: 100%; /*Make mobile width 100% - Stuti*/
   }
@@ -7372,6 +7394,26 @@ margin-right:0px;
 float:right !important;
 }
 @media (max-width: 767px){
+  .size-option{
+    display: block;
+  }
+
+  .size-guide-modal{
+  height:100%;
+  margin:auto; 
+  width:100%;
+  }
+  .home-s{
+  padding: 20px;
+  /* border: 4px solid #323232; */
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fff;
+  background: #50c7c2;
+  text-align: center;
+  margin-bottom: 32px;
+}
   .preluv img{
   width:80%;
 }
@@ -7444,7 +7486,7 @@ float:right !important;
     text-align:left;
   }
   .product-view .product-shop .product-name .name{
-    font-size:10px;
+    font-size:12px;
     text-align:left;
     border: 0;
   }
@@ -7457,7 +7499,7 @@ float:right !important;
     text-align:right;
   }
   .product-view .product-shop .product-name .size-and-guide .name{
-    font-size:10px;
+    font-size:12px;
     text-align:right;
     border: 0;
   }
@@ -8007,7 +8049,7 @@ font-family:Lato;
 .section-col2 .col-img {}
 .section-col3 .col-img {text-align: left;width: 60%;margin-left: 22px;}
 .section-col3 .col-text {text-align: center;width: 63%;font-size: 17px;text-transform: uppercase;font-weight: normal;font-family: 'Roboto Slab', serif;}
-.highlight {color: rgb(80,199,194);}
+.highlight {color:#f05865;}
 .secion2{width: 77%;line-height: 41px;margin: auto;}
 .last-line {font-size: 15px;text-align: center;margin-top: 33px;}
 .follower{}
@@ -8619,7 +8661,7 @@ lavel{
     font-weight: 600;
   }
   .sorting .sort-by-option>li{
-    font-size: 16px;
+    font-size: 12px;
     padding: 12px;
     text-transform: uppercase;
     font-weight: 400;
@@ -9009,8 +9051,3 @@ display:inline-block;
     }
 
 }
-
-
-
-
-

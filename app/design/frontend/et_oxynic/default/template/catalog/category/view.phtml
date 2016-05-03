@@ -67,6 +67,13 @@ jQuery(document).ready(function(){
     <?php endif; ?>
     <h1 class="page-heading"><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
 </div>
+<?php if (($_category->getName() != "Bags") && ($_category->getParentCategory()->getName() != "Bags") && ($_category->getName() != "Accessories") && ($_category->getParentCategory()->getName() != "Accessories")): ?>
+    <div class="size-option" style="width: 100%; margin:4px; text-align:center;" ><span style="color: #323232;font-size: 10px; text-transform:uppercase;font-weight:bold;">Each Item is Unique.</span>
+    <button type="button" class="collapsed size-option-btn" data-toggle="modal" data-target="#myModal" data-toggle="collapse" data-target="#layered-navigation" aria-expanded="false" aria-controls="layered-navigation" style="width: 40%;background-color: #50c7c2;font-size: 8px;margin:2px;border-radius:0;">
+        <strong><span style="font-size: 10px; color: #fff;font-weight: bold; font-family: 'Lato'; text-transform:uppercase;">Choose Your Size</span></strong>
+    </button>
+    </div>
+ <?php endif; ?>   
 
 <?php if($_imgUrl): ?>
     <?php echo $_imgHtml ?>
@@ -90,3 +97,25 @@ jQuery(document).ready(function(){
 <?php else: ?>
     <?php echo $this->getProductListHtml() ?>
 <?php endif; ?>
+
+<script>
+    jQuery(document).ready(function() {
+    jQuery('.collapsed').click(function(){
+        jQuery('.active').removeClass('active');
+        jQuery('.in').removeClass('in');
+        jQuery('#Size').addClass('active');
+        jQuery('#Size').addClass('in');
+    });
+});
+
+<!--script for analytic.js event trigger -->
+
+
+jQuery(".size-option-btn").unbind().click(function() {
+	ga('send', 'event', 'size option button - catalog', 'click', {'nonInteraction': 1}); 
+
+});
+
+<!--script end -->
+
+</script>

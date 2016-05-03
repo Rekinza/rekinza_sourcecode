@@ -454,6 +454,7 @@
                     if(result.billing && typeof(result.billing.error) != "undefined" && result.billing.error != 0){
                         _this._showError("#billing-error", result.billing.message);
                         isError = true;
+                        $("#billing").addClass('in');
                     }else {
                         $("#billing-error").html('');
                     }
@@ -461,12 +462,14 @@
                     if( result.payment && typeof(result.payment.error)!= "undefined" && result.payment.error != 0){
                         _this._showError("#payment-error", result.payment.message);
                         isError = true;
+                        $("#payment").addClass('in');
                     } else {
                         $("#payment-error").html('');
                     }
                     if( result.shipping_method && typeof(result.shipping_method.error)!= "undefined" && result.shipping_method.error != 0){
                         _this._showError("#shippingmethod-error", result.shipping_method.message);
                         isError = true;
+                        $("#billing").addClass('in');
                     } else {
                         $("#shippingmethod-error").html('');
                     }

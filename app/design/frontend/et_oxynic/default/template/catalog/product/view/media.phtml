@@ -56,7 +56,14 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
 	<div class="product-photo-box swiper-wrapper">
 		<?php
         $i = 0;
-        foreach ($this->getGalleryImages() as $_image) :
+
+        $images = array();
+        foreach ($this->getGalleryImages() as $image)
+        {
+            $images[] = $image;
+        }
+        $images = array_reverse($images);
+        foreach ($images as $_image) :
             $i++; ?>
             <a  class="cloud-zoom-gallery <?php if ($i==1) echo "actived"; ?>"
                 onclick="$$('.cloud-zoom-gallery').each(function(e,i){e.removeClassName('actived');});this.addClassName('actived')"

@@ -35,7 +35,70 @@
 
 <script type="text/javascript">
 
+//function to see if checkbox for equivalence is checked
+    /*function checkifchecked(){
+      var tempcheck = document.getElementById('forequivalence');
+      if (tempcheck.checked) {
+        console.log("checkifchecked if");
+        checkequivalence();
+      }
+    }*/
+//function to check equivalence
+    function checkequivalence(){
+
+      var newsizes = [];
+
+      jQuery(".amshopby-attr:checked").each(function(){
+      newsizes.push(jQuery(this).attr('name'));
+      });
+
+        var bigarray = [];
+        for (var i = 0; i < newsizes.length ; i++) {
+          var onedataitem = [];
+           onedataitem = fetchsize(newsizes[i]);
+              for(var a = 0; a<onedataitem.length; a++){
+               // console.log("a4: "+onedataitem[a]);
+                bigarray.push(onedataitem[a]);
+              
+              }
+
+         } 
+         //console.log("bigarraythishere:"+bigarray);
+         for (var i=0; i<bigarray.length; i++){
+          jQuery('[name="'+bigarray[i]+'"]').prop('checked', true);
+         }
+
+
+
+      function fetchsize(attrchecked){
+            jQuery.ajax({
+            type:"POST",
+            url:'/backend/utils/filter/return_size_id.php',
+            data:{type:attrchecked},
+            async: false,
+            success:function(data){
+              //dataarray.push(data);
+
+              var q = JSON.parse(data);
+              window.sizeattri = [];
+              for(aa in q){
+                sizeattri.push(q[aa]);
+              }
+             // console.log(q);
+             // console.log(typeof q);
+              //console.log(sizeattri);
+             
+           }
+        });
+        return sizeattri;
+      };
+
+    } //end of equivalence function
+
+//end of equivalence function
     function redirect2(){
+
+      checkequivalence();
       var selected = [];
       var prices = [];
       var paramvalues = [];
@@ -63,7 +126,7 @@
       prices.push(jQuery(this).attr('value'));
       });
 
-      console.log("this is the price"+prices);
+     // console.log("this is the price"+prices);
 
       var allitems = removelabel.concat(selected);
       var priceappend = "";
@@ -75,7 +138,7 @@
             var min = prices[0].split("-");
             var max = prices[prices.length - 1].split("-");
             priceappend = "&price=" + min[0] + "-" + max[1];
-            console.log("new price"+priceappend);
+            //console.log("new price"+priceappend);
       }
 
       var priceparam = url.search("\&price\=");
@@ -87,7 +150,7 @@
               priceappend = priceappend + url[i];
           }
           else{
-            console.log("this is breakpoint:"+url[i]);
+            //console.log("this is breakpoint:"+url[i]);
             break;
           }
       }
@@ -97,12 +160,10 @@
        
         
       if(allitems.length != 0){
-        console.log("but it is null"+allitems);
           var dataarray = {};
           for (var i = 0; i < allitems.length ; i++) {
-                 console.log("logged");
-                  var dataitem = showRoom(allitems[i]);
-                  dataarray[allitems[i]] = dataitem;
+                  var dataitem = showRoom(allitems[i]); //for each label, find their parent attribute. eg: for ZARA as allitems[i], find if its a brand or color
+                  dataarray[allitems[i]] = dataitem;  //allitems[i] is the name of the label and dataitem is the attribute name like brand or color
 
 
          } 
@@ -130,12 +191,12 @@
             }
           }  
 
-    console.log("this is the data:"+JSON.stringify(dataarray));
+    //console.log("this is the data:"+JSON.stringify(dataarray));
     //start url testing from here:
     var searchindex = url.indexOf("catalogsearch");  //check url for search
-    console.log("searchhh:"+searchindex);
+    //console.log("searchhh:"+searchindex);
     if(searchindex != -1){
-      console.log("is not -1");
+      //console.log("is not -1");
 
       var queryprev = url.indexOf("\&");
       if(queryprev != -1){
@@ -152,11 +213,11 @@
             }
           }
           appendment = appendment+catappend;
-          console.log("appendment:"+appendment);
+          //console.log("appendment:"+appendment);
           
           if (allitems.length != 0) {
 
-            console.log("inside allitems");
+            //console.log("inside allitems");
             //appendment = appendment + "&";
             if (brands.length != 0){
               appendment = appendment + "&brands=";
@@ -168,7 +229,7 @@
                     }
                 }
             }
-            console.log("this is brand app:"+appendment);
+            //console.log("this is brand app:"+appendment);
             if (size.length != 0){
               appendment = appendment + "&size=";
                 for (var i = 0; i < size.length; i++){
@@ -179,7 +240,7 @@
                     }
                 }
             }
-            console.log("this is size app:"+appendment);
+            //console.log("this is size app:"+appendment);
             if (color.length != 0){
               appendment = appendment + "&color=";
                 for (var i = 0; i < color.length; i++){
@@ -190,7 +251,7 @@
                     }
                 }
             }
-            console.log("this is color app:"+appendment);
+            //console.log("this is color app:"+appendment);
             if (special.length != 0){
               appendment = appendment + "&special=";
                 for (var i = 0; i < special.length; i++){
@@ -205,15 +266,13 @@
          };
 
          url = url + appendment + priceappend;
-         console.log("new ur:"+url);
+         //console.log("new ur:"+url);
          window.location=url; 
         }; //if catvalues exist
 
     }    
     else{
     var indexnumber = url.indexOf("\?");        //finally to see if url is of /catalog/new type
-    console.log("insex is:"+indexnumber);       
-    console.log("present url:"+url);
        if (indexnumber != -1) {                            //if found "?"
              
         url = url.slice(0, indexnumber);
@@ -231,7 +290,6 @@
 
 
           
-          console.log("new url after slicing:"+url);
         var appendment = "?";
         var catappend = "cat=";
         if (catvalues) {
@@ -242,11 +300,8 @@
             }
           }
           appendment = appendment+catappend;
-          console.log("appendment:"+appendment);
           
           if (allitems.length != 0) {
-
-            console.log("inside allitems");
             //appendment = appendment + "&";
             if (brands.length != 0){
               appendment = appendment + "&brands=";
@@ -258,7 +313,6 @@
                     }
                 }
             }
-            console.log("this is brand app:"+appendment);
             if (size.length != 0){
               appendment = appendment + "&size=";
                 for (var i = 0; i < size.length; i++){
@@ -269,7 +323,6 @@
                     }
                 }
             }
-            console.log("this is size app:"+appendment);
             if (color.length != 0){
               appendment = appendment + "&color=";
                 for (var i = 0; i < color.length; i++){
@@ -280,7 +333,6 @@
                     }
                 }
             }
-            console.log("this is color app:"+appendment);
             if (special.length != 0){
               appendment = appendment + "&special=";
                 for (var i = 0; i < special.length; i++){
@@ -309,7 +361,7 @@
       function showRoom(attrchecked){
             jQuery.ajax({
             type:"POST",
-            url:"/rekinza/backend/utils/return_attribute_id.php",
+            url:'/backend/utils/return_attribute_id.php',
             data:{type:attrchecked},
             async: false,
             success:function(data){
@@ -416,7 +468,7 @@ else{
             <div class="modal-header">
               <button type="button" class="btn btn-default" data-dismiss="modal" style="text-transform: uppercase;border-radius: 0;padding: 8px;font-size: inherit;font-weight: 600;">Close</button>
             </div>
-
+       <!--input type="checkbox" name="equivalence" id="forequivalence" checked="checked" onclick="checkifchecked()"> CH-EQV </input-->
             <?php if($this->canShowOptions()): ?>
                 <!--p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p-->
                 <dl>
@@ -427,7 +479,7 @@ else{
                     <?php if($_filter->getItemsCount()): ?>
                         <?php $i++; ?>
                         <?php if ($i == 0): ?>
-                            <li class ="active"><a data-toggle="tab" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
+                            <li class ="active"><a data-toggle="tab" onclick="hideajaxmodal()" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
                         <?php else: ?>
                             <li> <a data-toggle="tab" onclick="hideajaxmodal()" href="<?php echo $this->__('#'.$_filter->getName()) ?>"><dt><?php echo $this->__($_filter->getName()) ?></dt></a></li>
                         <?php endif;?>

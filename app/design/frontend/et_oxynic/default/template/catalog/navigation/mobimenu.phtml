@@ -39,13 +39,13 @@
  * string If specified wraps children list in div with this class
  */
 ?>
-<script src="http://localhost:8080/rekinza/js/modernizr.custom.js"></script>
+<!--script src="/js/modernizr.custom.js"></script-->
 <?php if( Mage::helper('oxynic')->getConfig('menu_mobile', 1) == '1' ){ ?>
 
 <div id="dl-menu" class="dl-menuwrapper">
-<button class="dl">Open <a href="http://www.jqueryscript.net/menu/">Menu</a></button>
+<button class="dl">Open<a href="http://www.jqueryscript.net/menu/">Menu</a></button>
 <ul class="dl-menu">
-<li> <a href="http://localhost:8080/rekinza/">Home</a></li>
+<li> <a href="http://www.rekinza.com">Home</a></li>
 <?php foreach ($this->getStoreCategories() as $_category): ?>
 	<?php if (($_category->getIsActive()) && ($_category->hasChildren())): ?>
 		<li><a href="#"><?php echo $_category->getName(); ?></a>
@@ -64,17 +64,19 @@
 	<?php endif; ?>
 	</li>
 <?php endforeach ?>
-<li> <a href="http://localhost:8080/rekinza/sell">Sell</a></li>
-<li> <a href="http://localhost:8080/rekinza/brands">Brands</a></li>
+<li> <a href="http://www.rekinza.com/sell">Sell</a></li>
+<li> <a href="http://www.rekinza.com/brands">Brands</a></li>
 </ul>
 </div>
-<script src="http://localhost:8080/rekinza/js/jquery.dlmenu.js"></script> 
 <script>
 jQuery(function() {
-	jQuery( '#dl-menu' ).dlmenu();
+
+	console.log("In dl query");
+	jQuery('#dl-menu').dlmenu();
 });
 
 </script>
+
 <?php
 } elseif( Mage::helper('oxynic')->getConfig('menu_mobile', 1) == '2' ){?>
     <span class="menu-button" data-toggle="collapse" data-target=".nav-collapse">
