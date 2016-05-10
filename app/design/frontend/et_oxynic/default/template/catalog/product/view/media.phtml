@@ -56,13 +56,21 @@ if ($_product->getImage() != 'no_selection' && $_product->getImage()) : ?>
 	<div class="product-photo-box swiper-wrapper">
 		<?php
         $i = 0;
-
+		
         $images = array();
         foreach ($this->getGalleryImages() as $image)
         {
             $images[] = $image;
         }
-        $images = array_reverse($images);
+		
+		if($images[0]['file']== $_product->getImage())   
+		{
+			//Do nothing;
+		}
+		else
+		{
+			$images = array_reverse($images);      // For some products, the order of images are uploaded in reverse order, hence, array needs to be reversed
+		}	
         foreach ($images as $_image) :
             $i++; ?>
             <a  class="cloud-zoom-gallery <?php if ($i==1) echo "actived"; ?>"
