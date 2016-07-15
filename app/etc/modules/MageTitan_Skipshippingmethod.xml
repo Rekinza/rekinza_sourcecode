@@ -1,8 +1,0 @@
-<config>
-  <modules>
-    <MageTitan_SkipShippingMethod>
-      <active>true</active>
-      <codePool>local</codePool>
-    </MageTitan_SkipShippingMethod>
-  </modules>
-</config>
